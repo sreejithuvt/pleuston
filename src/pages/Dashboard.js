@@ -1,8 +1,10 @@
 import React from 'react'
+import ScreenHeader from '../components/ScreenHeader'
 
 const Dashboard = () => (
     <main className="screen screen--dashboard">
-        <h1>Dashboard</h1>
+        <ScreenHeader
+            title="Dashboard" />
     </main>
 )
 

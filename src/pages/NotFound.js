@@ -1,8 +1,11 @@
 import React from 'react'
+import ScreenHeader from '../components/ScreenHeader'
 
 const NotFound = () => (
     <main className="screen screen--404">
-        <h1>Shenanigans, page not found.</h1>
+        <ScreenHeader
+            subtitle="Shenanigans, page not found."
+            title="404" />
     </main>
 )
 

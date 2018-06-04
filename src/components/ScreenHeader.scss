@@ -1,0 +1,32 @@
+@import 'variables';
+
+.screen__header {
+    margin: 0 auto;
+    margin-bottom: $spacer * 2;
+
+    @media (min-width: $break-point--small) {
+        max-width: 35rem;
+    }
+}
+
+.screen__title {
+    font-size: $font-size-h3;
+    text-align: center;
+    margin: 0;
+    color: $brand-grey-light;
+
+    @media (min-width: $break-point--small) {
+        font-size: $font-size-h2;
+    }
+}
+
+.screen__subtitle {
+    font-size: $font-size-h5;
+    text-align: center;
+    margin: 0;
+    margin-top: $spacer / 3;
+
+    @media (min-width: $break-point--small) {
+        font-size: $font-size-h4;
+    }
+}
