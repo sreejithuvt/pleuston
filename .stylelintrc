@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "stylelint-config-bigchaindb"
+  ],
+  "syntax": "scss",
+  "rules": {
+      "no-descending-specificity": null
+  }
+}
