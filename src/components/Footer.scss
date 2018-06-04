@@ -1,0 +1,46 @@
+@import 'variables';
+
+.footer {
+    color: rgba($brand-grey-light, .8);
+    width: 100%;
+    margin-top: $spacer * 2;
+    align-self: flex-end;
+    text-align: center;
+
+    @media screen and (min-width: $break-point--small) {
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &,
+    small {
+        font-size: $font-size-mini;
+    }
+
+    a {
+        color: inherit;
+
+        &:hover,
+        &:focus {
+            color: #fff;
+        }
+    }
+}
+
+.footer__links {
+    margin-top: $spacer / 2;
+
+    @media screen and (min-width: $break-point--small) {
+        text-align: right;
+        margin-top: 0;
+    }
+
+    a {
+        padding: 0 $spacer / 4;
+
+        &:last-child {
+            padding-right: 0;
+        }
+    }
+}

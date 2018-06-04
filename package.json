@@ -2,14 +2,7 @@
   "name": "plankton-frontend",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "oceanprotocol-art": "^1.0.0",
-    "prop-types": "^15.6.1",
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.4"
-  },
+  "license": "Apache-2.0",
   "scripts": {
     "lint:js": "eslint ./{src,public}/**/*.js",
     "lint:css": "stylelint ./src/**/*.scss",
@@ -23,7 +16,14 @@
     "test": "npm run lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "license": "Apache-2.0",
+  "dependencies": {
+    "oceanprotocol-art": "^1.0.0",
+    "prop-types": "^15.6.1",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.1.4"
+  },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
     "eslint": "^4.19.1",
