@@ -22,6 +22,13 @@ npm start
 npm run build
 ```
 
+
+### Keeper
+
+see the [Keeper](https://github.com/oceanprotocol/plankton-keeper)
+
+> (warning: remove `node_modules` and `npm i` if it's still in there)
+
 ### Code style
 
 Code style for JavaScript and stylesheets (we're using [styled-components](https://www.styled-components.com)) is enforced before every commit. You won't be able to commit any code with linting errors present so make sure to fix all warnings before committing.
