@@ -10,20 +10,21 @@ const Account = ({
     name,
     onClick
 }) => (
-    <div // eslint-disable-line
+    <button
         className="account"
-        onClick={onClick}>
+        onClick={onClick}
+        title={name}>
         {
             image || <Blockies className="account__image" seed={name} />
         }
         {
             typeof name === 'string' ?
-                <h3 className="account__title">{name}</h3> : name
+               <h3 className="account__title">{name.slice(0, 25)}...</h3> : name
         }
         <div className="account__balance">
             {balance}
         </div>
-    </div>
+    </button>
 )
 
 Account.propTypes = {

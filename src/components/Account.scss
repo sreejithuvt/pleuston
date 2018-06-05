@@ -1,32 +1,56 @@
 @import 'variables';
 
+$breakpoint-small: 50rem;
+
 .account {
-    flex: 1 0 45%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: $spacer / 2;
     border: 1px solid $brand-pink;
     border-radius: 2px;
     margin-bottom: $spacer / 2;
-    margin-left: $spacer / 2;
     cursor: pointer;
+    width: 100%;
+    background: none;
+    box-shadow: none;
+    color: inherit;
+    font-size: $font-size-base;
+    text-align: left;
+
+    @media (min-width: $breakpoint-small) {
+        flex: 1 0 45%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-left: $spacer / 2;
+    }
 
     &:hover,
     &:focus {
-        background: $brand-grey-dark;
+        background: $brand-grey-lighter;
     }
 }
 
 .account__image,
 .account__title {
-    display: inline-block;
+    display: block;
+
+    @media (min-width: $breakpoint-small) {
+        display: inline-block;
+    }
 }
 
 .account__balance {
-    text-align: right;
+    @media (min-width: $breakpoint-small) {
+        text-align: right;
+    }
 }
 
 .account__title {
     font-size: $font-size-base;
+    margin: 0;
+    width: 100%;
+
+    @media (min-width: $breakpoint-small) {
+        margin-left: $spacer / 2;
+        margin-right: $spacer / 2;
+    }
 }

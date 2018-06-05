@@ -1,14 +1,13 @@
 @import 'variables';
 
 .header {
+    background: $brand-black;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: $spacer;
     width: 100%;
-
-    @media screen and (min-width: $break-point--small) {
-        margin-bottom: $spacer / 2;
-    }
+    padding: $spacer / 2;
 }
 
 .header__logo {

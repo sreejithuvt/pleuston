@@ -6,7 +6,7 @@ import MarketContract from './MarketContract'
 import Web3Component from './Web3Component'
 
 import OceanToken from '../contracts/OceanToken'
-import logo from '../../node_modules/oceanprotocol-art/logo/logo-white.svg'
+import logo from '../../node_modules/oceanprotocol-art/logo/logo.svg'
 
 
 class TokenContract extends Web3Component {
