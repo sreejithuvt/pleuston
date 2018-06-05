@@ -1,15 +1,11 @@
-import React, { Component } from 'react'
-import Web3 from 'web3'
+import React from 'react'
 import promisify from 'util.promisify'
 
+import Web3Component from './Web3Component'
 
-class Airdrop extends Component {
+class Airdrop extends Web3Component {
     constructor(props) {
         super(props)
-
-        // Init
-        this.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545')
-        this.web3 = new Web3(this.web3Provider)
 
         this.state = {
             loading: true,
