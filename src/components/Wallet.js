@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 
 import Account from './Account'
 import AccountList from './AccountList'
+import AssetList from './AssetList'
 
 import TokenContract from './TokenContract'
 import Web3Component from './Web3Component'
@@ -78,6 +79,8 @@ class Wallet extends Web3Component {
                         {...activeAccount}
                         onClick={console.log('dummy')} />
                     <TokenContract
+                        account={activeAccount} />
+                    <AssetList
                         account={activeAccount} />
                 </div>
             </Fragment>
