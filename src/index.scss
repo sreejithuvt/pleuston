@@ -29,9 +29,7 @@ body {
 }
 
 .app {
-    background: $brand-black;
-    color: $brand-white;
-    padding: $page-frame * 2 $page-frame * 1.5;
+    color: $brand-grey;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -40,7 +38,6 @@ body {
 
     @media screen and (min-width: $break-point--small) {
         min-height: calc(100vh - #{$page-frame * 2});
-        padding: $page-frame * 2 $page-frame * 3;
 
         &:before {
             content: '';
