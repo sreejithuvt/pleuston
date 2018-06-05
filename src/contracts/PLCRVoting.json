@@ -29464,8 +29464,17 @@
       },
       "address": "0x7478e8265c06c3944ddcd57c529cc72b0a870e98",
       "transactionHash": "0x9015ec2447938a0e836bd1b1367301440c53a93ec58625b6da501f74703de317"
+    },
+    "1528189791235": {
+      "events": {},
+      "links": {
+        "DLL": "0xca412b09a5628bc95e505cb29c8119e675324307",
+        "AttributeStore": "0x40da1228eaa78a86a80a301b5cf3b060b028dbad"
+      },
+      "address": "0x645e1409eefc66239351d440d3fc4e2bee7d2198",
+      "transactionHash": "0x9711999cf8fc3ad2aa8807ee030b7a6ad81db9a90e2488a862338b5c45620bfe"
     }
   },
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-06-05T08:36:00.477Z"
+  "updatedAt": "2018-06-05T09:11:13.599Z"
 }

@@ -1,0 +1,16 @@
+@import 'variables';
+
+.account--item {
+    display: grid;
+    grid-template-columns: 35px auto auto;
+
+}
+
+.account--item--balance__container {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.account--item--balance {
+    text-overflow: ellipsis;
+}

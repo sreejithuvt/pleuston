@@ -1,5 +1,6 @@
 import React from 'react'
-// import TruffleContract from 'truffle-contract'
+
+import Account from './Account'
 import MarketContract from './MarketContract'
 import TokenContract from './TokenContract'
 import Web3Component from './Web3Component'
@@ -11,10 +12,12 @@ class Wallet extends Web3Component {
 
         this.state = {
             loading: true,
+            activeAccount: 0,
             accounts: this.web3.eth.accounts.map((name) => (
                 {
                     name,
-                    balance: null
+                    balance: null,
+                    decimals: 1e18
                 }
             )),
         }
@@ -39,7 +42,7 @@ class Wallet extends Web3Component {
         return accounts.map((account) => (
             {
                 name: account.name,
-                balance: this.web3.eth.getBalance(account.name).toString()
+                balance: (this.web3.eth.getBalance(account.name) / 1e18).toFixed(2).toString(),
             }
         ))
     }
@@ -57,10 +60,7 @@ class Wallet extends Web3Component {
             <div>
                 {
                     accounts.map((account) => (
-                        <div>
-                            <div>{account.name}</div>
-                            <div>{account.balance}</div>
-                        </div>
+                        <Account {...account} />
                     ))
                 }
                 <TokenContract />
