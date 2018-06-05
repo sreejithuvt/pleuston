@@ -12,7 +12,7 @@ class Wallet extends Web3Component {
 
         this.state = {
             loading: true,
-            activeAccount: 0,
+            activeAccount: -1,
             accounts: this.web3.eth.accounts.map((name) => (
                 {
                     name,
@@ -59,7 +59,10 @@ class Wallet extends Web3Component {
         // Done
         return (
             <div>
-                <AccountList accounts={accounts} activeAccount={activeAccount} />
+                <AccountList
+                    accounts={accounts}
+                    activeAccount={accounts[activeAccount] ? activeAccount > -1 : null}
+                />
                 <TokenContract />
                 <MarketContract />
             </div>

@@ -17,6 +17,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "oceanprotocol-art": "^1.0.0",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",

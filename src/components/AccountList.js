@@ -5,7 +5,7 @@ const AccountList = ({ accounts, activeAccount }) => ( //eslint-disable-line
     <div>
         {
             accounts.map((account) => (
-                <Account key={account.name} {...account} />
+                <Account key={account.name} {...account} isActive={activeAccount === account} />
             ))
         }
     </div>

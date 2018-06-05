@@ -1,6 +1,6 @@
 @import 'variables';
 
-.account--item {
+.account {
     display: grid;
     grid-template-columns: 38px 20% auto;
     div {
@@ -9,6 +9,10 @@
         overflow: hidden;
         white-space: nowrap;
     }
+}
+
+.account.active {
+    color:red
 }
 
 .account--item--balance {
