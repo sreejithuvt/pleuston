@@ -6,9 +6,9 @@ import Web3Component from './Web3Component'
 
 import Market from '../contracts/Market'
 
-import './MarketContract.css'
+import './OceanRain.css'
 
-class MarketContract extends Web3Component {
+class OceanRain extends Web3Component {
     constructor(props) {
         super(props)
 
@@ -39,9 +39,9 @@ class MarketContract extends Web3Component {
 
         // Done
         return (
-            <div className="market-contract">
+            <div className="ocean-rain">
                 <Button
-                    className="button market-contract__button"
+                    className="button ocean-rain__button"
                     onClick={() => this.rain(10)}>
                     Make it rain
                 </Button>
@@ -50,4 +50,4 @@ class MarketContract extends Web3Component {
     }
 }
 
-export default MarketContract
+export default OceanRain

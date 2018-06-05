@@ -2,7 +2,7 @@ import React from 'react'
 import TruffleContract from 'truffle-contract'
 
 import Account from './Account'
-import MarketContract from './MarketContract'
+import OceanRain from './OceanRain'
 import Web3Component from './Web3Component'
 
 import OceanToken from '../contracts/OceanToken'
@@ -70,7 +70,7 @@ class TokenContract extends Web3Component {
             <Account
                 balance={balance}
                 image={<img alt="logo" className="header__logo__image" src={logo} />}
-                name={isAccountVisible ? account.name : <MarketContract account={account} />}
+                name={isAccountVisible ? account.name : <OceanRain account={account} />}
                 onClick={this.handleAccountClick} />
         )
     }
