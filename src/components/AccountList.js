@@ -1,15 +1,16 @@
 import React from 'react'
 import Account from './Account'
 
-const AccountList = ({ accounts, activeAccount, handleClick }) => ( //eslint-disable-line
-    <div>
+import './AccountList.css'
+
+const AccountList = ({ accounts, handleClick }) => ( //eslint-disable-line
+    <div className="accounts">
         {
             accounts.map((account) => (
                 <Account
                     key={account.name}
                     {...account}
-                    isActive={activeAccount === account}
-                    onClick={handleClick} />
+                    onClick={(e) => handleClick(account, e)} />
             ))
         }
     </div>

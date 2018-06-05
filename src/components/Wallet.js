@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
+import Account from './Account'
 import AccountList from './AccountList'
 import MarketContract from './MarketContract'
 import TokenContract from './TokenContract'
@@ -16,8 +17,7 @@ class Wallet extends Web3Component {
             accounts: this.web3.eth.accounts.map((name) => (
                 {
                     name,
-                    balance: null,
-                    decimals: 1e18
+                    balance: null
                 }
             )),
         }
@@ -33,9 +33,8 @@ class Wallet extends Web3Component {
         this.setState({ loading: false })
     }
 
-    activateAccount = () => {
-        console.log('click')
-        // this.setState({ activeAccount: account })
+    activateAccount = (account) => {
+        this.setState({ activeAccount: account })
     }
 
 
@@ -62,16 +61,23 @@ class Wallet extends Web3Component {
 
         // Loading
         if (loading) return <p>loading...</p>
-        // Done
-        return (
-            <div>
+
+        if (!activeAccount) {
+            return (
                 <AccountList
                     accounts={accounts}
-                    activeAccount={accounts[activeAccount] ? activeAccount : null}
                     handleClick={this.activateAccount} />
-                <TokenContract />
-                <MarketContract />
-            </div>
+            )
+        }
+
+        return (
+            <Fragment>
+                <Account
+                    {...activeAccount}
+                    onClick={console.log('dummy')} />
+                <TokenContract account={activeAccount} />
+                <MarketContract account={activeAccount} />
+            </Fragment>
         )
     }
 }

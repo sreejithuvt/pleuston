@@ -1,5 +1,7 @@
 import React from 'react'
 import TruffleContract from 'truffle-contract'
+
+import Account from './Account'
 import Web3Component from './Web3Component'
 
 import OceanToken from '../contracts/OceanToken'
@@ -8,13 +10,11 @@ import OceanToken from '../contracts/OceanToken'
 class TokenContract extends Web3Component {
     constructor(props) {
         super(props)
-        const { accounts } = this.web3.eth
 
         const contract = TruffleContract(OceanToken)
         contract.setProvider(this.web3Provider)
 
         this.state = {
-            account: accounts[0],
             balance: null,
             contract
         }
@@ -23,7 +23,7 @@ class TokenContract extends Web3Component {
     componentDidMount = async () => {
         const {
             account,
-        } = this.state
+        } = this.props
 
         const balance = await this.getTokenBalance(account)
 
@@ -40,14 +40,15 @@ class TokenContract extends Web3Component {
             contract
         } = this.state
 
-        const balance = await contract.deployed().then(instance => instance.balanceOf(account))
+        const balance = await contract.deployed().then(instance => instance.balanceOf(account.name))
         return balance.toString()
     }
 
     render() {
+        const { account } = this.props
+
         const {
             loading,
-            account,
             balance
         } = this.state
 
@@ -56,11 +57,10 @@ class TokenContract extends Web3Component {
 
         // Done
         return (
-            <div>
-                <div>{ account }</div>
-                <div>{ balance }</div>
-
-            </div>
+            <Account
+                balance={balance}
+                name={account.name}
+                onClick={console.log('click')} />
         )
     }
 }

@@ -1,19 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Blockies from 'react-blockies'
-import classnames from 'classnames'
 
 import './Account.css'
 
 const Account = ({
     name,
     balance,
-    isActive
+    onClick
 }) => (
-    <div className={classnames('account', { 'active': isActive })}>
-        <Blockies seed={name} />
-        <div>{name}</div>
-        <div className="account--item--balance__container">
+    <div // eslint-disable-line
+        className="account"
+        onClick={onClick}>
+        <Blockies className="account__image" seed={name} />
+        <h3 className="account__title">{name}</h3>
+        <div className="account__balance">
             {balance}
         </div>
     </div>
@@ -21,8 +22,8 @@ const Account = ({
 
 Account.propTypes = {
     balance: PropTypes.string.isRequired,
-    isActive: PropTypes.bool.isRequired,
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired
 }
 
 export default Account
