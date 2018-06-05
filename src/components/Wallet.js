@@ -5,6 +5,15 @@ import MarketContract from './MarketContract'
 import TokenContract from './TokenContract'
 import Web3Component from './Web3Component'
 
+const AccountList = ({ accounts }) => (
+    <div>
+        {
+            accounts.map((account) => (
+                <Account {...account} />
+            ))
+        }
+    </div>
+)
 
 class Wallet extends Web3Component {
     constructor(props) {
@@ -58,11 +67,7 @@ class Wallet extends Web3Component {
         // Done
         return (
             <div>
-                {
-                    accounts.map((account) => (
-                        <Account key={account.name} {...account} />
-                    ))
-                }
+                <AccountList accounts={accounts} />
                 <TokenContract />
                 <MarketContract />
             </div>

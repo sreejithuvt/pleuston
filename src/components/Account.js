@@ -9,9 +9,7 @@ const Account = ({ name, balance }) => (
         <Blockies seed={name} />
         <div>{name}</div>
         <div className="account--item--balance__container">
-            <div className="account--item--balance">
-                {balance}
-            </div>
+            {balance}
         </div>
     </div>
 )

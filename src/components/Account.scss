@@ -2,14 +2,15 @@
 
 .account--item {
     display: grid;
-    grid-template-columns: 35px auto auto;
-}
-
-.account--item--balance__container {
-    overflow: hidden;
-    white-space: nowrap;
+    grid-template-columns: 38px 20% auto;
+    div {
+        padding: 3px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
 }
 
 .account--item--balance {
-    text-overflow: ellipsis;
+
 }
