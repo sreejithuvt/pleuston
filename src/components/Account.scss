@@ -1,20 +1,32 @@
 @import 'variables';
 
 .account {
-    display: grid;
-    grid-template-columns: 38px 20% auto;
-    div {
-        padding: 3px;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
+    flex: 1 0 45%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacer / 2;
+    border: 1px solid $brand-pink;
+    border-radius: 2px;
+    margin-bottom: $spacer / 2;
+    margin-left: $spacer / 2;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+        background: $brand-grey-dark;
     }
 }
 
-.account.active {
-    color:red
+.account__image,
+.account__title {
+    display: inline-block;
 }
 
-.account--item--balance {
+.account__balance {
+    text-align: right;
+}
 
+.account__title {
+    font-size: $font-size-base;
 }

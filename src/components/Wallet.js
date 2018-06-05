@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import AccountList from './AccountList'
 import MarketContract from './MarketContract'
@@ -58,14 +58,14 @@ class Wallet extends Web3Component {
         if (loading) return <p>loading...</p>
         // Done
         return (
-            <div>
+            <Fragment>
                 <AccountList
                     accounts={accounts}
                     activeAccount={accounts[activeAccount] ? activeAccount > -1 : null}
                 />
                 <TokenContract />
                 <MarketContract />
-            </div>
+            </Fragment>
         )
     }
 }

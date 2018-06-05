@@ -1,0 +1,8 @@
+@import 'variables';
+
+.accounts {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-left: -($spacer / 2);
+}

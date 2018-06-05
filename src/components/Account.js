@@ -14,9 +14,9 @@ const Account = ({
     <div // eslint-disable-line
         className={classnames('account', { 'active': isActive })}
         onClick={handleClick}>
-        <Blockies seed={name} />
-        <div>{name}</div>
-        <div className="account--item--balance__container">
+        <Blockies className="account__image" seed={name} />
+        <h3 className="account__title">{name}</h3>
+        <div className="account__balance">
             {balance}
         </div>
     </div>
