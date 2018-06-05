@@ -2,10 +2,11 @@ import React, { Fragment } from 'react'
 
 import Account from './Account'
 import AccountList from './AccountList'
-import MarketContract from './MarketContract'
+
 import TokenContract from './TokenContract'
 import Web3Component from './Web3Component'
 
+import './Wallet.css'
 
 class Wallet extends Web3Component {
     constructor(props) {
@@ -19,7 +20,7 @@ class Wallet extends Web3Component {
                     name,
                     balance: null
                 }
-            )),
+            ))
         }
     }
 
@@ -72,11 +73,13 @@ class Wallet extends Web3Component {
 
         return (
             <Fragment>
-                <Account
-                    {...activeAccount}
-                    onClick={console.log('dummy')} />
-                <TokenContract account={activeAccount} />
-                <MarketContract account={activeAccount} />
+                <div className="wallet">
+                    <Account
+                        {...activeAccount}
+                        onClick={console.log('dummy')} />
+                    <TokenContract
+                        account={activeAccount} />
+                </div>
             </Fragment>
         )
     }

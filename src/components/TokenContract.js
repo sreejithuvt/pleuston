@@ -2,9 +2,11 @@ import React from 'react'
 import TruffleContract from 'truffle-contract'
 
 import Account from './Account'
+import MarketContract from './MarketContract'
 import Web3Component from './Web3Component'
 
 import OceanToken from '../contracts/OceanToken'
+import logo from '../../node_modules/oceanprotocol-art/logo/logo-white.svg'
 
 
 class TokenContract extends Web3Component {
@@ -16,7 +18,8 @@ class TokenContract extends Web3Component {
 
         this.state = {
             balance: null,
-            contract
+            contract,
+            isAccountVisible: true
         }
     }
 
@@ -44,11 +47,18 @@ class TokenContract extends Web3Component {
         return balance.toString()
     }
 
+    handleAccountClick = () => {
+        this.setState({ isAccountVisible: !this.state.isAccountVisible })
+    }
+
     render() {
-        const { account } = this.props
+        const {
+            account,
+        } = this.props
 
         const {
             loading,
+            isAccountVisible,
             balance
         } = this.state
 
@@ -59,8 +69,9 @@ class TokenContract extends Web3Component {
         return (
             <Account
                 balance={balance}
-                name={account.name}
-                onClick={console.log('click')} />
+                image={<img alt="logo" className="header__logo__image" src={logo} />}
+                name={isAccountVisible ? account.name : <MarketContract account={account} />}
+                onClick={this.handleAccountClick} />
         )
     }
 }
