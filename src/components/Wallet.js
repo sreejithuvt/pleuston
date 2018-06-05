@@ -60,7 +60,7 @@ class Wallet extends Web3Component {
             <div>
                 {
                     accounts.map((account) => (
-                        <Account key={account} {...account} />
+                        <Account key={account.name} {...account} />
                     ))
                 }
                 <TokenContract />
