@@ -77,7 +77,9 @@ class Wallet extends Web3Component {
                 <div className="wallet">
                     <Account
                         {...activeAccount}
-                        onClick={console.log('dummy')} />
+                        onClick={
+                            console.log('dummy') // eslint-disable-line
+                        } />
                     <TokenContract
                         account={activeAccount} />
                     <AssetList

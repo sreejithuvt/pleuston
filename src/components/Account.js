@@ -19,7 +19,7 @@ const Account = ({
         }
         {
             typeof name === 'string' ?
-               <h3 className="account__title">{name.slice(0, 25)}...</h3> : name
+                <h3 className="account__title">{name.slice(0, 25)}...</h3> : name
         }
         <div className="account__balance">
             {balance}
@@ -29,9 +29,9 @@ const Account = ({
 
 Account.propTypes = {
     balance: PropTypes.string.isRequired,
+    image: PropTypes.element.isRequired,
     name: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-    image: PropTypes.element // eslint-disable-line
+    onClick: PropTypes.func.isRequired
 }
 
 export default Account
