@@ -1,9 +1,10 @@
 import React from 'react'
 import TruffleContract from 'truffle-contract'
 
+import Button from '../components/Button'
 import Web3Component from './Web3Component'
 
-import Market from '../contracts/Market.json'
+import Market from '../contracts/Market'
 
 
 class MarketContract extends Web3Component {
@@ -40,9 +41,9 @@ class MarketContract extends Web3Component {
 
         // Done
         return (
-            <div>
-                <div className="button" onClick={() => this.rain(10)}>rain</div>
-            </div>
+            <Button onClick={() => this.rain(10)}>
+                Make it rain
+            </Button>
         )
     }
 }

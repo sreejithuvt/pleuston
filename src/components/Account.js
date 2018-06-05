@@ -1,20 +1,24 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Blockies from 'react-blockies'
 
 import './Account.css'
 
-const Account = (props) => (
+const Account = ({ name, balance }) => (
     <div className="account--item">
-        <Blockies seed={props.name} />
-        <div>{props.name}</div>
+        <Blockies seed={name} />
+        <div>{name}</div>
         <div className="account--item--balance__container">
             <div className="account--item--balance">
-                {
-                    props.balance
-                }
+                {balance}
             </div>
         </div>
     </div>
 )
+
+Account.propTypes = {
+    balance: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+}
 
 export default Account

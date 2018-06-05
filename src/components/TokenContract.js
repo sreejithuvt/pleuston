@@ -2,7 +2,7 @@ import React from 'react'
 import TruffleContract from 'truffle-contract'
 import Web3Component from './Web3Component'
 
-import OceanToken from '../contracts/OceanToken.json'
+import OceanToken from '../contracts/OceanToken'
 
 
 class TokenContract extends Web3Component {
