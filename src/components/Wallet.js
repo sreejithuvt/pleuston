@@ -12,7 +12,7 @@ class Wallet extends Web3Component {
 
         this.state = {
             loading: true,
-            activeAccount: -1,
+            activeAccount: null,
             accounts: this.web3.eth.accounts.map((name) => (
                 {
                     name,
@@ -32,6 +32,12 @@ class Wallet extends Web3Component {
 
         this.setState({ loading: false })
     }
+
+    activateAccount = () => {
+        console.log('click')
+        // this.setState({ activeAccount: account })
+    }
+
 
     getBalancesForAccounts = () => {
         const {
@@ -61,8 +67,8 @@ class Wallet extends Web3Component {
             <div>
                 <AccountList
                     accounts={accounts}
-                    activeAccount={accounts[activeAccount] ? activeAccount > -1 : null}
-                />
+                    activeAccount={accounts[activeAccount] ? activeAccount : null}
+                    handleClick={this.activateAccount} />
                 <TokenContract />
                 <MarketContract />
             </div>

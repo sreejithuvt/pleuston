@@ -8,12 +8,9 @@ import './Account.css'
 const Account = ({
     name,
     balance,
-    isActive,
-    handleClick
+    isActive
 }) => (
-    <div // eslint-disable-line
-        className={classnames('account', { 'active': isActive })}
-        onClick={handleClick}>
+    <div className={classnames('account', { 'active': isActive })}>
         <Blockies seed={name} />
         <div>{name}</div>
         <div className="account--item--balance__container">
@@ -24,7 +21,6 @@ const Account = ({
 
 Account.propTypes = {
     balance: PropTypes.string.isRequired,
-    handleClick: PropTypes.func.isRequired,
     isActive: PropTypes.bool.isRequired,
     name: PropTypes.string.isRequired
 }
