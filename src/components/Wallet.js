@@ -1,19 +1,10 @@
 import React from 'react'
 
-import Account from './Account'
+import AccountList from './AccountList'
 import MarketContract from './MarketContract'
 import TokenContract from './TokenContract'
 import Web3Component from './Web3Component'
 
-const AccountList = ({ accounts }) => (
-    <div>
-        {
-            accounts.map((account) => (
-                <Account {...account} />
-            ))
-        }
-    </div>
-)
 
 class Wallet extends Web3Component {
     constructor(props) {
@@ -60,6 +51,7 @@ class Wallet extends Web3Component {
         const {
             loading,
             accounts,
+            activeAccount
         } = this.state
 
         // Loading
@@ -67,7 +59,7 @@ class Wallet extends Web3Component {
         // Done
         return (
             <div>
-                <AccountList accounts={accounts} />
+                <AccountList accounts={accounts} activeAccount={activeAccount} />
                 <TokenContract />
                 <MarketContract />
             </div>
