@@ -23,6 +23,13 @@ npm start
 npm run build
 ```
 
+
+### Keeper
+
+see the [Keeper](https://github.com/oceanprotocol/plankton-keeper)
+
+> (warning: remove `node_modules` and `npm i` if it's still in there)
+
 ### Code style
 
 Code style follows [eslint-config-ascribe](https://github.com/ascribe/javascript) and [stylelint-config-bigchaindb](https://github.com/bigchaindb/stylelint-config-bigchaindb).
