@@ -1,12 +1,12 @@
 import React from 'react'
 
 import ScreenHeader from '../components/ScreenHeader'
-import Asset from '../components/AssetList'
+import Asset from '../components/Asset'
 
 const Dataset = () => (
     <main className="screen screen--dataset">
         <ScreenHeader
-            title="Datasets" />
+            title="Dataset" />
         <Asset />
     </main>
 )

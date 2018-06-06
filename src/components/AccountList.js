@@ -3,14 +3,11 @@ import Account from './Account'
 
 import './AccountList.css'
 
-const AccountList = ({ accounts, handleClick }) => ( //eslint-disable-line
+const AccountList = ({ accounts }) => ( //eslint-disable-line
     <div className="accounts">
         {
             accounts.map((account) => (
-                <Account
-                    key={account.name}
-                    {...account}
-                    onClick={(e) => handleClick(account, e)} />
+                <Account key={account.name} {...account} />
             ))
         }
     </div>

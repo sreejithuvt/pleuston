@@ -11,9 +11,10 @@ $breakpoint-small: 50rem;
     width: 100%;
     background: none;
     box-shadow: none;
-    color: inherit;
+    color: $brand-grey;
     font-size: $font-size-base;
     text-align: left;
+    display: block;
 
     @media (min-width: $breakpoint-small) {
         flex: 1 0 45%;

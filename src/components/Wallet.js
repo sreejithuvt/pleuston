@@ -66,9 +66,7 @@ class Wallet extends Web3Component {
 
         if (!activeAccount) {
             return (
-                <AccountList
-                    accounts={accounts}
-                    handleClick={this.activateAccount} />
+                <AccountList accounts={accounts} />
             )
         }
 
