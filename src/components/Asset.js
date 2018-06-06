@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import TruffleContract from 'truffle-contract'
 
 import Web3Component from './Web3Component'
@@ -6,7 +7,14 @@ import Web3Component from './Web3Component'
 import Market from '../contracts/Market'
 import './Asset.css'
 
-class AssetList extends Web3Component {
+const AssetFull = props => (
+    <div className="asset asset--full">
+        <div className="asset__description">{ props.description }</div>
+        <div className="asset__url">{ props.url }</div>
+    </div>
+)
+
+class Asset extends Web3Component {
     constructor(props) {
         super(props)
 
@@ -27,26 +35,35 @@ class AssetList extends Web3Component {
         } = this.state
 
         const {
-            // description,
             id,
-            name,
-            url
+            name
         } = this.props
 
         // Loading
         if (loading) return <p>loading...</p>
 
         return (
-            <div className="asset">
-                <h3 className="asset__name">
-                    { name }
-                    <span className="asset__id">{ id }</span>
-                </h3>
-                <div className="asset__url">{ url }</div>
-                {/* <div className="asset__description">{ description }</div> */}
-            </div>
+            this.props.minimal ?
+                <div className="asset">
+                    <h3 className="asset__name">
+                        { name }
+                        <span className="asset__id">{ id }</span>
+                    </h3>
+                </div>
+                :
+                <AssetFull {...this.props} />
         )
     }
 }
 
-export default AssetList
+AssetFull.propTypes = {
+    description: PropTypes.string,
+    url: PropTypes.string,
+}
+
+AssetFull.defaultProps = {
+    description: 'No description added',
+    url: 'No URL added',
+}
+
+export default Asset

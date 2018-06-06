@@ -80,7 +80,7 @@ class AssetList extends Web3Component {
                                     asset
                                 }
                             }}>
-                            <Asset {...asset} />
+                            <Asset minimal {...asset} />
                         </Link>
                     ))
                 }

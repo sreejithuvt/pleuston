@@ -10,24 +10,30 @@
     border-radius: 2px;
     margin-bottom: $spacer / 2;
     display: flex;
-    justify-content: space-between;
+    color: $brand-grey;
 
     &:before {
         counter-increment: assets;
         content: counter(assets);
         font-size: $font-size-h3;
         margin-right: $spacer;
-        color: $brand-purple;
+        color: $brand-grey-light;
     }
+}
+
+.asset--full {
+    background: none;
 }
 
 .asset__name {
     margin: 0;
-    font-size: $font-size-text;
-    width: 50%;
+    font-size: $font-size-h4;
+    line-height: 1.5;
 }
 
 .asset__id {
     display: block;
     font-family: $font-family-base;
+    font-size: $font-size-base;
+    font-weight: $font-weight-base;
 }

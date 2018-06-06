@@ -16,7 +16,7 @@ const Header = ({ activeAccount }) => (
 )
 
 Header.propTypes = {
-    activeAccount: PropTypes.object.isRequired, // eslint-disable-line
+    activeAccount: PropTypes.object, // eslint-disable-line
 }
 
 export default Header
