@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import TruffleContract from 'truffle-contract'
 
 import Web3Component from './Web3Component'
@@ -29,7 +29,6 @@ class AssetList extends Web3Component {
             description,
             id,
             name,
-            schema,
             url
         } = this.props
         // Loading

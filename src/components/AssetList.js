@@ -55,7 +55,7 @@ class AssetList extends Web3Component {
             <Fragment>
                 {
                     assets.map(asset => (
-                        <Asset {...asset} />
+                        <Asset key={asset.id} {...asset} />
                     ))
                 }
             </Fragment>
