@@ -1,11 +1,15 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import NotFound from './pages/NotFound'
-import Dashboard from './pages/Dashboard'
+import Home from './pages/Home'
+import Datasets from './pages/Datasets'
+import Dataset from './pages/Dataset'
 
 const Routes = () => (
     <Switch>
-        <Route exact component={Dashboard} path="/" />
+        <Route exact component={Home} path="/" />
+        <Route exact component={Datasets} path="/datasets" />
+        <Route exact component={Dataset} path="/datasets/:id" />
         <Route component={NotFound} />
     </Switch>
 )
