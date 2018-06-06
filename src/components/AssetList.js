@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react'
+import React from 'react'
+import { Link } from 'react-router-dom'
 import TruffleContract from 'truffle-contract'
 
 import Asset from './Asset'
@@ -10,6 +11,20 @@ const mockAssets = [
     {
         id: '1234',
         name: 'Pigeon Race Data',
+        schema: {
+            'pigeon': 'string',
+            'race': 'string',
+            'velocity': 'float'
+        },
+        url: 'http://bigchaindb.com/',
+        description: 'Abstract\n' +
+        'In this statistical analysis, the fastest 25% of homing speeds in 5955 races conducted in West Germany on 194 ' +
+        'days in 1973–1990 and the return rates in 18 pigeon races held in 1932–1957 in Italy were examined with respect ' +
+        'to distance, cloud cover, wind, sferics, solar and magnetic variables.',
+    },
+    {
+        id: '2334',
+        name: 'Shark Race Data',
         schema: {
             'pigeon': 'string',
             'race': 'string',
@@ -52,13 +67,24 @@ class AssetList extends Web3Component {
         if (loading) return <p>loading...</p>
 
         return (
-            <Fragment>
+            <div className="assets">
                 {
                     assets.map(asset => (
-                        <Asset key={asset.id} {...asset} />
+                        <Link
+                            href={`/datasets/${asset.id}`}
+                            key={asset.id}
+                            to={{
+                                pathname: `/datasets/${asset.id}`,
+                                state: {
+                                    activeAccount: this.props.activeAccount,
+                                    asset
+                                }
+                            }}>
+                            <Asset {...asset} />
+                        </Link>
                     ))
                 }
-            </Fragment>
+            </div>
         )
     }
 }

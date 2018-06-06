@@ -4,6 +4,7 @@ import TruffleContract from 'truffle-contract'
 import Web3Component from './Web3Component'
 
 import Market from '../contracts/Market'
+import './Asset.css'
 
 class AssetList extends Web3Component {
     constructor(props) {
@@ -26,20 +27,23 @@ class AssetList extends Web3Component {
         } = this.state
 
         const {
-            description,
+            // description,
             id,
             name,
             url
         } = this.props
+
         // Loading
         if (loading) return <p>loading...</p>
 
         return (
-            <div className='asset-card'>
-                <div className='asset-card__id'>{ id }</div>
-                <div className='asset-card__name'>{ name }</div>
-                <div className='asset-card__url'>{ url }</div>
-                <div className='asset-card__description'>{ description }</div>
+            <div className="asset">
+                <h3 className="asset__name">
+                    { name }
+                    <span className="asset__id">{ id }</span>
+                </h3>
+                <div className="asset__url">{ url }</div>
+                {/* <div className="asset__description">{ description }</div> */}
             </div>
         )
     }

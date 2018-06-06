@@ -7,7 +7,6 @@ import AssetList from '../components/AssetList'
 
 const Datasets = props => {
     const { activeAccount } = props.location.state
-    console.log(activeAccount)
 
     return (
         <Fragment>

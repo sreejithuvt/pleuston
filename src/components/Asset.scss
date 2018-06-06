@@ -1,0 +1,33 @@
+@import 'variables';
+
+.assets {
+    counter-reset: assets;
+}
+
+.asset {
+    background: $brand-grey-lighter;
+    padding: $spacer;
+    border-radius: 2px;
+    margin-bottom: $spacer / 2;
+    display: flex;
+    justify-content: space-between;
+
+    &:before {
+        counter-increment: assets;
+        content: counter(assets);
+        font-size: $font-size-h3;
+        margin-right: $spacer;
+        color: $brand-purple;
+    }
+}
+
+.asset__name {
+    margin: 0;
+    font-size: $font-size-text;
+    width: 50%;
+}
+
+.asset__id {
+    display: block;
+    font-family: $font-family-base;
+}
