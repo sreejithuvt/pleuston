@@ -38,18 +38,6 @@ body {
 
     @media screen and (min-width: $break-point--small) {
         min-height: calc(100vh - #{$page-frame * 2});
-
-        &:before {
-            content: '';
-            display: block;
-            position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;
-            background: $brand-white;
-            height: $page-frame;
-            z-index: 10;
-        }
     }
 }
 
