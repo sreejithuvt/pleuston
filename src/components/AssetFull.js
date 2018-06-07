@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Button from '../components/Button'
+import { Chart, Chart2 } from './Chart'
 import './AssetFull.css'
 
 const AssetFull = ({
@@ -74,14 +75,14 @@ const AssetFull = ({
                         <div className="asset__graph__description">Supply & cost</div>
                     </div>
 
-                    <p className="asset__graph">Look at me, I am a bonding curve</p>
+                    <div className="asset__graph"><Chart2 /></div>
 
                     <div className="asset__graph__label">
                         <div className={changeClasses}>{stats.change}</div>
                         <div className="asset__graph__description">Exchange rate history</div>
                     </div>
 
-                    <p className="asset__graph">Look at me, I am a price graph</p>
+                    <div className="asset__graph"><Chart /></div>
                 </div>
             </div>
         </div>

@@ -1,0 +1,14 @@
+@import 'variables';
+
+.Chart {
+    svg {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+.Title-color {
+    color: 'green';
+    font-style: oblique;
+    font-weight: $font-weight-bold;
+}
