@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 
-import Wallet from '../components/Wallet'
+import TokenContract from '../components/TokenContract'
 import logo from '../../node_modules/oceanprotocol-art/logo/logo-white.svg'
 import './Header.css'
 
@@ -54,7 +54,7 @@ class Header extends Component {
                 <ReactModal
                     contentLabel="Minimal Modal Example"
                     isOpen={this.state.showModal}>
-                    <Wallet />
+                    <TokenContract account={activeAccount} />
                     <button onClick={this.handleCloseModal}>Close Modal</button>
                 </ReactModal>
             </header>

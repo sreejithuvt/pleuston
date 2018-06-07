@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import TruffleContract from 'truffle-contract'
 
 import Account from './Account'
@@ -58,7 +58,6 @@ class TokenContract extends Web3Component {
 
         const {
             loading,
-            isAccountVisible,
             balance
         } = this.state
 
@@ -67,11 +66,14 @@ class TokenContract extends Web3Component {
 
         // Done
         return (
-            <Account
-                balance={balance}
-                image={<img alt="logo" className="header__logo__image" src={logo} />}
-                name={isAccountVisible ? account.name : <OceanRain account={account} />}
-                onClick={this.handleAccountClick} />
+            <Fragment>
+                <Account
+                    balance={balance}
+                    image={<img alt="logo" className="header__logo__image" src={logo} />}
+                    name={account.name}
+                    onClick={this.handleAccountClick} />
+                <OceanRain account={account} />
+            </Fragment>
         )
     }
 }
