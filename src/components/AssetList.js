@@ -188,7 +188,14 @@ class AssetList extends Web3Component {
     }
 
     componentDidMount = async () => {
-        this.setState({ assets: mockAssets })
+        const { contract } = this.state
+        const market = await contract.deployed()
+        const assetListMarket = await market.getListAssets()
+        const assetList = mockAssets.map((asset, index) => {
+            asset.id = assetListMarket[index].toString()
+            return asset
+        })
+        this.setState({ assets: assetList })
     }
 
     render() {
@@ -197,6 +204,8 @@ class AssetList extends Web3Component {
             assets
         } = this.state
 
+        const { activeAccount } = this.props
+        console.log(activeAccount)
         // Loading
         if (loading) return <p>loading...</p>
 

@@ -7,9 +7,12 @@ import './AssetFull.css'
 const AssetFull = ({
     abstract,
     datePeriod,
+    handlePurchase,
+    id,
     stats,
     date,
     publisher,
+    token,
     tools,
     url,
 }) => {
@@ -38,6 +41,9 @@ const AssetFull = ({
                     <p>
                         <span className="asset__label">Published</span> { date }
                     </p>
+                    <p>
+                        <span className="asset__label">ID</span> { id }
+                    </p>
 
                     {abstract && (
                         <p className="asset__abstract">
@@ -59,12 +65,12 @@ const AssetFull = ({
 
                     {url && (
                         <p className="asset__url">
-                            <span className="asset__label">Url</span> <a href={url}>{ urlHostname }</a>
+                            <span className="asset__label">Url</span> <a href={token}>{ token || 'Please purchase' }</a>
                         </p>
                     )}
 
                     <div className="asset__actions">
-                        <Button primary>Purchase</Button>
+                        <Button primary onClick={handlePurchase}>Purchase</Button>
                         <Button primary>Curate</Button>
                     </div>
                 </div>
@@ -93,8 +99,11 @@ AssetFull.propTypes = {
     abstract: PropTypes.string,
     date: PropTypes.string,
     datePeriod: PropTypes.string,
+    handlePurchase: PropTypes.func,
+    id: PropTypes.number,
     publisher: PropTypes.string,
     stats: PropTypes.object, // eslint-disable-line
+    token: PropTypes.string,
     tools: PropTypes.string,
     url: PropTypes.string,
 }
@@ -103,8 +112,11 @@ AssetFull.defaultProps = {
     abstract: null,
     date: null,
     datePeriod: null,
+    handlePurchase: null,
+    id: null,
     publisher: null,
     stats: null,
+    token: null,
     tools: null,
     url: null,
 }

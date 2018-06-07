@@ -80,14 +80,14 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x608060405234801561001057600080fd5b50610419806100206000396000f300608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806318160ddd1461005c57806370a0823114610087578063a9059cbb146100de575b600080fd5b34801561006857600080fd5b50610071610143565b6040518082815260200191505060405180910390f35b34801561009357600080fd5b506100c8600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610149565b6040518082815260200191505060405180910390f35b3480156100ea57600080fd5b50610129600480360381019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919080359060200190929190505050610192565b604051808215151515815260200191505060405180910390f35b60005481565b6000600160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b60008073ffffffffffffffffffffffffffffffffffffffff168373ffffffffffffffffffffffffffffffffffffffff16141515156101cf57600080fd5b600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054821115151561021d57600080fd5b61026f82600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020546103b690919063ffffffff16565b600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000208190555061030482600160008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020546103cf90919063ffffffff16565b600160008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055508273ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef846040518082815260200191505060405180910390a36001905092915050565b60008282111515156103c457fe5b818303905092915050565b60008082840190508381101515156103e357fe5b80915050929150505600a165627a7a72305820463e38c71e45da181655acc647e75e8f81a24bf7997c174b143fe3a2e448100f0029",
-  "deployedBytecode": "0x608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806318160ddd1461005c57806370a0823114610087578063a9059cbb146100de575b600080fd5b34801561006857600080fd5b50610071610143565b6040518082815260200191505060405180910390f35b34801561009357600080fd5b506100c8600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610149565b6040518082815260200191505060405180910390f35b3480156100ea57600080fd5b50610129600480360381019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919080359060200190929190505050610192565b604051808215151515815260200191505060405180910390f35b60005481565b6000600160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b60008073ffffffffffffffffffffffffffffffffffffffff168373ffffffffffffffffffffffffffffffffffffffff16141515156101cf57600080fd5b600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054821115151561021d57600080fd5b61026f82600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020546103b690919063ffffffff16565b600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000208190555061030482600160008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020546103cf90919063ffffffff16565b600160008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055508273ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef846040518082815260200191505060405180910390a36001905092915050565b60008282111515156103c457fe5b818303905092915050565b60008082840190508381101515156103e357fe5b80915050929150505600a165627a7a72305820463e38c71e45da181655acc647e75e8f81a24bf7997c174b143fe3a2e448100f0029",
-  "sourceMap": "171:959:8:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;171:959:8;;;;;;;",
-  "deployedSourceMap": "171:959:8:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;179:26:10;;8:9:-1;5:2;;;30:1;27;20:12;5:2;179:26:10;;;;;;;;;;;;;;;;;;;;;;;1016:111:8;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1016:111:8;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;431:383;;8:9:-1;5:2;;;30:1;27;20:12;5:2;431:383:8;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;179:26:10;;;;:::o;1016:111:8:-;1076:15;1106:8;:16;1115:6;1106:16;;;;;;;;;;;;;;;;1099:23;;1016:111;;;:::o;431:383::-;494:4;529:1;514:17;;:3;:17;;;;506:26;;;;;;;;556:8;:20;565:10;556:20;;;;;;;;;;;;;;;;546:6;:30;;538:39;;;;;;;;669:32;694:6;669:8;:20;678:10;669:20;;;;;;;;;;;;;;;;:24;;:32;;;;:::i;:::-;646:8;:20;655:10;646:20;;;;;;;;;;;;;;;:55;;;;723:25;741:6;723:8;:13;732:3;723:13;;;;;;;;;;;;;;;;:17;;:25;;;;:::i;:::-;707:8;:13;716:3;707:13;;;;;;;;;;;;;;;:41;;;;780:3;759:33;;768:10;759:33;;;785:6;759:33;;;;;;;;;;;;;;;;;;805:4;798:11;;431:383;;;;:::o;583:110:12:-;641:7;668:1;663;:6;;656:14;;;;;;687:1;683;:5;676:12;;583:110;;;;:::o;697:129::-;755:7;770:9;786:1;782;:5;770:17;;805:1;800;:6;;793:14;;;;;;820:1;813:8;;697:129;;;;;:::o",
+  "bytecode": "0x6060604052341561000f57600080fd5b6104028061001e6000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806318160ddd1461005c57806370a0823114610085578063a9059cbb146100d2575b600080fd5b341561006757600080fd5b61006f61012c565b6040518082815260200191505060405180910390f35b341561009057600080fd5b6100bc600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610132565b6040518082815260200191505060405180910390f35b34156100dd57600080fd5b610112600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190505061017b565b604051808215151515815260200191505060405180910390f35b60005481565b6000600160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b60008073ffffffffffffffffffffffffffffffffffffffff168373ffffffffffffffffffffffffffffffffffffffff16141515156101b857600080fd5b600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054821115151561020657600080fd5b61025882600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205461039f90919063ffffffff16565b600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055506102ed82600160008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020546103b890919063ffffffff16565b600160008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055508273ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef846040518082815260200191505060405180910390a36001905092915050565b60008282111515156103ad57fe5b818303905092915050565b60008082840190508381101515156103cc57fe5b80915050929150505600a165627a7a72305820ca9ebcfef698468b14c69939225be52053307bdab3d6fed113b4a6fa6201d0530029",
+  "deployedBytecode": "0x606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806318160ddd1461005c57806370a0823114610085578063a9059cbb146100d2575b600080fd5b341561006757600080fd5b61006f61012c565b6040518082815260200191505060405180910390f35b341561009057600080fd5b6100bc600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610132565b6040518082815260200191505060405180910390f35b34156100dd57600080fd5b610112600480803573ffffffffffffffffffffffffffffffffffffffff1690602001909190803590602001909190505061017b565b604051808215151515815260200191505060405180910390f35b60005481565b6000600160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b60008073ffffffffffffffffffffffffffffffffffffffff168373ffffffffffffffffffffffffffffffffffffffff16141515156101b857600080fd5b600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054821115151561020657600080fd5b61025882600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205461039f90919063ffffffff16565b600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055506102ed82600160008673ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020546103b890919063ffffffff16565b600160008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055508273ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef846040518082815260200191505060405180910390a36001905092915050565b60008282111515156103ad57fe5b818303905092915050565b60008082840190508381101515156103cc57fe5b80915050929150505600a165627a7a72305820ca9ebcfef698468b14c69939225be52053307bdab3d6fed113b4a6fa6201d0530029",
+  "sourceMap": "171:959:8:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "171:959:8:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;179:26:10;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1016:111:8;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;431:383;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;179:26:10;;;;:::o;1016:111:8:-;1076:15;1106:8;:16;1115:6;1106:16;;;;;;;;;;;;;;;;1099:23;;1016:111;;;:::o;431:383::-;494:4;529:1;514:17;;:3;:17;;;;506:26;;;;;;;;556:8;:20;565:10;556:20;;;;;;;;;;;;;;;;546:6;:30;;538:39;;;;;;;;669:32;694:6;669:8;:20;678:10;669:20;;;;;;;;;;;;;;;;:24;;:32;;;;:::i;:::-;646:8;:20;655:10;646:20;;;;;;;;;;;;;;;:55;;;;723:25;741:6;723:8;:13;732:3;723:13;;;;;;;;;;;;;;;;:17;;:25;;;;:::i;:::-;707:8;:13;716:3;707:13;;;;;;;;;;;;;;;:41;;;;780:3;759:33;;768:10;759:33;;;785:6;759:33;;;;;;;;;;;;;;;;;;805:4;798:11;;431:383;;;;:::o;583:110:12:-;641:7;668:1;663;:6;;656:14;;;;;;687:1;683;:5;676:12;;583:110;;;;:::o;697:129::-;755:7;770:9;786:1;782;:5;770:17;;805:1;800;:6;;793:14;;;;;;820:1;813:8;;697:129;;;;;:::o",
   "source": "pragma solidity ^0.4.11;\n\n\nimport './ERC20Basic.sol';\nimport './SafeMath.sol';\n\n\n/**\n * @title Basic token\n * @dev Basic version of StandardToken, with no allowances.\n */\ncontract BasicToken is ERC20Basic {\n  using SafeMath for uint256;\n\n  mapping(address => uint256) balances;\n\n  /**\n  * @dev transfer token for a specified address\n  * @param _to The address to transfer to.\n  * @param _value The amount to be transferred.\n  */\n  function transfer(address _to, uint256 _value) public returns (bool) {\n    require(_to != address(0));\n    require(_value <= balances[msg.sender]);\n    // SafeMath.sub will throw if there is not enough balance.\n    balances[msg.sender] = balances[msg.sender].sub(_value);\n    balances[_to] = balances[_to].add(_value);\n    emit Transfer(msg.sender, _to, _value);\n    return true;\n  }\n\n  /**\n  * @dev Gets the balance of the specified address.\n  * @param _owner The address to query the the balance of.\n  * @return An uint256 representing the amount owned by the passed address.\n  */\n  function balanceOf(address _owner) public constant returns (uint256 balance) {\n    return balances[_owner];\n  }\n\n}\n",
-  "sourcePath": "/Users/matthias/Code/oceanprotocol/plankton-keeper/contracts/zeppelin/BasicToken.sol",
+  "sourcePath": "/Users/ahmed/Documents/GitHub/plankton-publisher/plankton-keeper/contracts/zeppelin/BasicToken.sol",
   "ast": {
-    "absolutePath": "/Users/matthias/Code/oceanprotocol/plankton-keeper/contracts/zeppelin/BasicToken.sol",
+    "absolutePath": "/Users/ahmed/Documents/GitHub/plankton-publisher/plankton-keeper/contracts/zeppelin/BasicToken.sol",
     "exportedSymbols": {
       "BasicToken": [
         6121
@@ -108,7 +108,7 @@
         "src": "0:24:8"
       },
       {
-        "absolutePath": "/Users/matthias/Code/oceanprotocol/plankton-keeper/contracts/zeppelin/ERC20Basic.sol",
+        "absolutePath": "/Users/ahmed/Documents/GitHub/plankton-publisher/plankton-keeper/contracts/zeppelin/ERC20Basic.sol",
         "file": "./ERC20Basic.sol",
         "id": 6038,
         "nodeType": "ImportDirective",
@@ -119,7 +119,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/matthias/Code/oceanprotocol/plankton-keeper/contracts/zeppelin/SafeMath.sol",
+        "absolutePath": "/Users/ahmed/Documents/GitHub/plankton-publisher/plankton-keeper/contracts/zeppelin/SafeMath.sol",
         "file": "./SafeMath.sol",
         "id": 6039,
         "nodeType": "ImportDirective",
@@ -132,7 +132,7 @@
       {
         "baseContracts": [
           {
-            "arguments": null,
+            "arguments": [],
             "baseName": {
               "contractScope": null,
               "id": 6040,
@@ -345,11 +345,8 @@
                       "id": 6057,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        6982,
-                        6983
-                      ],
-                      "referencedDeclaration": 6982,
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 6980,
                       "src": "506:7:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -428,7 +425,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 6979,
+                              "referencedDeclaration": 6977,
                               "src": "565:3:8",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -477,11 +474,8 @@
                       "id": 6065,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        6982,
-                        6983
-                      ],
-                      "referencedDeclaration": 6982,
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 6980,
                       "src": "538:7:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -538,7 +532,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 6979,
+                          "referencedDeclaration": 6977,
                           "src": "655:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -620,7 +614,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 6979,
+                              "referencedDeclaration": 6977,
                               "src": "678:3:8",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -854,7 +848,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 6979,
+                          "referencedDeclaration": 6977,
                           "src": "768:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1222,7 +1216,7 @@
     "src": "0:1131:8"
   },
   "legacyAST": {
-    "absolutePath": "/Users/matthias/Code/oceanprotocol/plankton-keeper/contracts/zeppelin/BasicToken.sol",
+    "absolutePath": "/Users/ahmed/Documents/GitHub/plankton-publisher/plankton-keeper/contracts/zeppelin/BasicToken.sol",
     "exportedSymbols": {
       "BasicToken": [
         6121
@@ -1243,7 +1237,7 @@
         "src": "0:24:8"
       },
       {
-        "absolutePath": "/Users/matthias/Code/oceanprotocol/plankton-keeper/contracts/zeppelin/ERC20Basic.sol",
+        "absolutePath": "/Users/ahmed/Documents/GitHub/plankton-publisher/plankton-keeper/contracts/zeppelin/ERC20Basic.sol",
         "file": "./ERC20Basic.sol",
         "id": 6038,
         "nodeType": "ImportDirective",
@@ -1254,7 +1248,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/matthias/Code/oceanprotocol/plankton-keeper/contracts/zeppelin/SafeMath.sol",
+        "absolutePath": "/Users/ahmed/Documents/GitHub/plankton-publisher/plankton-keeper/contracts/zeppelin/SafeMath.sol",
         "file": "./SafeMath.sol",
         "id": 6039,
         "nodeType": "ImportDirective",
@@ -1267,7 +1261,7 @@
       {
         "baseContracts": [
           {
-            "arguments": null,
+            "arguments": [],
             "baseName": {
               "contractScope": null,
               "id": 6040,
@@ -1480,11 +1474,8 @@
                       "id": 6057,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        6982,
-                        6983
-                      ],
-                      "referencedDeclaration": 6982,
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 6980,
                       "src": "506:7:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1563,7 +1554,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 6979,
+                              "referencedDeclaration": 6977,
                               "src": "565:3:8",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -1612,11 +1603,8 @@
                       "id": 6065,
                       "name": "require",
                       "nodeType": "Identifier",
-                      "overloadedDeclarations": [
-                        6982,
-                        6983
-                      ],
-                      "referencedDeclaration": 6982,
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 6980,
                       "src": "538:7:8",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1673,7 +1661,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 6979,
+                          "referencedDeclaration": 6977,
                           "src": "655:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1755,7 +1743,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 6979,
+                              "referencedDeclaration": 6977,
                               "src": "678:3:8",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -1989,7 +1977,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 6979,
+                          "referencedDeclaration": 6977,
                           "src": "768:3:8",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -2358,9 +2346,9 @@
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+    "version": "0.4.21+commit.dfe3193c.Emscripten.clang"
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-06-06T10:15:09.239Z"
+  "updatedAt": "2018-06-07T10:34:58.739Z"
 }

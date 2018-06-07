@@ -16,11 +16,23 @@ class Asset extends Web3Component {
         contract.setProvider(this.web3Provider)
 
         this.state = {
+            contract,
+            token: null,
             loading: false,
         }
     }
 
     componentDidMount = async () => {
+    }
+
+    handlePurchase = async () => {
+        const { contract } = this.state
+        const { activeAccount, id } = this.props
+
+        const marketContract = await contract.deployed()
+        console.log(activeAccount)
+        const purchase = await marketContract.purchase(id, { from: activeAccount.name, gas: 100000 })
+        console.log(purchase)
     }
 
     render() {
@@ -31,6 +43,8 @@ class Asset extends Web3Component {
         const {
             caption,
             date,
+            id,
+            token,
             name,
             publisher,
             stats
@@ -54,6 +68,7 @@ class Asset extends Web3Component {
                     <div className="asset__meta">
                         <div className="asset__publisher">{ publisher }</div>
                         <div className="asset__date">{ date }</div>
+                        <div className="asset__date">{ id }</div>
                     </div>
 
                     <aside className="asset__ticker">
@@ -62,7 +77,7 @@ class Asset extends Web3Component {
                     </aside>
                 </div>
                 :
-                <AssetFull {...this.props} />
+                <AssetFull {...this.props} handlePurchase={this.handlePurchase} token={token} />
         )
     }
 }
