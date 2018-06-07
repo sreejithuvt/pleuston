@@ -31,6 +31,12 @@
     text-align: right;
     color: $brand-grey-light;
     justify-self: flex-end;
+    font-size: $font-size-small;
+    cursor: pointer;
+
+    &:hover {
+        color: $brand-pink;
+    }
 
     a {
         font-family: $font-family-button;
@@ -54,15 +60,6 @@
     }
 }
 
-.header__menu__user {
-    display: block;
-    width: 210px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: $font-size-small;
-
-    @media screen and (min-width: $break-point--small) {
-        display: inline;
-    }
+.header__menu__balance {
+    margin-left: $spacer / 4;
 }
