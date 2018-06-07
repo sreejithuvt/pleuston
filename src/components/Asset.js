@@ -56,10 +56,10 @@ class Asset extends Web3Component {
                         <div className="asset__date">{ date }</div>
                     </div>
 
-                    <footer className="asset__footer">
+                    <aside className="asset__ticker">
                         <div className="asset__symbol">XYZ</div>
                         <div className={changeClasses}>{stats.change}</div>
-                    </footer>
+                    </aside>
                 </div>
                 :
                 <AssetFull {...this.props} />

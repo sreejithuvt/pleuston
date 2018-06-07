@@ -18,7 +18,8 @@
     }
 }
 
-.asset__label {
+.asset__label,
+.asset__graph__description {
     display: block;
     font-family: $font-family-button;
     text-transform: uppercase;
@@ -36,4 +37,27 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: $spacer;
+}
+
+.asset__graph__label {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: $spacer / 4;
+}
+
+.asset__graph__description {
+    font-size: $font-size-small;
+}
+
+.asset-full {
+    .asset__symbol,
+    .asset__change {
+        font-size: $font-size-h4;
+    }
+
+    .asset__change {
+        text-align: left;
+    }
 }

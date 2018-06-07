@@ -14,6 +14,7 @@ const AssetFull = ({
     url,
 }) => {
     const urlHostname = new URL(url).hostname
+    const changeClasses = stats.change.includes('-') ? 'asset__change negative' : 'asset__change positive'
 
     return (
         <div className="asset-full">
@@ -68,7 +69,19 @@ const AssetFull = ({
                     </div>
                 </div>
                 <div className="asset-grid__col">
-                    <p className="asset__graph">Look at me, I am a graph</p>
+                    <div className="asset__graph__label">
+                        <div className="asset__symbol">XYZ</div>
+                        <div className="asset__graph__description">Supply & cost</div>
+                    </div>
+
+                    <p className="asset__graph">Look at me, I am a bonding curve</p>
+
+                    <div className="asset__graph__label">
+                        <div className={changeClasses}>{stats.change}</div>
+                        <div className="asset__graph__description">Exchange rate history</div>
+                    </div>
+
+                    <p className="asset__graph">Look at me, I am a price graph</p>
                 </div>
             </div>
         </div>
