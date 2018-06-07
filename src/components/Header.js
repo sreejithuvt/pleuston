@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 
@@ -37,10 +37,18 @@ class Header extends Component {
                     </h1>
                 </a>
                 <nav className="header__menu" onClick={this.handleOpenModal}> {/* eslint-disable-line */}
-                    <span className="header__menu__user" title={activeAccount ? activeAccount.name : null}>
-                        {activeAccount ? `${activeAccount.name.slice(0, 20)}...` : 'No account selected'}
-                    </span>
-                    <span className="header__menu__balance">{activeAccount ? activeAccount.balance : null}</span>
+                    {
+                        activeAccount ? (
+                            <Fragment>
+                                <span className="header__menu__user" title={activeAccount ? activeAccount.name : null}>
+                                    {activeAccount.name.slice(0, 20)}...
+                                </span>
+                                <span className="header__menu__balance">Ọ {activeAccount.balance}</span>
+                            </Fragment>
+                        ) : (
+                            'No account selected'
+                        )
+                    }
                 </nav>
 
                 <ReactModal
