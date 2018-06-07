@@ -12,7 +12,7 @@ const Dataset = props => {
         <Fragment>
             <Header activeAccount={activeAccount} />
             <main className="screen screen--dataset">
-                <ScreenHeader title={asset.name} />
+                <ScreenHeader subtitle={asset.caption} title={asset.name} />
                 <Asset {...asset} />
             </main>
         </Fragment>

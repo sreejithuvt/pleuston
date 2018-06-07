@@ -5,12 +5,11 @@
 }
 
 .asset {
-    background: $brand-grey-lighter;
-    padding: $spacer;
+    background: lighten($brand-grey-lighter, 8%);
     border-radius: 2px;
-    margin-bottom: $spacer / 2;
-    display: flex;
+    padding: $spacer;
     color: $brand-grey;
+    transition: .2s ease-out;
 
     &:before {
         counter-increment: assets;
@@ -18,6 +17,15 @@
         font-size: $font-size-h3;
         margin-right: $spacer;
         color: $brand-grey-light;
+    }
+
+    &:hover,
+    &:focus {
+        background: $brand-purple;
+
+        * {
+            color: $brand-white;
+        }
     }
 }
 
@@ -28,6 +36,10 @@
     &:before {
         display: none;
     }
+}
+
+.asset__header {
+    margin-bottom: $spacer;
 }
 
 .asset-grid {
@@ -70,13 +82,47 @@
 
 .asset__name {
     margin: 0;
-    font-size: $font-size-h4;
-    line-height: 1.5;
+    font-size: $font-size-h5;
+    color: $brand-purple;
 }
 
-.asset__id {
-    display: block;
+.asset__caption {
+    margin: 0;
+    margin-top: $spacer / 6;
     font-family: $font-family-base;
     font-size: $font-size-base;
     font-weight: $font-weight-base;
+}
+
+.asset__publisher,
+.asset__date {
+    color: $brand-grey-light;
+    font-size: $font-size-small;
+}
+
+.asset__footer {
+    margin-top: $spacer / 2;
+    padding-top: $spacer / 2;
+    border-top: 1px solid $brand-grey-lighter;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    > div {
+        flex: 1;
+    }
+}
+
+.asset__symbol {
+    font-size: $font-size-h4;
+}
+
+.asset__change {
+    &.positive {
+        color: $green;
+    }
+
+    &.negative {
+        color: $red;
+    }
 }

@@ -20,7 +20,7 @@ const AssetFull = ({
     const urlHostname = new URL(url).hostname
 
     return (
-        <div className="asset asset--full">
+        <div className="asset-full">
             <div className="asset-grid">
                 <div className="asset-grid__col">
                     <div className="asset__stats">
@@ -100,9 +100,11 @@ class Asset extends Web3Component {
         } = this.state
 
         const {
+            caption,
             date,
             name,
-            publisher
+            publisher,
+            stats
         } = this.props
 
         // Loading
@@ -111,16 +113,20 @@ class Asset extends Web3Component {
         return (
             this.props.minimal ?
                 <div className="asset">
-                    <div className="asset-grid">
-                        <div className="asset-grid__col">
-                            <h3 className="asset__name">
-                                { name }
-                            </h3>
-                            <div className="asset__publisher">{ publisher }</div>
-                            <div className="asset__date">{ date }</div>
-                        </div>
-                    </div>
+                    <header className="asset__header">
+                        <h1 className="asset__name">
+                            { name }
+                        </h1>
+                        <h2 className="asset__caption">{ caption }</h2>
+                    </header>
 
+                    <div className="asset__publisher">{ publisher }</div>
+                    <div className="asset__date">{ date }</div>
+
+                    <footer className="asset__footer">
+                        <div className="asset__symbol">XYZ</div>
+                        <div className="asset__change positive">{stats.change}</div>
+                    </footer>
                 </div>
                 :
                 <AssetFull {...this.props} />
