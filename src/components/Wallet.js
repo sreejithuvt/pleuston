@@ -2,9 +2,7 @@ import React, { Fragment } from 'react'
 
 import Account from './Account'
 import AccountList from './AccountList'
-import AssetList from './AssetList'
 
-import TokenContract from './TokenContract'
 import Web3Component from './Web3Component'
 
 import './Wallet.css'
@@ -78,10 +76,6 @@ class Wallet extends Web3Component {
                         onClick={
                             console.log('dummy') // eslint-disable-line
                         } />
-                    <TokenContract
-                        account={activeAccount} />
-                    <AssetList
-                        account={activeAccount} />
                 </div>
             </Fragment>
         )
