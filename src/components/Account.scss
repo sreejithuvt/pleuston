@@ -4,12 +4,12 @@ $breakpoint-small: 50rem;
 
 .account {
     padding: $spacer / 2;
-    border: 1px solid $brand-pink;
+    background: lighten($brand-grey-lighter, 8%);
     border-radius: 2px;
+    border: 1px solid $brand-grey-lighter;
     margin-bottom: $spacer / 2;
     cursor: pointer;
     width: 100%;
-    background: none;
     box-shadow: none;
     color: $brand-grey;
     font-size: $font-size-base;
@@ -26,7 +26,11 @@ $breakpoint-small: 50rem;
 
     &:hover,
     &:focus {
-        background: $brand-grey-lighter;
+        background: $brand-gradient;
+
+        * {
+            color: $brand-white;
+        }
     }
 }
 

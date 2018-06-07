@@ -3,6 +3,7 @@
 .asset {
     background: lighten($brand-grey-lighter, 8%);
     border-radius: 2px;
+    border: 1px solid $brand-grey-lighter;
     padding: $spacer;
     color: $brand-grey;
     height: 100%;
@@ -26,7 +27,7 @@
         background: $brand-gradient;
 
         * {
-            color: $brand-white;
+            color: $brand-white !important; // stylelint-disable-line
         }
     }
 }

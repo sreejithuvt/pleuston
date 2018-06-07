@@ -11,16 +11,26 @@
 }
 
 .header__logo {
-    display: block;
+    display: flex;
+    align-items: center;
+    width: 50%;
 }
 
 .header__logo__image {
     height: 60px;
 }
 
+.header__title {
+    display: inline-block;
+    font-size: $font-size-h4;
+    color: $brand-white;
+    margin-left: $spacer;
+}
+
 .header__menu {
     text-align: right;
     color: $brand-grey-light;
+    justify-self: flex-end;
 
     a {
         font-family: $font-family-button;
