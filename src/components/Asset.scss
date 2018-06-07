@@ -1,9 +1,5 @@
 @import 'variables';
 
-.assets {
-    counter-reset: assets;
-}
-
 .asset {
     background: lighten($brand-grey-lighter, 8%);
     border-radius: 2px;
@@ -40,44 +36,6 @@
 
 .asset__header {
     margin-bottom: $spacer;
-}
-
-.asset-grid {
-    @media (min-width: $break-point--small) {
-        display: flex;
-        justify-content: space-between;
-        margin-left: -$spacer * 2;
-    }
-}
-
-.asset-grid__col {
-    margin-bottom: $spacer * 2;
-
-    @media (min-width: $break-point--small) {
-        flex: 1;
-        margin-left: $spacer * 2;
-        margin-bottom: 0;
-    }
-}
-
-.asset__label {
-    display: block;
-    font-family: $font-family-button;
-    text-transform: uppercase;
-    color: $brand-grey-light;
-}
-
-.asset__actions {
-    margin-top: $spacer;
-    margin-bottom: $spacer;
-}
-
-.asset__graph {
-    background: $brand-grey-light;
-    min-height: 20rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .asset__name {

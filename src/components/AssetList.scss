@@ -1,6 +1,8 @@
 @import 'variables';
 
 .assets {
+    counter-reset: assets;
+
     @media (min-width: $break-point--small) {
         display: flex;
         flex-wrap: wrap;
