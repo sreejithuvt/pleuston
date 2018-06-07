@@ -39,6 +39,8 @@ class Asset extends Web3Component {
         // Loading
         if (loading) return <p>loading...</p>
 
+        const changeClasses = stats.change.includes('-') ? 'asset__change negative' : 'asset__change positive'
+
         return (
             this.props.minimal ?
                 <div className="asset">
@@ -49,12 +51,14 @@ class Asset extends Web3Component {
                         <h2 className="asset__caption">{ caption }</h2>
                     </header>
 
-                    <div className="asset__publisher">{ publisher }</div>
-                    <div className="asset__date">{ date }</div>
+                    <div className="asset__meta">
+                        <div className="asset__publisher">{ publisher }</div>
+                        <div className="asset__date">{ date }</div>
+                    </div>
 
                     <footer className="asset__footer">
                         <div className="asset__symbol">XYZ</div>
-                        <div className="asset__change positive">{stats.change}</div>
+                        <div className={changeClasses}>{stats.change}</div>
                     </footer>
                 </div>
                 :

@@ -34,7 +34,7 @@ const mockAssets = [
     },
     {
         id: '1234',
-        name: 'Pigeon Race Data',
+        name: 'Pigeon Race Data Pigeon Race Data',
         schema: {
             pigeon: 'string',
             race: 'string',
@@ -48,7 +48,7 @@ const mockAssets = [
         tools: 'Drone footage',
         datePeriod: '2018-02-21 - 2018-04-21',
         stats: {
-            change: '+4.5%',
+            change: '-44.5%',
             accepted: '52%',
             rejected: '32.8%',
             challenged: '3',
@@ -57,7 +57,7 @@ const mockAssets = [
     },
     {
         id: '1234',
-        name: 'Pigeon Race Data',
+        name: 'Pigeon Race Data Pigeon Race Data Pigeon Race Data',
         schema: {
             pigeon: 'string',
             race: 'string',
@@ -71,7 +71,7 @@ const mockAssets = [
         tools: 'Drone footage',
         datePeriod: '2018-02-21 - 2018-04-21',
         stats: {
-            change: '+4.5%',
+            change: '-4.5%',
             accepted: '52%',
             rejected: '32.8%',
             challenged: '3',
@@ -80,7 +80,7 @@ const mockAssets = [
     },
     {
         id: '1234',
-        name: 'Pigeon Race Data',
+        name: 'Pigeon Race Data Pigeon Race Data Pigeon Race Data Pigeon Race Data Pigeon Race Data',
         schema: {
             pigeon: 'string',
             race: 'string',
