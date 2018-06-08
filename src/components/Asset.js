@@ -1,5 +1,6 @@
 import React from 'react'
 import TruffleContract from 'truffle-contract'
+import Web3 from 'web3'
 
 import Web3Component from './Web3Component'
 
@@ -25,26 +26,26 @@ class Asset extends Web3Component {
     componentDidMount = async () => {
     }
 
+
     handlePurchase = async () => {
         const { contract } = this.state
         const { activeAccount, id } = this.props
 
         const marketContract = await contract.deployed()
-        console.log(activeAccount)
         const purchase = await marketContract.purchase(id, { from: activeAccount.name, gas: 100000 })
-        console.log(purchase)
+        this.setState({ token: this.web3.toAscii(purchase.logs[0].args._token) })
     }
 
     render() {
         const {
-            loading
+            loading,
+            token
         } = this.state
 
         const {
             caption,
             date,
             id,
-            token,
             name,
             publisher,
             stats
