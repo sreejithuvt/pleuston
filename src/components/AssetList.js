@@ -1,251 +1,58 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import TruffleContract from 'truffle-contract'
 
 import Asset from './Asset'
-import Web3Component from './Web3Component'
 
-import Market from '../contracts/Market'
 import './AssetList.css'
 
-const mockAssets = [
-    {
-        id: '1234',
-        name: 'Pigeon Race Data',
-        schema: {
-            pigeon: 'string',
-            race: 'string',
-            velocity: 'float'
-        },
-        publisher: 'Pigeon Inc.',
-        date: '2018-04-21',
-        url: 'https://bigchaindb.com/',
-        caption: 'Statistical analysis of pigeons',
-        abstract: 'In this statistical analysis, the fastest 25% of homing speeds in 5955 races conducted in West Germany on 194 days in 1973–1990 and the return rates in 18 pigeon races held in 1932–1957 in Italy were examined with respect to distance, cloud cover, wind, sferics, solar and magnetic variables.',
-        tools: 'Drone footage',
-        datePeriod: '2018-02-21 - 2018-04-21',
-        stats: {
-            change: '+4.5%',
-            accepted: '52%',
-            rejected: '32.8%',
-            challenged: '3',
-            purchased: '142',
-        }
-    },
-    {
-        id: '1234',
-        name: 'Pigeon Race Data Pigeon Race Data',
-        schema: {
-            pigeon: 'string',
-            race: 'string',
-            velocity: 'float'
-        },
-        publisher: 'Pigeon Inc.',
-        date: '2018-04-21',
-        url: 'https://bigchaindb.com/',
-        caption: 'Statistical analysis of pigeons',
-        abstract: 'In this statistical analysis, the fastest 25% of homing speeds in 5955 races conducted in West Germany on 194 days in 1973–1990 and the return rates in 18 pigeon races held in 1932–1957 in Italy were examined with respect to distance, cloud cover, wind, sferics, solar and magnetic variables.',
-        tools: 'Drone footage',
-        datePeriod: '2018-02-21 - 2018-04-21',
-        stats: {
-            change: '-44.5%',
-            accepted: '52%',
-            rejected: '32.8%',
-            challenged: '3',
-            purchased: '142',
-        }
-    },
-    {
-        id: '1234',
-        name: 'Pigeon Race Data Pigeon Race Data Pigeon Race Data',
-        schema: {
-            pigeon: 'string',
-            race: 'string',
-            velocity: 'float'
-        },
-        publisher: 'Pigeon Inc.',
-        date: '2018-04-21',
-        url: 'https://bigchaindb.com/',
-        caption: 'Statistical analysis of pigeons',
-        abstract: 'In this statistical analysis, the fastest 25% of homing speeds in 5955 races conducted in West Germany on 194 days in 1973–1990 and the return rates in 18 pigeon races held in 1932–1957 in Italy were examined with respect to distance, cloud cover, wind, sferics, solar and magnetic variables.',
-        tools: 'Drone footage',
-        datePeriod: '2018-02-21 - 2018-04-21',
-        stats: {
-            change: '-4.5%',
-            accepted: '52%',
-            rejected: '32.8%',
-            challenged: '3',
-            purchased: '142',
-        }
-    },
-    {
-        id: '1234',
-        name: 'Pigeon Race Data Pigeon Race Data Pigeon Race Data Pigeon Race Data Pigeon Race Data',
-        schema: {
-            pigeon: 'string',
-            race: 'string',
-            velocity: 'float'
-        },
-        publisher: 'Pigeon Inc.',
-        date: '2018-04-21',
-        url: 'https://bigchaindb.com/',
-        caption: 'Statistical analysis of pigeons',
-        abstract: 'In this statistical analysis, the fastest 25% of homing speeds in 5955 races conducted in West Germany on 194 days in 1973–1990 and the return rates in 18 pigeon races held in 1932–1957 in Italy were examined with respect to distance, cloud cover, wind, sferics, solar and magnetic variables.',
-        tools: 'Drone footage',
-        datePeriod: '2018-02-21 - 2018-04-21',
-        stats: {
-            change: '+4.5%',
-            accepted: '52%',
-            rejected: '32.8%',
-            challenged: '3',
-            purchased: '142',
-        }
-    },
-    {
-        id: '1234',
-        name: 'Pigeon Race Data',
-        schema: {
-            pigeon: 'string',
-            race: 'string',
-            velocity: 'float'
-        },
-        publisher: 'Pigeon Inc.',
-        date: '2018-04-21',
-        url: 'https://bigchaindb.com/',
-        caption: 'Statistical analysis of pigeons',
-        abstract: 'In this statistical analysis, the fastest 25% of homing speeds in 5955 races conducted in West Germany on 194 days in 1973–1990 and the return rates in 18 pigeon races held in 1932–1957 in Italy were examined with respect to distance, cloud cover, wind, sferics, solar and magnetic variables.',
-        tools: 'Drone footage',
-        datePeriod: '2018-02-21 - 2018-04-21',
-        stats: {
-            change: '+4.5%',
-            accepted: '52%',
-            rejected: '32.8%',
-            challenged: '3',
-            purchased: '142',
-        }
-    },
-    {
-        id: '1234',
-        name: 'Pigeon Race Data',
-        schema: {
-            pigeon: 'string',
-            race: 'string',
-            velocity: 'float'
-        },
-        publisher: 'Pigeon Inc.',
-        date: '2018-04-21',
-        url: 'https://bigchaindb.com/',
-        caption: 'Statistical analysis of pigeons',
-        abstract: 'In this statistical analysis, the fastest 25% of homing speeds in 5955 races conducted in West Germany on 194 days in 1973–1990 and the return rates in 18 pigeon races held in 1932–1957 in Italy were examined with respect to distance, cloud cover, wind, sferics, solar and magnetic variables.',
-        tools: 'Drone footage',
-        datePeriod: '2018-02-21 - 2018-04-21',
-        stats: {
-            change: '+4.5%',
-            accepted: '52%',
-            rejected: '32.8%',
-            challenged: '3',
-            purchased: '142',
-        }
-    },
-    {
-        id: '1234',
-        name: 'Pigeon Race Data',
-        schema: {
-            pigeon: 'string',
-            race: 'string',
-            velocity: 'float'
-        },
-        publisher: 'Pigeon Inc.',
-        date: '2018-04-21',
-        url: 'https://bigchaindb.com/',
-        caption: 'Statistical analysis of pigeons',
-        abstract: 'In this statistical analysis, the fastest 25% of homing speeds in 5955 races conducted in West Germany on 194 days in 1973–1990 and the return rates in 18 pigeon races held in 1932–1957 in Italy were examined with respect to distance, cloud cover, wind, sferics, solar and magnetic variables.',
-        tools: 'Drone footage',
-        datePeriod: '2018-02-21 - 2018-04-21',
-        stats: {
-            change: '+4.5%',
-            accepted: '52%',
-            rejected: '32.8%',
-            challenged: '3',
-            purchased: '142',
-        }
-    }
-]
-
-
-class AssetList extends Web3Component {
-    constructor(props) {
-        super(props)
-
-        const contract = TruffleContract(Market)
-        contract.setProvider(this.web3Provider)
-
-        this.state = {
-            contract,
-            loading: false,
-            assets: []
-        }
-    }
-
-    componentDidMount = async () => {
-        const { contract } = this.state
-        const market = await contract.deployed()
-        const assetListMarket = await market.getListAssets()
-        const assetList = mockAssets.map((asset, index) => {
-            asset.id = assetListMarket[index].toString()
-            return asset
-        })
-        this.setState({ assets: assetList })
-    }
-
-    render() {
-        const {
-            loading,
-            assets
-        } = this.state
-
-        const { activeAccount } = this.props
-        // Loading
-        if (loading) return <p>loading...</p>
-
-        return (
-            <div className="assets">
-                <div className="assets__tile">
+const AssetList = ({
+    activeAccount,
+    assets
+}) => (
+    <div className="assets">
+        <div className="assets__tile">
+            <Link
+                href="/datasets-new"
+                to={{
+                    pathname: '/datasets-new',
+                    state: {
+                        activeAccount
+                    }
+                }}>
+                <div className="asset asset-new">
+                    <div className="asset__plus">
+                            +
+                    </div>
+                </div>
+            </Link>
+        </div>
+        {
+            assets.map(asset => (
+                <div className="assets__tile assets_count" key={asset.id}>
                     <Link
-                        href="/datasets-new"
+                        href={`/datasets/${asset.id}`}
                         to={{
-                            pathname: '/datasets-new',
+                            pathname: `/datasets/${asset.id}`,
                             state: {
-                                activeAccount
+                                activeAccount,
+                                asset
                             }
                         }}>
-                        <div className="asset asset-new">
-                            <div className="asset__plus">
-                                +
-                            </div>
-                        </div>
+                        <Asset minimal {...asset} />
                     </Link>
                 </div>
-                {
-                    assets.map(asset => (
-                        <div className="assets__tile assets_count" key={asset.id}>
-                            <Link
-                                href={`/datasets/${asset.id}`}
-                                to={{
-                                    pathname: `/datasets/${asset.id}`,
-                                    state: {
-                                        activeAccount,
-                                        asset
-                                    }
-                                }}>
-                                <Asset minimal {...asset} />
-                            </Link>
-                        </div>
-                    ))
-                }
-            </div>
-        )
-    }
+            ))
+        }
+    </div>
+)
+
+AssetList.propTypes = {
+    activeAccount: PropTypes.objectOf(PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        balance: PropTypes.string.isRequired,
+    }).isRequired).isRequired,
+    assets: PropTypes.array.isRequired,
 }
 
 export default AssetList

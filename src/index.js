@@ -8,7 +8,6 @@ import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
 import { createBrowserHistory } from 'history'
-// import { BrowserRouter as Router } from 'react-router-dom'
 import {
     ConnectedRouter as Router,
     connectRouter,
@@ -16,7 +15,11 @@ import {
 } from 'connected-react-router'
 
 import appReducer from './reducers'
-import { getAccounts } from './actions/index'
+import {
+    getAccounts,
+    setProviderWeb3,
+    setContractMarket,
+} from './actions/index'
 
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
@@ -46,6 +49,8 @@ registerServiceWorker()
 
 
 function boot() {
+    store.dispatch(setProviderWeb3())
     store.dispatch(getAccounts())
+    store.dispatch(setContractMarket())
 }
 /* Das */boot()
