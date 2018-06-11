@@ -205,21 +205,36 @@ class AssetList extends Web3Component {
         } = this.state
 
         const { activeAccount } = this.props
-        console.log(activeAccount)
         // Loading
         if (loading) return <p>loading...</p>
 
         return (
             <div className="assets">
+                <div className="assets__tile">
+                    <Link
+                        href="/datasets-new"
+                        to={{
+                            pathname: '/datasets-new',
+                            state: {
+                                activeAccount
+                            }
+                        }}>
+                        <div className="asset asset-new">
+                            <div className="asset__plus">
+                                +
+                            </div>
+                        </div>
+                    </Link>
+                </div>
                 {
                     assets.map(asset => (
-                        <div className="assets__tile" key={asset.id}>
+                        <div className="assets__tile assets_count" key={asset.id}>
                             <Link
                                 href={`/datasets/${asset.id}`}
                                 to={{
                                     pathname: `/datasets/${asset.id}`,
                                     state: {
-                                        activeAccount: this.props.activeAccount,
+                                        activeAccount,
                                         asset
                                     }
                                 }}>

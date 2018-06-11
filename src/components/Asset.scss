@@ -14,14 +14,6 @@
         width: 100%;
     }
 
-    &:before {
-        counter-increment: assets;
-        content: counter(assets);
-        font-size: $font-size-h4;
-        margin-right: $spacer;
-        color: $brand-grey-light;
-    }
-
     &:hover,
     &:focus {
         background: $brand-gradient;
@@ -29,6 +21,25 @@
         * {
             color: $brand-white !important; // stylelint-disable-line
         }
+    }
+}
+
+.assets_count .asset{
+    &:before {
+        counter-increment: assets;
+        content: counter(assets);
+        font-size: $font-size-h4;
+        margin-right: $spacer;
+        color: $brand-grey-light;
+    }
+}
+
+.asset.asset-new {
+    text-align: center;
+    .asset__plus {
+        margin: 0;
+        font-size: 12rem;
+        color: $brand-purple;
     }
 }
 

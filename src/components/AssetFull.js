@@ -17,7 +17,6 @@ const AssetFull = ({
     tools,
     url,
 }) => {
-    const urlHostname = new URL(url).hostname
     const changeClasses = stats.change.includes('-') ? 'asset__change negative' : 'asset__change positive'
 
     return (

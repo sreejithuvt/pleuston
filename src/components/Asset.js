@@ -1,6 +1,5 @@
 import React from 'react'
 import TruffleContract from 'truffle-contract'
-import Web3 from 'web3'
 
 import Web3Component from './Web3Component'
 
