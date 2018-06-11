@@ -1,16 +1,16 @@
 import React, { Fragment } from 'react'
 
-import Header from '../components/Header'
-import Wallet from '../components/Wallet'
+import HeaderLoader from '../containers/HeaderLoader'
+import AccountListLoader from '../containers/AccountListLoader'
 import ScreenHeader from '../components/ScreenHeader'
 
 const Home = () => (
     <Fragment>
-        <Header />
+        <HeaderLoader />
         <main className="screen screen--home">
             <ScreenHeader
                 title="Select your account" />
-            <Wallet />
+            <AccountListLoader />
         </main>
     </Fragment>
 )
