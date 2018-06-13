@@ -8,7 +8,7 @@ import './AccountList.css'
 
 const AccountList = ({
     accounts,
-    setActiveAccount,
+    handleClick,
 }) => (
     <div className="accounts">
         {
@@ -16,7 +16,7 @@ const AccountList = ({
                 <Account
                     key={account.name}
                     {...account}
-                    handleClick={() => setActiveAccount(account)} />
+                    handleClick={() => handleClick(account)} />
             ))
         }
     </div>
@@ -27,7 +27,7 @@ AccountList.propTypes = {
         name: PropTypes.string.isRequired,
         balance: PropTypes.string.isRequired,
     }).isRequired).isRequired,
-    setActiveAccount: PropTypes.func.isRequired
+    handleClick: PropTypes.func.isRequired
 }
 
 export default AccountList

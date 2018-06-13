@@ -1,26 +1,23 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 
-import Header from '../components/Header'
 import ScreenHeader from '../components/ScreenHeader'
-import Asset from '../components/Asset'
+import AssetLoader from '../containers/AssetLoader'
+import HeaderLoader from '../containers/HeaderLoader'
 
-const Dataset = props => {
-    const { activeAccount, asset } = props.location.state
-
-    return (
-        <Fragment>
-            <Header activeAccount={activeAccount} />
-            <main className="screen screen--dataset">
-                <ScreenHeader subtitle={asset.caption} title={asset.name} />
-                <Asset {...asset} activeAccount={activeAccount} />
-            </main>
-        </Fragment>
-    )
-}
+const Dataset = ({ caption, name }) => (
+    <Fragment>
+        <HeaderLoader />
+        <main className="screen screen--dataset">
+            <ScreenHeader subtitle={caption} title={name} />
+            <AssetLoader />
+        </main>
+    </Fragment>
+)
 
 Dataset.propTypes = {
-    location: PropTypes.object.isRequired, // eslint-disable-line
+    caption: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
 }
 
 export default Dataset

@@ -7,8 +7,8 @@ import Asset from './Asset'
 import './AssetList.css'
 
 const AssetList = ({
-    activeAccount,
-    assets
+    assets,
+    handleClick
 }) => (
     <div className="assets">
         <div className="assets__tile">
@@ -16,9 +16,6 @@ const AssetList = ({
                 href="/datasets-new"
                 to={{
                     pathname: '/datasets-new',
-                    state: {
-                        activeAccount
-                    }
                 }}>
                 <div className="asset asset-new">
                     <div className="asset__plus">
@@ -29,18 +26,11 @@ const AssetList = ({
         </div>
         {
             assets.map(asset => (
-                <div className="assets__tile assets_count" key={asset.id}>
-                    <Link
-                        href={`/datasets/${asset.id}`}
-                        to={{
-                            pathname: `/datasets/${asset.id}`,
-                            state: {
-                                activeAccount,
-                                asset
-                            }
-                        }}>
-                        <Asset minimal {...asset} />
-                    </Link>
+                <div
+                    className="assets__tile assets_count"
+                    key={asset.id}
+                    onClick={() => handleClick(asset)}>
+                    <Asset minimal asset={asset} />
                 </div>
             ))
         }
@@ -48,11 +38,8 @@ const AssetList = ({
 )
 
 AssetList.propTypes = {
-    activeAccount: PropTypes.objectOf(PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        balance: PropTypes.string.isRequired,
-    }).isRequired).isRequired,
     assets: PropTypes.array.isRequired,
+    handleClick: PropTypes.func.isRequired
 }
 
 export default AssetList

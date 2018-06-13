@@ -14,7 +14,7 @@ export default connect(
     }),
 
     dispatch => ({
-        setActiveAccount: (account) => {
+        handleClick: (account) => {
             dispatch(setActiveAccount(account))
             dispatch(getAssets())
             dispatch(push('/datasets'))

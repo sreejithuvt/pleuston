@@ -22,6 +22,10 @@
             color: $brand-white !important; // stylelint-disable-line
         }
     }
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .assets_count .asset{

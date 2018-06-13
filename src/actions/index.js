@@ -17,18 +17,6 @@ export function setProviderWeb3() {
     }
 }
 
-export function setContractMarket() {
-    return async (dispatch, getState) => {
-        const contract = TruffleContract(Market)
-        const { web3Provider } = getState().provider
-        contract.setProvider(web3Provider)
-        dispatch({
-            type: 'SET_CONTRACT_MARKET',
-            market: await contract.deployed()
-        })
-    }
-}
-
 export function getAccounts() {
     return async (dispatch, getState) => {
         const { web3 } = getState().provider
@@ -54,6 +42,29 @@ export function setActiveAccount(account) {
     }
 }
 
+export function setContractMarket() {
+    return async (dispatch, getState) => {
+        const contract = TruffleContract(Market)
+        const { web3Provider } = getState().provider
+        contract.setProvider(web3Provider)
+        dispatch({
+            type: 'SET_CONTRACT_MARKET',
+            market: await contract.deployed()
+        })
+    }
+}
+
+export function putAsset(assetId, url, token) {
+    return async (dispatch, getState) => {
+        const state = getState()
+        const { market } = state.contract
+        const { activeAccount } = state.account
+        await market.register(assetId, { from: activeAccount.name, gas: 300000 })
+        await market.publish(assetId, url, token, { from: activeAccount.name })
+        dispatch(getAssets())
+    }
+}
+
 export function getAssets() {
     return async (dispatch, getState) => {
         const { market } = getState().contract
@@ -67,6 +78,36 @@ export function getAssets() {
         dispatch({
             type: 'GET_ASSETS',
             assets
+        })
+    }
+}
+
+export function setActiveAsset(asset) {
+    return (dispatch) => {
+        dispatch({
+            type: 'SET_ACTIVE_ASSET',
+            activeAsset: asset
+        })
+    }
+}
+
+export function purchaseAsset(assetId) {
+    return async (dispatch, getState) => {
+        const state = getState()
+        const { market } = state.contract
+        const { activeAccount } = state.account
+        const { web3 } = state.provider
+        const { activeAsset } = state.asset
+        await market.purchase(assetId, { from: activeAccount.name, gas: 200000 })
+        const url = await market.getAssetUrl(assetId)
+        const token = await market.getAssetToken(assetId)
+
+        dispatch({
+            type: 'SET_ACTIVE_ASSET',
+            activeAsset: Object.assign(activeAsset, {
+                token: web3.toAscii(token),
+                url: web3.toAscii(url)
+            })
         })
     }
 }

@@ -70,7 +70,7 @@ const AssetFull = ({
                     )}
 
                     <div className="asset__actions">
-                        <Button primary onClick={handlePurchase}>Purchase</Button>
+                        <Button primary onClick={() => handlePurchase(id)}>Purchase</Button>
                         <Button primary>Curate</Button>
                     </div>
                 </div>
@@ -100,7 +100,7 @@ AssetFull.propTypes = {
     date: PropTypes.string,
     datePeriod: PropTypes.string,
     handlePurchase: PropTypes.func,
-    id: PropTypes.number,
+    id: PropTypes.string,
     publisher: PropTypes.string,
     stats: PropTypes.object, // eslint-disable-line
     token: PropTypes.string,
