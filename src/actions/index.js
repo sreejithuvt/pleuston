@@ -54,16 +54,18 @@ export function setContractMarket() {
     }
 }
 
-export function putAsset(assetId, url, token) {
+export function putAsset(values) {
     return async (dispatch, getState) => {
-        const state = getState()
-        const { market } = state.contract
-        const { activeAccount } = state.account
-        await market.register(assetId, { from: activeAccount.name, gas: 300000 })
-        await market.publish(assetId, url, token, { from: activeAccount.name })
-        dispatch(getAssets())
+        console.log(values)
+        // const state = getState()
+        // const { market } = state.contract
+        // const { activeAccount } = state.account
+        // await market.register(assetId, { from: activeAccount.name, gas: 300000 })
+        // await market.publish(assetId, url, token, { from: activeAccount.name })
+        // dispatch(getAssets())
     }
 }
+
 
 export function getAssets() {
     return async (dispatch, getState) => {

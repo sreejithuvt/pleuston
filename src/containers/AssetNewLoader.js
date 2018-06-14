@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 
-import AssetNew from '../components/AssetNew'
+import AssetNewForm from '../components/AssetNew'
 import { putAsset } from '../actions/index'
 
 export default connect(
@@ -11,6 +11,9 @@ export default connect(
     dispatch => ({
         handlePublish: (id, url, token) => {
             dispatch(putAsset(id, url, token))
+        },
+        onSubmit: values => {
+            dispatch(putAsset(values))
         }
     })
-)(AssetNew)
+)(AssetNewForm)

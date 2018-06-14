@@ -14,6 +14,8 @@ import {
     routerMiddleware
 } from 'connected-react-router'
 
+import 'semantic-ui-css/semantic.css'
+
 import appReducer from './reducers'
 import {
     getAccounts,
