@@ -18,17 +18,21 @@ cd plankton-frontend/
 
 npm i
 npm start
-
-# production build
-npm run build
 ```
 
+You can inspect a full production build by creating it first, and then run a local web server on top of the build output, e.g. [`serve`](https://github.com/zeit/serve).
+
+```bash
+# create production build
+npm run build
+
+serve -s build/
+# go to http://localhost:5000
+```
 
 ### Keeper
 
-see the [Keeper](https://github.com/oceanprotocol/plankton-keeper)
-
-> (warning: remove `node_modules` and `npm i` if it's still in there)
+You need to have a Keeper instance running on your machine. Head over to [plankton-keeper](https://github.com/oceanprotocol/plankton-keeper) and follow the instructions to get this up and running.
 
 ### Code style
 
