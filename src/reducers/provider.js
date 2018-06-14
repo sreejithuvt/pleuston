@@ -1,14 +1,14 @@
 const initialState = {
     web3: null,
-    web3Provider: null,
+    db: null
 }
 
 const provider = (state = initialState, action) => {
     switch (action.type) {
-        case 'SET_PROVIDER_WEB3':
+        case 'SET_PROVIDERS':
             return Object.assign({}, state, {
                 web3: action.web3,
-                web3Provider: action.web3Provider
+                db: action.db
             })
         default:
             return state

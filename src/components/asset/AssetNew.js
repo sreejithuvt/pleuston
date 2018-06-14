@@ -1,14 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
-import Button from './Button'
-import FormInput from './Form/FormInput'
-import FormLabel from './Form/FormLabel'
+import Button from '../atoms/Button'
+import FormInput from '../atoms/Form/FormInput'
+import FormLabel from '../atoms/Form/FormLabel'
 
 import './Asset.css'
 
 const AssetNew = ({
-    activeAccount,
     handleSubmit
 }) => (
     <div className="asset-full">
@@ -35,16 +34,12 @@ const AssetNew = ({
 )
 
 AssetNew.propTypes = {
-    activeAccount: PropTypes.objectOf({
-        name: PropTypes.string.isRequired,
-        balance: PropTypes.string.isRequired,
-    }).isRequired,
     handleSubmit: PropTypes.func.isRequired
 }
 
 
 const AssetNewForm = reduxForm({
-    form: 'edit'
+    form: 'new_asset'
 })(AssetNew)
 
 

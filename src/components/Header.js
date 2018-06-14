@@ -1,29 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import ReactModal from 'react-modal'
 
-import TokenContract from '../components/TokenContract'
 import logo from '../../node_modules/oceanprotocol-art/logo/logo-white.svg'
 import './Header.css'
 
 class Header extends Component {
-    constructor() {
-        super()
-        this.state = {
-            showModal: false
-        }
-
-        this.handleOpenModal = this.handleOpenModal.bind(this)
-        this.handleCloseModal = this.handleCloseModal.bind(this)
-    }
-
-    handleOpenModal() {
-        this.setState({ showModal: true })
-    }
-
-    handleCloseModal() {
-        this.setState({ showModal: false })
-    }
 
     render() {
         const { activeAccount } = this.props
@@ -50,13 +31,6 @@ class Header extends Component {
                         )
                     }
                 </nav>
-
-                <ReactModal
-                    contentLabel="Minimal Modal Example"
-                    isOpen={this.state.showModal}>
-                    <TokenContract account={activeAccount} />
-                    <button onClick={this.handleCloseModal}>Close Modal</button>
-                </ReactModal>
             </header>
         )
     }

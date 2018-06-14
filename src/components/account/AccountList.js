@@ -12,11 +12,11 @@ const AccountList = ({
 }) => (
     <div className="accounts">
         {
-            accounts.map((account) => (
+            accounts.map((account, index) => (
                 <Account
                     key={account.name}
                     {...account}
-                    handleClick={() => handleClick(account)} />
+                    handleClick={() => handleClick(index)} />
             ))
         }
     </div>

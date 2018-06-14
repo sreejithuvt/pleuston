@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import AssetLoader from '../containers/AssetLoader'
+import AssetLoader from '../../containers/AssetLoader'
 import './Asset.css'
 
 
@@ -45,7 +45,6 @@ Asset.propTypes = {
         stats: PropTypes.object.isRequired, // eslint-disable-line
         token: PropTypes.string
     }).isRequired,
-    handlePurchase: PropTypes.func.isRequired,
     minimal: PropTypes.bool,
 }
 

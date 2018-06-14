@@ -25,7 +25,7 @@ const AssetList = ({
             </Link>
         </div>
         {
-            assets.map(asset => (
+            Object.values(assets).map(asset => (
                 <div
                     className="assets__tile assets_count"
                     key={asset.id}

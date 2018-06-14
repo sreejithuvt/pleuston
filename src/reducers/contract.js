@@ -4,9 +4,9 @@ const initialState = {
 
 const contract = (state = initialState, action) => {
     switch (action.type) {
-        case 'SET_CONTRACT_MARKET':
+        case 'SET_CONTRACTS':
             return Object.assign({}, state, {
-                market: action.market
+                ...action.contracts
             })
         default:
             return state

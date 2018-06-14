@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 
-import AccountList from '../components/AccountList'
+import AccountList from '../components/account/AccountList'
 import {
     getAssets,
     setActiveAccount

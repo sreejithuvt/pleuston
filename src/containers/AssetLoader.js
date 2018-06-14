@@ -1,11 +1,14 @@
 import { connect } from 'react-redux'
 
-import AssetFull from '../components/AssetFull'
-import { purchaseAsset } from '../actions/index'
+import AssetFull from '../components/asset/AssetFull'
+import {
+    getActiveAsset,
+    purchaseAsset
+} from '../actions/index'
 
 export default connect(
     state => ({
-        ...state.asset.activeAsset
+        ...getActiveAsset(state)
     }),
 
     dispatch => ({

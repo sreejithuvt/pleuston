@@ -1,11 +1,14 @@
 import { connect } from 'react-redux'
 
-import AssetNewForm from '../components/AssetNew'
-import { putAsset } from '../actions/index'
+import AssetNewForm from '../components/asset/AssetNew'
+import {
+    getActiveAccount,
+    putAsset
+} from '../actions/index'
 
 export default connect(
     state => ({
-        ...state.account
+        activeAccount: getActiveAccount(state)
     }),
 
     dispatch => ({

@@ -1,30 +1,69 @@
 import Web3 from 'web3'
-import TruffleContract from 'truffle-contract'
-import Market from '../contracts/Market'
+import Orm from 'bigchaindb-orm'
+import bip39 from 'bip39'
 
-import config from '../config'
+import * as asset from './asset' // eslint-disable-line
+
+
+import {
+    dbHeaders,
+    dbHost,
+    dbNamespace,
+    dbPort,
+    dbScheme,
+    keeperHost,
+    keeperPort,
+    keeperScheme,
+} from '../config'
+
 import mockAssets from '../mock/assets'
 
 
-export function setProviderWeb3() {
+export function setProviders() {
     return (dispatch) => {
-        const web3Provider = new Web3.providers.HttpProvider(`http://${config.keeperHost}:${config.keeperPort}`)
+        // web3
+        const web3URI = `${keeperScheme}://${keeperHost}:${keeperPort}`
+        const web3Provider = new Web3.providers.HttpProvider(web3URI)
+
+        const web3 = new Web3(web3Provider)
+
+        // bdb
+        const bdbURI = `${dbScheme}://${dbHost}:${dbPort}/api/v1/`
+        const headers = dbHeaders
+
+        const db = new Orm(
+            bdbURI,
+            headers
+        )
+        db.define('ocean', dbNamespace)
+
         dispatch({
-            type: 'SET_PROVIDER_WEB3',
-            web3: new Web3(web3Provider),
-            web3Provider
+            type: 'SET_PROVIDERS',
+            web3,
+            db
         })
     }
 }
 
 export function getAccounts() {
     return async (dispatch, getState) => {
-        const { web3 } = getState().provider
-        const accounts = await web3.eth.accounts.map((account) => (
-            {
+        const {
+            web3,
+            db
+        } = getState().provider
+
+        const accounts = await web3.eth.accounts.map((account) => {
+            const secret = account // bip39.generateMnemonic()
+            const seed = bip39.mnemonicToSeed(secret).slice(0, 32)
+
+            const balance = web3.eth.getBalance(account)
+
+            return {
                 name: account,
-                balance: (web3.eth.getBalance(account) / 1e18).toFixed(2).toString(),
-            }))
+                balance: (balance / 1e18).toFixed(2).toString(),
+                db: new db.driver.Ed25519Keypair(seed)
+            }
+        })
 
         dispatch({
             type: 'GET_ACCOUNTS',
@@ -33,83 +72,124 @@ export function getAccounts() {
     }
 }
 
-export function setActiveAccount(account) {
+export function setActiveAccount(accountId) {
     return (dispatch) => {
         dispatch({
             type: 'SET_ACTIVE_ACCOUNT',
-            activeAccount: account
+            activeAccount: accountId
         })
     }
 }
 
-export function setContractMarket() {
+export function getActiveAccount(state) {
+    const { activeAccount, accounts } = state.account
+    return accounts[activeAccount]
+}
+
+export function setContracts() {
     return async (dispatch, getState) => {
-        const contract = TruffleContract(Market)
-        const { web3Provider } = getState().provider
-        contract.setProvider(web3Provider)
+        const { web3 } = getState().provider
+
+        const contracts = await asset.deployContracts(web3.currentProvider)
+
         dispatch({
-            type: 'SET_CONTRACT_MARKET',
-            market: await contract.deployed()
+            type: 'SET_CONTRACTS',
+            contracts
         })
     }
 }
 
-export function putAsset(values) {
+export function makeItRain(amount) {
     return async (dispatch, getState) => {
-        console.log(values)
-        // const state = getState()
-        // const { market } = state.contract
-        // const { activeAccount } = state.account
-        // await market.register(assetId, { from: activeAccount.name, gas: 300000 })
-        // await market.publish(assetId, url, token, { from: activeAccount.name })
-        // dispatch(getAssets())
+        const state = getState()
+
+        await state.contract.market.requestTokens(
+            amount,
+            { from: getActiveAccount(state).name }
+        )
+    }
+}
+
+export function putAsset(newAsset) {
+    return async (dispatch, getState) => {
+        const state = getState()
+
+        await asset.publish(
+            Object.assign(mockAssets[0], newAsset),
+            state.contract.market,
+            getActiveAccount(state),
+            state.provider.web3,
+            state.provider.db
+        )
+
+        dispatch(getAssets())
     }
 }
 
 
 export function getAssets() {
     return async (dispatch, getState) => {
-        const { market } = getState().contract
-        const assetListMarket = await market.getListAssets()
+        const state = getState()
 
-        const assets = mockAssets.map((asset, index) => {
-            asset.id = assetListMarket[index].toString()
-            return asset
-        })
+        const assets = await asset.list(
+            state.contract.market,
+            getActiveAccount(state),
+            state.provider.web3,
+            state.provider.db
+        )
 
         dispatch({
             type: 'GET_ASSETS',
-            assets
+            assets: assets.reduce((map, obj) => {
+                map[obj.id] = obj
+                return map
+            }, {})
         })
     }
 }
 
-export function setActiveAsset(asset) {
+export function setActiveAsset(assetId) {
     return (dispatch) => {
         dispatch({
             type: 'SET_ACTIVE_ASSET',
-            activeAsset: asset
+            activeAsset: assetId
         })
     }
+}
+
+export function getActiveAsset(state) {
+    const { activeAsset, assets } = state.asset
+
+    if (!activeAsset && state.router.location.pathname) {
+        const rgxAssetId = /\/datasets\/(.*?)/g
+        const { pathname } = state.router.location
+        if (rgxAssetId.exec(pathname)) {
+            const assetIdFromUrl = pathname.replace(/^.*[\\\/]/, '')
+            if (assetIdFromUrl) {
+                return assets[assetIdFromUrl]
+            }
+        }
+    }
+
+    return assets[activeAsset]
 }
 
 export function purchaseAsset(assetId) {
     return async (dispatch, getState) => {
         const state = getState()
-        const { market } = state.contract
-        const { activeAccount } = state.account
-        const { web3 } = state.provider
-        const { activeAsset } = state.asset
-        await market.purchase(assetId, { from: activeAccount.name, gas: 200000 })
-        const url = await market.getAssetUrl(assetId)
-        const token = await market.getAssetToken(assetId)
+
+        const updatedAsset = await asset.purchase(
+            getActiveAsset(state).web3Id,
+            state.contract.market,
+            getActiveAccount(state),
+            state.provider.web3,
+            state.provider.db
+        )
 
         dispatch({
-            type: 'SET_ACTIVE_ASSET',
-            activeAsset: Object.assign(activeAsset, {
-                token: web3.toAscii(token),
-                url: web3.toAscii(url)
-            })
+            type: 'UPDATE_ASSET',
+            assetId,
+            asset: Object.assign(getActiveAsset(state), updatedAsset)
         })
     }
 }

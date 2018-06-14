@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 
-import AssetList from '../components/AssetList'
+import AssetList from '../components/asset/AssetList'
 import { setActiveAsset } from '../actions'
 
 export default connect(
@@ -11,7 +11,7 @@ export default connect(
 
     dispatch => ({
         handleClick: asset => {
-            dispatch(setActiveAsset(asset))
+            dispatch(setActiveAsset(asset.id))
             dispatch(push(`/datasets/${asset.id}`))
         }
     })

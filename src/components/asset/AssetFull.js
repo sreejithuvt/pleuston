@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Button from '../components/Button'
-import { Chart, Chart2 } from './Chart'
+import Button from '../atoms/Button'
+import { Chart, Chart2 } from '../Chart'
 import './AssetFull.css'
 
 const AssetFull = ({
@@ -17,6 +17,8 @@ const AssetFull = ({
     tools,
     url,
 }) => {
+    if (!id) return null
+
     const changeClasses = stats.change.includes('-') ? 'asset__change negative' : 'asset__change positive'
 
     return (
@@ -65,9 +67,13 @@ const AssetFull = ({
 
                     {url && (
                         <p className="asset__url">
-                            <span className="asset__label">Url</span> <a href={token}>{ token || 'Please purchase' }</a>
+                            <span className="asset__label">Url</span> <a href={url}>{ url || 'Please purchase' }</a>
                         </p>
                     )}
+
+                    <p className="asset__url">
+                        <span className="asset__label">Token</span> { token || 'Please purchase' }
+                    </p>
 
                     <div className="asset__actions">
                         <Button primary onClick={() => handlePurchase(id)}>Purchase</Button>

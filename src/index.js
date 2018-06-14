@@ -14,13 +14,12 @@ import {
     routerMiddleware
 } from 'connected-react-router'
 
-import 'semantic-ui-css/semantic.css'
-
 import appReducer from './reducers'
 import {
     getAccounts,
-    setProviderWeb3,
-    setContractMarket,
+    getAssets,
+    setProviders,
+    setContracts,
 } from './actions/index'
 
 import App from './App'
@@ -51,8 +50,11 @@ registerServiceWorker()
 
 
 function boot() {
-    store.dispatch(setProviderWeb3())
+    console.log('booting up plankton')
+    store.dispatch(setProviders())
     store.dispatch(getAccounts())
-    store.dispatch(setContractMarket())
+    store.dispatch(setContracts()).then(() => {
+        store.dispatch(getAssets())
+    })
 }
 /* Das */boot()
