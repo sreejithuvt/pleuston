@@ -1,0 +1,10 @@
+@import 'variables';
+
+.form__label {
+    color: $brand-grey-lighter;
+    font-size: $font-size-base;
+    font-family: $font-family-title;
+    line-height: 1.2;
+    display: block;
+    margin-bottom: $spacer / 6;
+}

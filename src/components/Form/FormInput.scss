@@ -1,0 +1,62 @@
+@import 'variables';
+@import 'forms';
+
+.input-wrap {
+    background: $brand-gradient;
+    border-radius: 2px;
+    width: 100%;
+    padding: 1px;
+}
+
+.input {
+    font-size: $font-size-base;
+    font-family: $font-family-title;
+    color: $brand-white;
+    border: none;
+    box-shadow: none;
+    width: 100%;
+    background: $brand-black;
+    padding: $spacer / 3;
+    margin: 0;
+    border-radius: 2px;
+    transition: .2s ease-out;
+    min-height: 43px;
+
+    &:focus {
+        border: none;
+        box-shadow: none;
+        outline: 0;
+
+        &::placeholder {
+            opacity: .5;
+        }
+    }
+
+    &::placeholder {
+        font-family: $font-family-base;
+        font-size: $font-size-base;
+        color: rgba($brand-grey-light, .8);
+        font-weight: $font-weight-base;
+        line-height: 1.7;
+        transition: .2s ease-out;
+    }
+
+    &[readonly] {
+        background-color: lighten($brand-black, 10%);
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    &::-webkit-credentials-auto-fill-button,
+    &::-webkit-caps-lock-indicator {
+        background: $brand-white;
+    }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus {
+        -webkit-text-fill-color: $brand-white;
+        box-shadow: 0 0 0 1000px $brand-black inset;
+        transition: background-color 5000s ease-in-out 0s;
+    }
+}

@@ -1,12 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-// import { Form } from 'semantic-ui-react'
-import { reduxForm, Field } from 'redux-form'
+import { reduxForm } from 'redux-form'
 import Button from './Button'
-import Input from './Input'
+import FormInput from './Form/FormInput'
+import FormLabel from './Form/FormLabel'
 
 import './Asset.css'
-
 
 const AssetNew = ({
     activeAccount,
@@ -15,18 +14,18 @@ const AssetNew = ({
     <div className="asset-full">
         <div className="asset-grid">
             <div className="asset-grid__col">
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label className="asset__label" htmlFor="name">Title</label>
-                        <Field required component="input" name="name" type="text" />
+                <form className="form" onSubmit={handleSubmit}>
+                    <div className="form__group">
+                        <FormLabel htmlFor="name" label="Title" />
+                        <FormInput required component="input" name="name" type="text" />
                     </div>
-                    <div>
-                        <label className="asset__label" htmlFor="abstract">Abstract</label>
-                        <Field required component="textarea" name="abstract" type="text" />
+                    <div className="form__group">
+                        <FormLabel htmlFor="abstract" label="Abstract" />
+                        <FormInput required component="textarea" name="abstract" type="text" />
                     </div>
-                    <div>
-                        <label className="asset__label" htmlFor="url">Url</label>
-                        <Field required component="input" name="url" type="text" />
+                    <div className="form__group">
+                        <FormLabel htmlFor="url" label="Url" />
+                        <FormInput required component="input" name="url" type="text" />
                     </div>
                     <Button primary type="submit">Publish</Button>
                 </form>

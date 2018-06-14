@@ -1,0 +1,47 @@
+@import 'variables';
+
+.form {
+    border: 2px solid $brand-grey;
+    background: $brand-grey-dark;
+    border-radius: 2px;
+    color: $brand-grey;
+    padding: $spacer;
+    margin: 0 auto;
+    max-width: 40rem;
+}
+
+.form__group {
+    margin-bottom: $spacer / 2;
+}
+
+.input-group {
+    @media screen and (min-width: $break-point--small) {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .input-wrap,
+    .input {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+
+        @media screen and (min-width: $break-point--small) {
+            border-bottom-left-radius: 2px;
+            border-top-right-radius: 0;
+        }
+    }
+
+    .button {
+        display: block;
+        width: 100%;
+        margin-top: -2px;
+
+        @media screen and (min-width: $break-point--small) {
+            width: 40%;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            margin-left: -1px;
+            margin-top: 0;
+        }
+    }
+}
