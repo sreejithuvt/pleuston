@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Blockies from 'react-blockies'
 
 import './Account.css'
+import AccountBalance from './AccountBalance'
 
 const Account = ({
     balance,
@@ -18,14 +19,12 @@ const Account = ({
             typeof name === 'string' ?
                 <h3 className="account__title">{name.slice(0, 25)}...</h3> : name
         }
-        <div className="account__balance">
-            {balance}
-        </div>
+        <AccountBalance {...balance} />
     </button>
 )
 
 Account.propTypes = {
-    balance: PropTypes.string.isRequired,
+    balance: PropTypes.object.isRequired,
     handleClick: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
     image: PropTypes.element,

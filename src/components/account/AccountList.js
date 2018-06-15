@@ -25,7 +25,7 @@ const AccountList = ({
 AccountList.propTypes = {
     accounts: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string.isRequired,
-        balance: PropTypes.string.isRequired,
+        balance: PropTypes.object.isRequired,
     }).isRequired).isRequired,
     handleClick: PropTypes.func.isRequired
 }

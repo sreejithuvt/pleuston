@@ -1,46 +1,15 @@
-import Web3 from 'web3'
-import Orm from 'bigchaindb-orm'
-import bip39 from 'bip39'
-
+import * as account from './account' // eslint-disable-line
 import * as asset from './asset' // eslint-disable-line
 
-
-import {
-    dbHeaders,
-    dbHost,
-    dbNamespace,
-    dbPort,
-    dbScheme,
-    keeperHost,
-    keeperPort,
-    keeperScheme,
-} from '../config'
 
 import mockAssets from '../mock/assets'
 
 
 export function setProviders() {
     return (dispatch) => {
-        // web3
-        const web3URI = `${keeperScheme}://${keeperHost}:${keeperPort}`
-        const web3Provider = new Web3.providers.HttpProvider(web3URI)
-
-        const web3 = new Web3(web3Provider)
-
-        // bdb
-        const bdbURI = `${dbScheme}://${dbHost}:${dbPort}/api/v1/`
-        const headers = dbHeaders
-
-        const db = new Orm(
-            bdbURI,
-            headers
-        )
-        db.define('ocean', dbNamespace)
-
         dispatch({
             type: 'SET_PROVIDERS',
-            web3,
-            db
+            ...account.createProviders()
         })
     }
 }
@@ -48,26 +17,15 @@ export function setProviders() {
 export function getAccounts() {
     return async (dispatch, getState) => {
         const {
-            web3,
-            db
-        } = getState().provider
-
-        const accounts = await web3.eth.accounts.map((account) => {
-            const secret = account // bip39.generateMnemonic()
-            const seed = bip39.mnemonicToSeed(secret).slice(0, 32)
-
-            const balance = web3.eth.getBalance(account)
-
-            return {
-                name: account,
-                balance: (balance / 1e18).toFixed(2).toString(),
-                db: new db.driver.Ed25519Keypair(seed)
+            provider,
+            contract: {
+                ocean
             }
-        })
+        } = getState()
 
         dispatch({
             type: 'GET_ACCOUNTS',
-            accounts
+            accounts: await account.list(ocean, provider)
         })
     }
 }
@@ -88,13 +46,14 @@ export function getActiveAccount(state) {
 
 export function setContracts() {
     return async (dispatch, getState) => {
-        const { web3 } = getState().provider
-
-        const contracts = await asset.deployContracts(web3.currentProvider)
+        const { currentProvider } = getState().provider.web3
 
         dispatch({
             type: 'SET_CONTRACTS',
-            contracts
+            contracts: {
+                ...(await account.deployContracts(currentProvider)),
+                ...(await asset.deployContracts(currentProvider))
+            }
         })
     }
 }
@@ -107,6 +66,7 @@ export function makeItRain(amount) {
             amount,
             { from: getActiveAccount(state).name }
         )
+        dispatch(getAccounts())
     }
 }
 
@@ -118,8 +78,7 @@ export function putAsset(newAsset) {
             Object.assign(mockAssets[0], newAsset),
             state.contract.market,
             getActiveAccount(state),
-            state.provider.web3,
-            state.provider.db
+            state.provider
         )
 
         dispatch(getAssets())
@@ -131,19 +90,20 @@ export function getAssets() {
     return async (dispatch, getState) => {
         const state = getState()
 
-        const assets = await asset.list(
-            state.contract.market,
-            getActiveAccount(state),
-            state.provider.web3,
-            state.provider.db
-        )
-
-        dispatch({
-            type: 'GET_ASSETS',
-            assets: assets.reduce((map, obj) => {
+        const assets = (await asset
+            .list(
+                state.contract.market,
+                getActiveAccount(state),
+                state.provider
+            ))
+            .reduce((map, obj) => {
                 map[obj.id] = obj
                 return map
             }, {})
+
+        dispatch({
+            type: 'GET_ASSETS',
+            assets
         })
     }
 }
@@ -164,7 +124,7 @@ export function getActiveAsset(state) {
         const rgxAssetId = /\/datasets\/(.*?)/g
         const { pathname } = state.router.location
         if (rgxAssetId.exec(pathname)) {
-            const assetIdFromUrl = pathname.replace(/^.*[\\\/]/, '')
+            const assetIdFromUrl = pathname.replace(/^.*[\\\/]/, '') // eslint-disable-line
             if (assetIdFromUrl) {
                 return assets[assetIdFromUrl]
             }
@@ -182,8 +142,7 @@ export function purchaseAsset(assetId) {
             getActiveAsset(state).web3Id,
             state.contract.market,
             getActiveAccount(state),
-            state.provider.web3,
-            state.provider.db
+            state.provider
         )
 
         dispatch({

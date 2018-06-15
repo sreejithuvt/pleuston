@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import AssetMedia from './AssetMedia'
+
 import Button from '../atoms/Button'
 import { Chart, Chart2 } from '../Chart'
 import './AssetFull.css'
@@ -25,6 +27,10 @@ const AssetFull = ({
         <div className="asset-full">
             <div className="asset-grid">
                 <div className="asset-grid__col">
+                    <p>
+                        <AssetMedia url={url} />
+                    </p>
+
                     <div className="asset__stats">
                         <p><strong>{stats.accepted}</strong> of curators accepted</p>
                         <p><strong>{stats.rejected}</strong> of curators rejected</p>
@@ -67,7 +73,8 @@ const AssetFull = ({
 
                     {url && (
                         <p className="asset__url">
-                            <span className="asset__label">Url</span> <a href={url}>{ url || 'Please purchase' }</a>
+                            <span className="asset__label">Url</span>
+                            <a href={url} target="_blank">{ url || 'Please purchase' }</a>
                         </p>
                     )}
 

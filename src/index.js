@@ -52,8 +52,8 @@ registerServiceWorker()
 function boot() {
     console.log('booting up plankton')
     store.dispatch(setProviders())
-    store.dispatch(getAccounts())
     store.dispatch(setContracts()).then(() => {
+        store.dispatch(getAccounts())
         store.dispatch(getAssets())
     })
 }

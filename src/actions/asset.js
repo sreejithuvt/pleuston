@@ -12,7 +12,9 @@ export async function deployContracts(provider) {
     }
 }
 
-export async function publish(asset, contract, account, web3, db) {
+export async function publish(asset, contract, account, providers) {
+    const { web3, db } = providers
+
     const assetId = await contract.getListAssetsSize()
 
     await contract.register(
@@ -43,7 +45,8 @@ export async function publish(asset, contract, account, web3, db) {
     )
 }
 
-export async function list(contract, account, web3, db) {
+export async function list(contract, account, providers) {
+    const { db } = providers
 
     const web3AssetIds = (await contract.getListAssets())
         .filter(id => id > 0)
@@ -61,7 +64,8 @@ export async function list(contract, account, web3, db) {
     }))
 }
 
-export async function purchase(assetId, contract, account, web3, db) {
+export async function purchase(assetId, contract, account, providers) {
+    const { web3 } = providers
 
     await contract.purchase(
         assetId,
@@ -70,6 +74,6 @@ export async function purchase(assetId, contract, account, web3, db) {
 
     const token = web3.toAscii(await contract.getAssetToken(assetId))
 
-    const dbAssetRetrieved = await db.models.ocean.retrieve(token)[0]
+    // const dbAssetRetrieved = await db.models.ocean.retrieve(token)[0]
     return token
 }
