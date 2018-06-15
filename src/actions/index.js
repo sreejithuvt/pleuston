@@ -178,7 +178,7 @@ export function purchaseAsset(assetId) {
     return async (dispatch, getState) => {
         const state = getState()
 
-        const updatedAsset = await asset.purchase(
+        const token = await asset.purchase(
             getActiveAsset(state).web3Id,
             state.contract.market,
             getActiveAccount(state),
@@ -189,7 +189,7 @@ export function purchaseAsset(assetId) {
         dispatch({
             type: 'UPDATE_ASSET',
             assetId,
-            asset: Object.assign(getActiveAsset(state), updatedAsset)
+            asset: Object.assign(getActiveAsset(state), { token })
         })
     }
 }

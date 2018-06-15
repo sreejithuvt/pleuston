@@ -4,13 +4,19 @@
     counter-reset: assets;
 
     @media (min-width: $break-point--small) {
+        max-width: 1000px;
         display: flex;
+        flex-direction: row;
         flex-wrap: wrap;
+        flex-grow: 1;
+        flex-basis: 0;
+        justify-content: center;
         margin-left: -($spacer / 2);
     }
 }
 
 .assets__tile {
+    width: 30%;
     margin-bottom: $spacer / 2;
 
     @media (min-width: $break-point--small) {

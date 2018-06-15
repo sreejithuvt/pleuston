@@ -7,16 +7,19 @@ import './Header.css'
 class Header extends Component {
 
     render() {
-        const { activeAccount } = this.props
+        const {
+            activeAccount,
+            handleClickLogo
+        } = this.props
 
         return (
             <header className="header">
-                <a className="header__logo" href="/">
+                <div className="header__logo" onClick={handleClickLogo}>
                     <img alt="logo" className="header__logo__image" src={logo} />
                     <h1 className="header__title">
                         Pigeon market
                     </h1>
-                </a>
+                </div>
                 <nav className="header__menu" onClick={this.handleOpenModal}> {/* eslint-disable-line */}
                     {
                         activeAccount ? (
@@ -37,6 +40,7 @@ class Header extends Component {
 }
 
 Header.propTypes = {
+    handleClickLogo: PropTypes.func.isRequired,
     activeAccount: PropTypes.object, // eslint-disable-line
 }
 

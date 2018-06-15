@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import ScreenHeader from '../components/ScreenHeader'
-import AssetLoader from '../containers/AssetLoader'
+import AssetFullLoader from '../containers/AssetFullLoader'
 import HeaderLoader from '../containers/HeaderLoader'
 
 const Dataset = ({ caption, name }) => (
@@ -10,7 +10,7 @@ const Dataset = ({ caption, name }) => (
         <HeaderLoader />
         <main className="screen screen--dataset">
             <ScreenHeader subtitle={caption} title={name} />
-            <AssetLoader />
+            <AssetFullLoader />
         </main>
     </Fragment>
 )

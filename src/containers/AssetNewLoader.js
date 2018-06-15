@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { push } from 'connected-react-router'
 
 import AssetNewForm from '../components/asset/AssetNew'
 import {
@@ -17,6 +18,7 @@ export default connect(
         },
         onSubmit: values => {
             dispatch(putAsset(values))
+            dispatch(push('/datasets/'))
         }
     })
 )(AssetNewForm)

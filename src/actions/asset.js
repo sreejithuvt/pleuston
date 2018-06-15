@@ -28,7 +28,10 @@ export async function publish(asset, contract, account, web3, db) {
                     account: account.name,
                     id: assetId
                 },
-                value: asset
+                value: {
+                    ...asset,
+                    date: Math.round((new Date()).getTime())
+                }
             }
         })
 
@@ -41,18 +44,20 @@ export async function publish(asset, contract, account, web3, db) {
 }
 
 export async function list(contract, account, web3, db) {
-    const dbAssets = await db.models.ocean.retrieve(dbNamespace)
 
     const web3AssetIds = (await contract.getListAssets())
         .filter(id => id > 0)
         .map(id => id.toString())
 
+    const dbAssets = await db.models.ocean.retrieve(dbNamespace)
+
     return dbAssets.map(dbAsset => ({
+        ...dbAsset.data.value,
         id: dbAsset.id,
-        web3Id: dbAsset.data.web3.id,
         publisher: dbAsset.data.web3.account,
         published: web3AssetIds.indexOf(dbAsset.data.web3.id) > -1,
-        ...dbAsset.data.value
+        web3Id: dbAsset.data.web3.id,
+        date: (new Date(dbAsset.data.value.date)).toLocaleDateString('en-US')
     }))
 }
 
@@ -63,10 +68,8 @@ export async function purchase(assetId, contract, account, web3, db) {
         { from: account.name, gas: 200000 }
     )
 
-    const url = web3.toAscii(await contract.getAssetUrl(assetId))
     const token = web3.toAscii(await contract.getAssetToken(assetId))
 
     const dbAssetRetrieved = await db.models.ocean.retrieve(token)[0]
-
-    return { url, token }
+    return token
 }
