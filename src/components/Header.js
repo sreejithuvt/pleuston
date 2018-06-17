@@ -14,7 +14,7 @@ const Header = ({
         <div className="header__logo" onClick={handleClickLogo}> {/* eslint-disable-line */}
             <img alt="logo" className="header__logo__image" src={logo} />
             <h1 className="header__title">
-                    Pigeon market
+                    Meme market
             </h1>
         </div>
         <nav className="header__menu" onClick={handleClickAccount}> {/* eslint-disable-line */}

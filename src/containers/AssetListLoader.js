@@ -6,7 +6,20 @@ import { setActiveAsset } from '../actions'
 
 export default connect(
     state => ({
-        ...state.asset
+        assets: Object.values(state.asset.assets)
+            .filter(obj => {
+                if (!!obj &&
+                    state.asset.filter.publisher &&
+                    state.asset.filter.publisher.length) {
+                    return Object
+                        .values(state.asset.filter.publisher)
+                        .map(filterValue => filterValue.value)
+                        .indexOf(obj.publisher) > -1
+                } else {
+                    return true
+                }
+            })
+            .reverse()
     }),
 
     dispatch => ({

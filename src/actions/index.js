@@ -152,3 +152,12 @@ export function purchaseAsset(assetId) {
         })
     }
 }
+
+export function setAssetFilter(filter) {
+    return (dispatch) => {
+        dispatch({
+            type: 'SET_ASSET_FILTER',
+            filter
+        })
+    }
+}

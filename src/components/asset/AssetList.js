@@ -13,22 +13,20 @@ const AssetList = ({
     <div className="assets">
         <AssetNewLoader />
         {
-            Object.values(assets)
-                .reverse()
-                .map(asset => (
-                    <div
-                        className="assets__tile assets_count"
-                        key={asset.id}
-                        onClick={() => handleClick(asset)}>
-                        <Asset asset={asset} />
-                    </div>
-                ))
+            assets.map(asset => (
+                <div
+                    className="assets__tile assets_count"
+                    key={asset.id}
+                    onClick={() => handleClick(asset)}>
+                    <Asset asset={asset} />
+                </div>
+            ))
         }
     </div>
 )
 
 AssetList.propTypes = {
-    assets: PropTypes.object.isRequired,
+    assets: PropTypes.array.isRequired,
     handleClick: PropTypes.func.isRequired
 }
 
