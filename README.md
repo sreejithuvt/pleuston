@@ -19,8 +19,19 @@ cd plankton-frontend/
 npm i
 npm start
 ```
+This should output a message as follows:
+
+```bash
+Compiled successfully!
+
+You can now view plankton-frontend in the browser.
+
+  Local:            http://localhost:8000/
+```
 
 You can inspect a full production build by creating it first, and then run a local web server on top of the build output, e.g. [`serve`](https://github.com/zeit/serve).
+
+> Oops - that didn't work - see [https://github.com/bigchaindb/js-driver-orm/issues/56](https://github.com/bigchaindb/js-driver-orm/issues/56)
 
 ```bash
 # create production build
@@ -33,6 +44,18 @@ serve -s build/
 ### Keeper
 
 You need to have a Keeper instance running on your machine. Head over to [plankton-keeper](https://github.com/oceanprotocol/plankton-keeper) and follow the instructions to get this up and running.
+
+Once you have the contracts deployed, you want to copy the JSON ABIs to `./src/contracts`. 
+
+> This will change in the future towards `npm` packages 
+
+### DB
+
+Plankton is currently using [BigchainDB](http://github.com/bigchaindb) as a database backend. It's easy to use the [testnet](https://testnet.bigchaindb.com/) or run locally with `docker-compose`.
+
+### Conf
+
+Check the configuration for the keeper and DB in `./src/config.js` and adjust to your likings. 
 
 ### Code style
 
