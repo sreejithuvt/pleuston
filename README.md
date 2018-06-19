@@ -1,6 +1,6 @@
 # plankton-frontend
 
-![200w](https://user-images.githubusercontent.com/90316/40921040-9de4f73e-680e-11e8-8631-d2101d847f90.gif)
+![output](https://user-images.githubusercontent.com/6178597/41623977-a9f6ed72-7414-11e8-921d-4c28fca3b215.gif)
 
 [![Build Status](https://travis-ci.com/oceanprotocol/plankton-frontend.svg?token=3psqw6c8KMDqfdGQ2x6d&branch=master)](https://travis-ci.com/oceanprotocol/plankton-frontend)
 [![css bigchaindb](https://img.shields.io/badge/css-bigchaindb-39BA91.svg)](https://github.com/bigchaindb/stylelint-config-bigchaindb)
