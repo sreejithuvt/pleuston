@@ -41,7 +41,7 @@ export async function publish(asset, contract, account, providers) {
         assetId,
         web3.fromAscii(asset.url),
         web3.fromAscii(dbAsset.id),
-        { from: account.name }
+        { from: account.name, gas: 300000 }
     )
 }
 
