@@ -47,14 +47,17 @@ export function getActiveAccount(state) {
 export function setContracts() {
     return async (dispatch, getState) => {
         const { currentProvider } = getState().provider.web3
-
-        dispatch({
-            type: 'SET_CONTRACTS',
-            contracts: {
-                ...(await account.deployContracts(currentProvider)),
-                ...(await asset.deployContracts(currentProvider))
-            }
-        })
+        try {
+            dispatch({
+                type: 'SET_CONTRACTS',
+                contracts: {
+                    ...(await account.deployContracts(currentProvider)),
+                    ...(await asset.deployContracts(currentProvider))
+                }
+            })
+        } catch (e) {
+            console.error(e)
+        }
     }
 }
 
@@ -62,11 +65,15 @@ export function makeItRain(amount) {
     return async (dispatch, getState) => {
         const state = getState()
 
-        await state.contract.market.requestTokens(
-            amount,
-            { from: getActiveAccount(state).name }
-        )
-        dispatch(getAccounts())
+        try {
+            await state.contract.market.requestTokens(
+                amount,
+                { from: getActiveAccount(state).name }
+            )
+            dispatch(getAccounts())
+        } catch (e) {
+            console.error(e)
+        }
     }
 }
 

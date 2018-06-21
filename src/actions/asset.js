@@ -15,12 +15,18 @@ export async function deployContracts(provider) {
 export async function publish(asset, contract, account, providers) {
     const { web3, db } = providers
 
-    const assetId = await contract.getListAssetsSize()
+    let assetId = -1
 
-    await contract.register(
-        assetId,
-        { from: account.name, gas: 300000 }
-    )
+    try {
+        assetId = await contract.getListAssetsSize()
+
+        await contract.register(
+            assetId,
+            { from: account.name, gas: 300000 }
+        )
+    } catch (e) {
+        console.error(e)
+    }
 
     const dbAsset = await db.models.ocean
         .create({
@@ -37,20 +43,29 @@ export async function publish(asset, contract, account, providers) {
             }
         })
 
-    await contract.publish(
-        assetId,
-        web3.fromAscii(asset.url),
-        web3.fromAscii(dbAsset.id),
-        { from: account.name, gas: 300000 }
-    )
+    try {
+        await contract.publish(
+            assetId,
+            web3.fromAscii(asset.url),
+            web3.fromAscii(dbAsset.id),
+            { from: account.name, gas: 300000 }
+        )
+    } catch (e) {
+        console.error(e)
+    }
 }
 
 export async function list(contract, account, providers) {
     const { db } = providers
 
-    const web3AssetIds = (await contract.getListAssets())
-        .filter(id => id > 0)
-        .map(id => id.toString())
+    let web3AssetIds = []
+    try {
+        web3AssetIds = (await contract.getListAssets())
+            .filter(id => id > 0)
+            .map(id => id.toString())
+    } catch (e) {
+        console.error(e)
+    }
 
     const dbAssets = await db.models.ocean.retrieve(dbNamespace)
 

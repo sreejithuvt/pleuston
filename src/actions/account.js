@@ -19,8 +19,8 @@ import {
 
 export function createProviders() {
     const web3URI = `${keeperScheme}://${keeperHost}:${keeperPort}`
-    const web3Provider = new Web3.providers.HttpProvider(web3URI)
 
+    const web3Provider = new Web3.providers.HttpProvider(web3URI)
     const web3 = new Web3(web3Provider)
 
     // bdb
@@ -49,6 +49,7 @@ export async function list(contract, providers) {
     return Promise.all(web3.eth.accounts.map(async (account) => {
         const secret = account // bip39.generateMnemonic()
         const seed = bip39.mnemonicToSeed(secret).slice(0, 32)
+
         const balance = await getBalance(account, contract, providers)
 
         return {
@@ -63,7 +64,13 @@ export async function getBalance(account, contract, providers) {
     const { web3 } = providers
 
     const eth = web3.eth.getBalance(account)
-    const ocn = await contract.balanceOf.call(account)
+
+    let ocn = NaN
+    try {
+        ocn = await contract.balanceOf.call(account)
+    } catch (e) {
+        console.error(e)
+    }
 
     return { eth, ocn }
 }
