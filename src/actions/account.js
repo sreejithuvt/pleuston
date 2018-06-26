@@ -3,7 +3,7 @@ import Orm from 'bigchaindb-orm'
 import bip39 from 'bip39'
 import TruffleContract from 'truffle-contract'
 
-import OceanToken from '../contracts/OceanToken'
+import OceanToken from '@oceanprotocol/keeper-contracts/build/contracts/OceanToken'
 
 import {
     dbHeaders,
@@ -36,6 +36,7 @@ export function createProviders() {
 }
 
 export async function deployContracts(provider) {
+
     const ocean = TruffleContract(OceanToken)
     ocean.setProvider(provider)
     return {

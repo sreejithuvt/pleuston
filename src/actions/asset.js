@@ -1,10 +1,11 @@
 import TruffleContract from 'truffle-contract'
 
 import { dbNamespace } from '../config'
-import Market from '../contracts/Market'
+import Market from '@oceanprotocol/keeper-contracts/build/contracts/Market'
 
 
 export async function deployContracts(provider) {
+	
     const market = TruffleContract(Market)
     market.setProvider(provider)
     return {

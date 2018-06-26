@@ -43,11 +43,11 @@ serve -s build/
 
 ### Keeper
 
-You need to have a Keeper instance running on your machine. Head over to [plankton-keeper](https://github.com/oceanprotocol/plankton-keeper) and follow the instructions to get this up and running.
+You need to have a Keeper instance running on your machine, and the Keeper contracts deployed. Head over to [plankton-keeper](https://github.com/oceanprotocol/plankton-keeper) and follow the instructions to get this up and running.
 
-Once you have the contracts deployed, you want to copy the JSON ABIs to `./src/contracts`. 
+As alternative, for development purposes you can use ganache-cli in your local and deploy the Keeper contracts there.
 
-> This will change in the future towards `npm` packages 
+Keeper Contracts ABI's are published as a [NPM library](https://www.npmjs.com/package/@oceanprotocol/keeper-contracts) and imported in the project.
 
 ### DB
 
