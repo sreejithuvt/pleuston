@@ -17,7 +17,10 @@ const AssetList = ({
                 <div
                     className="assets__tile assets_count"
                     key={asset.id}
-                    onClick={() => handleClick(asset)}>
+                    onClick={() => handleClick(asset)}
+                    onKeyPress={() => handleClick(asset)}
+                    role="link"
+                    tabIndex={0}>
                     <Asset asset={asset} />
                 </div>
             ))

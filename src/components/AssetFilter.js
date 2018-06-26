@@ -13,9 +13,9 @@ const AssetFilter = ({
 }) => (
     <div className="asset-filter">
         <Select
+            isMulti
             className="basic-multi-select"
             classNamePrefix="select"
-            isMulti
             name="colors"
             onChange={value => handlePublisherChange(value)}
             options={publishers}
@@ -25,11 +25,15 @@ const AssetFilter = ({
 
 
 AssetFilter.propTypes = {
-    publishers: PropTypes.object
+    activeFilter: PropTypes.object,
+    handlePublisherChange: PropTypes.func,
+    publishers: PropTypes.object,
 }
 
 AssetFilter.defaultProps = {
-    publishers: []
+    publishers: [],
+    activeFilter: [],
+    handlePublisherChange: null,
 }
 
 export default AssetFilter

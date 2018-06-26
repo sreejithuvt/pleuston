@@ -74,7 +74,7 @@ const AssetFull = ({
                     {url && (
                         <p className="asset__url">
                             <span className="asset__label">Url</span>
-                            <a href={url} target="_blank" rel="noopener noreferrer">{ url || 'Please purchase' }</a>
+                            <a href={url} rel="noopener noreferrer" target="_blank">{ url || 'Please purchase' }</a>
                         </p>
                     )}
 
@@ -115,7 +115,7 @@ AssetFull.propTypes = {
     handlePurchase: PropTypes.func,
     id: PropTypes.string,
     publisher: PropTypes.string,
-    stats: PropTypes.object, // eslint-disable-line
+    stats: PropTypes.object,
     token: PropTypes.string,
     tools: PropTypes.string,
     url: PropTypes.string,
