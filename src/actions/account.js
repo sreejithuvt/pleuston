@@ -36,7 +36,6 @@ export function createProviders() {
 }
 
 export async function deployContracts(provider) {
-
     const ocean = TruffleContract(OceanToken)
     ocean.setProvider(provider)
     return {

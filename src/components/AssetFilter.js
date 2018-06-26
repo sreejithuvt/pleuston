@@ -15,11 +15,11 @@ const AssetFilter = ({
         <Select
             className="basic-multi-select"
             classNamePrefix="select"
-            value={activeFilter}
             isMulti
             name="colors"
             onChange={value => handlePublisherChange(value)}
-            options={publishers} />
+            options={publishers}
+            value={activeFilter} />
     </div>
 )
 
