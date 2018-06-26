@@ -74,7 +74,7 @@ const AssetFull = ({
                     {url && (
                         <p className="asset__url">
                             <span className="asset__label">Url</span>
-                            <a href={url} target="_blank">{ url || 'Please purchase' }</a>
+                            <a href={url} target="_blank" rel="noopener noreferrer">{ url || 'Please purchase' }</a>
                         </p>
                     )}
 
