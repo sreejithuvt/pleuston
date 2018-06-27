@@ -17,6 +17,7 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@oceanprotocol/keeper-contracts": "0.0.6",
     "bigchaindb-orm": "^2.0.0",
     "bip39": "^2.5.0",
     "classnames": "^2.2.5",
@@ -45,14 +46,13 @@
     "web3": "^0.20.6"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.3",
+    "babel-eslint": "^7.2.3",
     "eslint": "^4.19.1",
     "eslint-config-ascribe-react": "^2.0.4",
     "eslint-plugin-flowtype": "^2.49.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.8.2",
-    "jest-cli": "^23.1.0",
     "node-sass-chokidar": "^1.2.0",
     "npm-run-all": "^4.1.2",
     "stylelint": "^9.2.1",

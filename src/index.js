@@ -50,7 +50,7 @@ registerServiceWorker()
 
 
 function boot() {
-    console.log('booting up plankton')
+    console.log('booting up plankton') // eslint-disable-line no-console
     store.dispatch(setProviders())
     store.dispatch(setContracts()).then(() => {
         store.dispatch(getAccounts())

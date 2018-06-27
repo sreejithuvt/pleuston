@@ -43,11 +43,9 @@ serve -s build/
 
 ### Keeper
 
-You need to have a Keeper instance running on your machine. Head over to [plankton-keeper](https://github.com/oceanprotocol/plankton-keeper) and follow the instructions to get this up and running.
+You need to have an Ethereum RPC client with all Keeper contracts deployed to it running on your machine. Head over to [keeper-contracts](https://github.com/oceanprotocol/keeper-contracts) and follow the instructions to get this up and running.
 
-Once you have the contracts deployed, you want to copy the JSON ABIs to `./src/contracts`. 
-
-> This will change in the future towards `npm` packages 
+Keeper Contracts ABI's are published as a [NPM library](https://www.npmjs.com/package/@oceanprotocol/keeper-contracts) and imported in the project.
 
 ### DB
 
