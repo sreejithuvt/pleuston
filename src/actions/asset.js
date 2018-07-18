@@ -82,8 +82,9 @@ export async function publish(asset, market_contract, account, providers) {
 export async function updateMetadata(asset, account, providers) {
     const { web3, ocean_backend } = providers
 
+    // TODO:
     // get provider-backend url
-    let update_url = ocean_backend.api_url + "/assets/metadata";
+    let update_url = ocean_backend.api_url + "/assets/metadata"
     fetch(update_url, {
         method: 'PUT',
         body: JSON.stringify(asset),
