@@ -93,7 +93,21 @@ export function putAsset(newAsset) {
 }
 
 
+export function updateAsset(updatedAsset) {
+    return async (dispatch, getState) => {
+        const state = getState()
+
+        await asset.updateMetadata(
+            object.assign(mockAssets[0], updatedAsset),
+            //... TODO
+        )
+
+    }
+
+}
+
 export function getAssets() {
+    /*Get list of assets for the current selected account */
     return async (dispatch, getState) => {
         const state = getState()
 
@@ -101,7 +115,33 @@ export function getAssets() {
             .list(
                 state.contract.market,
                 getActiveAccount(state),
-                state.provider
+                state.provider,
+                false
+            ))
+            .reduce((map, obj) => {
+                map[obj.id] = obj
+                return map
+            }, {})
+
+        dispatch({
+            type: 'GET_ASSETS',
+            assets
+        })
+    }
+}
+
+
+export function getCurrentAccountAssets() {
+    /*Get list of assets for the current selected account */
+    return async (dispatch, getState) => {
+        const state = getState()
+
+        const assets = (await asset
+            .list(
+                state.contract.market,
+                getActiveAccount(state),
+                state.provider,
+                true
             ))
             .reduce((map, obj) => {
                 map[obj.id] = obj

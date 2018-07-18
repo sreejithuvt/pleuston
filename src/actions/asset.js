@@ -18,10 +18,12 @@ export async function publish(asset, contract, account, providers) {
     let assetId = -1
 
     try {
-        assetId = await contract.getListAssetsSize()
+        const id_str = asset.abstract
+        assetId = await contract.generateStr2Id(id_str)
 
         await contract.register(
             assetId,
+            0, // price is zero for now.
             { from: account.name, gas: 300000 }
         )
     } catch (e) {
@@ -55,7 +57,30 @@ export async function publish(asset, contract, account, providers) {
     }
 }
 
-export async function list(contract, account, providers) {
+export async function updateMetadata(asset, account, providers) {
+    const { web3, db } = providers
+
+    // TODO:
+    // get provider-backend url
+    // call api to update metadata
+
+
+}
+
+export async function purchaseResource(asset, account, providers) {
+    const { web3, db } = providers
+
+    // TODO:
+    // trigger purchaseResource on OceanAccessControl contract
+    // listen to `resourcePurchaseAgreementPublished`
+    // Once the purchase agreement is fetched, display to the user to get confirmation to proceed with purchase
+    // When agreement accepted by consumer, pat the purchase price and continue with the purchase transaction
+    // ...
+
+}
+
+
+export async function list(contract, account, providers, own_assets_only=false) {
     const { db } = providers
 
     let web3AssetIds = []
@@ -67,15 +92,23 @@ export async function list(contract, account, providers) {
         console.error(e)
     }
 
-    const dbAssets = await db.models.ocean.retrieve(dbNamespace)
+    let dbAssets = await db.models.ocean.retrieve(dbNamespace)
+    if (own_assets_only && account) {
+        const act_str = account.name
+        dbAssets = dbAssets.filter(obj => obj.data.web3.account === act_str)
+        console.log("num assets for current account: " + dbAssets.length + '>>>>  ' + act_str)
+    }
+
+    // console.log("num all assets: " + dbAssets.length + '>>>>  ' + act_str)
 
     return dbAssets.map(dbAsset => ({
         ...dbAsset.data.value,
-        id: dbAsset.id,
+        id: dbAsset.data.web3.id,
         publisher: dbAsset.data.web3.account,
         published: web3AssetIds.indexOf(dbAsset.data.web3.id) > -1,
         web3Id: dbAsset.data.web3.id,
-        date: (new Date(dbAsset.data.value.date)).toLocaleDateString('en-US')
+        date: (new Date(dbAsset.data.value.date)).toLocaleDateString('en-US'),
+        dbId: dbAsset.id
     }))
 }
 

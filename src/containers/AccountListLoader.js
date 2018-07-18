@@ -4,6 +4,7 @@ import { push } from 'connected-react-router'
 import AccountList from '../components/account/AccountList'
 import {
     getAssets,
+    getCurrentAccountAssets,
     setActiveAccount
 } from '../actions/index'
 
@@ -17,6 +18,7 @@ export default connect(
         handleClick: (account) => {
             dispatch(setActiveAccount(account))
             dispatch(getAssets())
+            dispatch(getCurrentAccountAssets())
             dispatch(push('/datasets'))
         }
     })
