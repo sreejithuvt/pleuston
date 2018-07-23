@@ -10,46 +10,83 @@ First, list of all related git-project issues related to the frontend:
 
 **Note**: Some of the above tasks have some overlap and outdated specs.
 
-The frontend functionality is spread between 3 parts: Publisher, Consumer, and UI
+The frontend functionality is split into 3 parts: Publisher, Consumer, and UI
+
 ## Features description
 
 ### Publisher 
 Estimate: (2 days)
+
+#### Asset registration and metadata updates
 * Register new asset: #57
   * Register on-chain
   * Register on provider backend with metadata
 * Update asset metadata on provider backend #54
-* Subscribe to `newAssetRegistered` event from keeper-contracts #57
-* Subscribe to `resourcePurchasePaid` event from keeper-contracts OEP-10 #60 and #57
+* Set resource URL on the metadata
+
+#### Relevant Keeper events and actions to take
+* Subscribe to `newAssetRegistered` event from keeper Market contract #57 event:
+  * Verify that a resource the publisher just registered gets broadcast in this event
+* Subscribe to `resourcePurchaseFinalized` event from keeper-contracts OEP-10 #60 and #57 event:
+  * Retrieve `consumerAddress` and `resourceId` update local storage with this info 
 
 
 ### Consumer 
 Estimate: (4 days)
-* Subscribe to all the new assets registered (AssetRegistered event), getting the list of all the new assetId’s
-* Fetch the Metadata of a list of Assets from the provider backend
+
+#### Relevant Keeper events and actions to take
+* OceanACL.`AccessRequestCommitted` event handler
+  * prompts the user to do one of these (after looking at the terms of access agreement):
+      a. Submit payment for resource to complete purchase and unlock access to the resource: OceanMarket.`submitPayment` (this must happen automatically if the resource is free)
+      b. Cancel request and close this transaction: OceanMarket.`cancelAccessRequest`
+* OceanACL.`AccessRequestRejected`  event handler
+  * Notify the user by updating the access request status/progress indicator
+* OceanACL.`EncryptedTokenPublished` event handler
+  * This is all under the hood, no action is required by the user in this step, but the UI should have indicator of progress and current status of the transaction
+  * Fetch the published access token
+  * Decrypt access token and sign it with consumer's account private key (or the temp private key)
+  * Submit a `consumeResource` request to the Provider using `PROVIDER_URL` in the access token. This request includes the following:
+    * `resourceId, signedAccessToken`
+* Subscribe to `newAssetRegistered` event from keeper Market contract #57 event:
+  * Retrieve resource metadata and update resources list view
+
+#### Resources query functions
+* Get list of all the new assetId’s: 
+    PROVIDER.`getPublishedResources()` -> mapping of resourceId to metadata
+* Get resource metadata: 
+    PROVIDER.`getResourceMetadata(resourceId)`
 * List consumer purchased assets (listen to keeper events) #43
-* Resource purchase/access OEP-10 #60:
-    * Subscribe to `resourcePurchaseAgreementPublished` event from OAC
-    * Subscribe to `resourcePurchasePaid` event from OMKT to get the purchase receipt
-    * Subscribe to `resourceAccessTokenReady`event from OAC to get the encrypted resource access token
-    * Express intent to purchase resource by calling `purchaseResource` on OAC
-    * Pay price for resource to gain access to the resource: `payResourcePurchasePrice` on OMKT
-    * Publish purchase public key to be used for encrypting the resource access token: `publishPurchaseKey` on OAC
-    * Fetch the resource access token with `getResourceAccessToken` on OAC
-    * Decrypt the resource access token
-    * Consume purchased resource using the resource access token (signed by consumer key): `consumeResource` on PROV
+  * To support this, the frontend can keep a list of `challengeIds` in local storage. The PROVIDER should also 
+  provide such a list. But still there is an issue, if the local storage is lost, and the PROVIDER lost the data or 
+  acting bad, the history of purchases/access should be retrievable from the keeper (the blockchain)
+    
+
+#### Accessing Resources (OEP-10 #60)
+* Generate temp keys for resource access
+* Express intent to access/purchase resource by calling OceanACL.`initiateAccessRequest`, include the following with this request (this is triggerd by clicking the [ Purchase ] button):
+  * `resourceId, providerId, timeout, tempPublicKey`
+* Submit payment for resource to complete purchase and unlock access to the resource: OceanMarket.`submitPayment`  (this must happen automatically if the resource is free)
+* Cancel resource access request and close this transaction: OceanACL.`cancelAccessRequest`
+* Get published access token: OceanACL.`getAccessToken`
+* Decrypt access token
+* Sign access token
+* Consume resource using the provider_url from the access token and sending the signed access token in the consume request
+
 
 
 ### UI 
 Estimate: (5 days)
+* Home page
 * Accounts list
 * Active account with current balance
-* List of own published resources
-* List of resources available for purchase
+* List of own published resources (publisher view)
+* List of resources available for purchase (consumer view)
 * Resource detailed view (for either own resource or resource for sale)
+  * If user's own resource, display number of purchases
 * Purchase button
-* Resource purchase agreement view
+* Resource access agreement view
 * Payment confirmation prompt
 * Transaction history, list of purchased/accessed resources with dates and prices paid
-* Resource download progress
+* Resource purchase status/progress indicator:
+  * Status: REQUEST PENDING, PROVIDER COMMITTED, PRICE PAID, ACCESS TOKEN PUBLISHED, DOWNLOADING
 * Resource detailed view with access to resource data etc.

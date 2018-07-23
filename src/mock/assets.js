@@ -16,7 +16,9 @@ const mockAssets = [
             rejected: '32.8%',
             challenged: '3',
             purchased: '142',
-        }
+        },
+        url: ''
+
     }
 ]
 
