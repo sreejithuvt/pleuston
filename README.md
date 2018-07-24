@@ -19,6 +19,7 @@
   - [Database](#database)
      - [Run locally](#run-locally)
   - [Code style](#code-style)
+  - [Testing](#testing)
   - [License](#license)
 
 ---
@@ -89,7 +90,19 @@ If you want to have the web app connect to a locally running instance of Bigchai
 
 ## Code style
 
-Code style follows [eslint-config-oceanprotocol](https://github.com/oceanprotocol/eslint-config-oceanprotocol) and [stylelint-config-bigchaindb](https://github.com/bigchaindb/stylelint-config-bigchaindb).
+Code linting is setup with [ESLint](https://eslint.org) and [stylelint](https://stylelint.io) following [eslint-config-oceanprotocol](https://github.com/oceanprotocol/eslint-config-oceanprotocol) and [stylelint-config-bigchaindb](https://github.com/bigchaindb/stylelint-config-bigchaindb).
+
+There's a npm script setup which runs all linting tests:
+
+```bash
+npm run lint
+```
+
+## Testing
+
+Automatic tests are setup via Travis, executing `npm test`.
+
+At the moment, besides linting tests, there's only one test checking if the whole app can be rendered.
 
 ## License
 
