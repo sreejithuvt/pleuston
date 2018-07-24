@@ -1,9 +1,7 @@
 import * as account from './account' // eslint-disable-line
 import * as asset from './asset' // eslint-disable-line
 
-
 import mockAssets from '../mock/assets'
-
 
 export function setProviders() {
     return (dispatch) => {
@@ -91,7 +89,6 @@ export function putAsset(newAsset) {
         dispatch(getAssets())
     }
 }
-
 
 export function getAssets() {
     return async (dispatch, getState) => {

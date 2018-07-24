@@ -17,7 +17,7 @@ const Dataset = ({ caption, name }) => (
 
 Dataset.propTypes = {
     caption: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
 }
 
 export default Dataset

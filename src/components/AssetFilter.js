@@ -2,14 +2,12 @@ import React from 'react'
 import Select from 'react-select'
 import PropTypes from 'prop-types'
 
-
 import './AssetFilter.css'
 
 const AssetFilter = ({
     activeFilter,
     handlePublisherChange,
-    publishers,
-
+    publishers
 }) => (
     <div className="asset-filter">
         <Select
@@ -23,17 +21,16 @@ const AssetFilter = ({
     </div>
 )
 
-
 AssetFilter.propTypes = {
     activeFilter: PropTypes.object,
     handlePublisherChange: PropTypes.func,
-    publishers: PropTypes.object,
+    publishers: PropTypes.object
 }
 
 AssetFilter.defaultProps = {
     publishers: [],
     activeFilter: [],
-    handlePublisherChange: null,
+    handlePublisherChange: null
 }
 
 export default AssetFilter
