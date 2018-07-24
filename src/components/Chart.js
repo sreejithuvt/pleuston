@@ -1,8 +1,8 @@
 import React from 'react'
 import { XYPlot, XAxis, YAxis, LineSeries, VerticalGridLines, HorizontalGridLines } from 'react-vis'
 
+import 'react-vis/dist/style.css'
 import './Chart.css'
-import '../../node_modules/react-vis/dist/style.css'
 
 const Chart = () => {
     const data = [
