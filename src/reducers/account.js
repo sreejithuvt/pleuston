@@ -1,6 +1,6 @@
 const initialState = {
     accounts: [],
-    activeAccount: 0,
+    activeAccount: 0
 }
 
 const account = (state = initialState, action) => {

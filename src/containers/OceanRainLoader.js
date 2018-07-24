@@ -6,7 +6,6 @@ import {
     makeItRain
 } from '../actions/index'
 
-
 export default connect(
     state => ({
         activeAccount: getActiveAccount(state)

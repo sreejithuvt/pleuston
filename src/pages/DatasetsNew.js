@@ -5,7 +5,6 @@ import ScreenHeader from '../components/ScreenHeader'
 import HeaderLoader from '../containers/HeaderLoader'
 import AssetNewLoader from '../containers/AssetNewLoader'
 
-
 const DatasetsNew = () => (
     <Fragment>
         <HeaderLoader />

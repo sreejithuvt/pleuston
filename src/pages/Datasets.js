@@ -7,7 +7,6 @@ import AssetFilterLoader from '../containers/AssetFilterLoader'
 import AssetListLoader from '../containers/AssetListLoader'
 import HeaderLoader from '../containers/HeaderLoader'
 
-
 const Datasets = () => (
     <Fragment>
         <HeaderLoader />
@@ -18,7 +17,6 @@ const Datasets = () => (
         </main>
     </Fragment>
 )
-
 
 Datasets.propTypes = {
     location: PropTypes.object.isRequired, // eslint-disable-line

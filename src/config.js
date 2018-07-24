@@ -21,5 +21,5 @@ module.exports = {
         app_key: 'd068996d8d5b1a66cfc61dc3a83fa7ee'
     }, // Can get a new one from testnet.bigchaindb.com
 
-    dbNamespace: 'ocean:plankton:v0.0.0:asset:metadata',
+    dbNamespace: 'ocean:plankton:v0.0.0:asset:metadata'
 }
