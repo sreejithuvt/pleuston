@@ -4,7 +4,7 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
-    "lint:js": "eslint ./src/**/*.js",
+    "lint:js": "eslint ./src/",
     "lint:css": "stylelint ./src/**/*.scss",
     "lint": "npm run lint:js && npm run lint:css",
     "build-css": "node-sass-chokidar --include-path src/assets/stylesheets/ src/ -o src/",

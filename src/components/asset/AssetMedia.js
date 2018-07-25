@@ -3,9 +3,8 @@ import PropTypes from 'prop-types'
 
 import './Asset.css'
 
-
 const AssetMedia = ({
-    url,
+    url
 }) => (
     <Fragment>
         {
@@ -22,6 +21,5 @@ const AssetMedia = ({
 AssetMedia.propTypes = {
     url: PropTypes.string.isRequired
 }
-
 
 export default AssetMedia
