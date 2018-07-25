@@ -5,7 +5,6 @@ import Button from '../atoms/Button'
 
 import './OceanRain.css'
 
-
 const OceanRain = ({ handleClick }) => (
     <div className="ocean-rain">
         <Button
@@ -17,8 +16,7 @@ const OceanRain = ({ handleClick }) => (
 )
 
 OceanRain.propTypes = {
-    handleClick: PropTypes.func.isRequired,
+    handleClick: PropTypes.func.isRequired
 }
-
 
 export default OceanRain

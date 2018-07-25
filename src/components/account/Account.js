@@ -16,8 +16,8 @@ const Account = ({
             image || <Blockies className="account__image" seed={name} />
         }
         {
-            typeof name === 'string' ?
-                <h3 className="account__title">{name.slice(0, 25)}...</h3> : name
+            typeof name === 'string'
+                ? <h3 className="account__title">{name.slice(0, 25)}...</h3> : name
         }
         <AccountBalance {...balance} />
     </button>
@@ -27,7 +27,7 @@ Account.propTypes = {
     balance: PropTypes.object.isRequired,
     handleClick: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
-    image: PropTypes.element,
+    image: PropTypes.element
 }
 
 Account.defaultProps = {

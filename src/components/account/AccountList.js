@@ -5,10 +5,9 @@ import Account from './Account'
 
 import './AccountList.css'
 
-
 const AccountList = ({
     accounts,
-    handleClick,
+    handleClick
 }) => (
     <div className="accounts">
         {
@@ -25,7 +24,7 @@ const AccountList = ({
 AccountList.propTypes = {
     accounts: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string.isRequired,
-        balance: PropTypes.object.isRequired,
+        balance: PropTypes.object.isRequired
     }).isRequired).isRequired,
     handleClick: PropTypes.func.isRequired
 }
