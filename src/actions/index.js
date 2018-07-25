@@ -1,5 +1,5 @@
-import * as account from './account' // eslint-disable-line
-import * as asset from './asset' // eslint-disable-line
+import * as account from './account'
+import * as asset from './asset'
 
 import mockAssets from '../mock/assets'
 
@@ -95,7 +95,7 @@ export function updateAsset(updatedAsset) {
         const state = getState()
 
         await asset.updateMetadata(
-            object.assign(mockAssets[0], updatedAsset)
+            Object.assign(mockAssets[0], updatedAsset)
             // ... TODO
         )
     }
