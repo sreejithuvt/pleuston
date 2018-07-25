@@ -4,7 +4,7 @@
 
 > 🦑 🦄 Web app for consumers to explore, download, and publish data assets.
 
-[![Build Status](https://travis-ci.com/oceanprotocol/plankton-frontend.svg?token=3psqw6c8KMDqfdGQ2x6d&branch=master)](https://travis-ci.com/oceanprotocol/plankton-frontend)
+[![Build Status](https://travis-ci.com/oceanprotocol/pleuston.svg?token=3psqw6c8KMDqfdGQ2x6d&branch=master)](https://travis-ci.com/oceanprotocol/pleuston)
 [![js oceanprotocol](https://img.shields.io/badge/js-oceanprotocol-7b1173.svg)](https://github.com/oceanprotocol/eslint-config-oceanprotocol)
 [![css bigchaindb](https://img.shields.io/badge/css-bigchaindb-39BA91.svg)](https://github.com/bigchaindb/stylelint-config-bigchaindb)
 
@@ -43,7 +43,7 @@ The web app is a single page React app, created with [`create-react-app`](https:
 To start development, clone this repository, install all dependencies, and start the development server:
 
 ```bash
-git clone git@github.com:oceanprotocol/plankton-frontend.git
+git clone git@github.com:oceanprotocol/pleuston.git
 cd pleuston/
 
 npm i
