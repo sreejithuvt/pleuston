@@ -1,12 +1,14 @@
 [![banner](https://raw.githubusercontent.com/oceanprotocol/art/master/github/repo-banner%402x.png)](https://oceanprotocol.com)
 
-<h1 align="center">plankton-frontend</h1>
+<h1 align="center">Pleuston</h1>
 
-> 🦑 🦄 Web app for consumers to explore & download data assets.
+> 🦑 🦄 Web app for consumers to explore, download, and publish data assets.
 
 [![Build Status](https://travis-ci.com/oceanprotocol/plankton-frontend.svg?token=3psqw6c8KMDqfdGQ2x6d&branch=master)](https://travis-ci.com/oceanprotocol/plankton-frontend)
 [![js oceanprotocol](https://img.shields.io/badge/js-oceanprotocol-7b1173.svg)](https://github.com/oceanprotocol/eslint-config-oceanprotocol)
 [![css bigchaindb](https://img.shields.io/badge/css-bigchaindb-39BA91.svg)](https://github.com/bigchaindb/stylelint-config-bigchaindb)
+
+> _Pleuston [`ˈplustən`]: organisms that live in the thin surface layer existing at the air-water interface of a body of water as their habitat_
 
 ---
 
@@ -26,10 +28,11 @@
 
 ## Features
 
-This repository houses the web app for consumers to explore & download data assets.
+This repository houses the web app for consumers to explore, download, and publish data assets.
 
-- you can do this
-- and that...
+- Publish data assets
+- Download data assets
+- ...
 
 ![output](https://user-images.githubusercontent.com/6178597/41625184-37cf5e4c-7418-11e8-81c2-f779e5f7ee8b.gif)
 
@@ -37,11 +40,11 @@ This repository houses the web app for consumers to explore & download data asse
 
 The web app is a single page React app, created with [`create-react-app`](https://github.com/facebook/create-react-app).
 
-To start development, clone this repo, install all dependencies, and start the development server:
+To start development, clone this repository, install all dependencies, and start the development server:
 
 ```bash
 git clone git@github.com:oceanprotocol/plankton-frontend.git
-cd plankton-frontend/
+cd pleuston/
 
 npm i
 npm start
@@ -51,7 +54,7 @@ This should output a message as follows:
 ```bash
 Compiled successfully!
 
-You can now view plankton-frontend in the browser.
+You can now view @oceanprotocol/pleuston in the browser.
 
   Local:            http://localhost:3000/
 ```
@@ -78,7 +81,7 @@ The Keeper Contracts ABI's are published as a [NPM library](https://www.npmjs.co
 
 If you want to run the app against a local Ethereum RPC client you need to make sure to deploy all required contracts to it. Head over to [keeper-contracts](https://github.com/oceanprotocol/keeper-contracts) and follow the instructions to get this up and running.
 
-After the RPC client is running on your machine, modify the respective config values in [`./src/config.js`](./src/config.js)
+After the RPC client is running on your machine, modify the respective config values in [`./src/config.js`](./src/config.js).
 
 ## Database
 
@@ -87,6 +90,8 @@ Plankton is currently using [BigchainDB](http://github.com/bigchaindb/bigchaindb
 ### Run locally
 
 If you want to have the web app connect to a locally running instance of BigchainDB, you can do so by heading over to the [BigchainDB repository](https://github.com/bigchaindb/bigchaindb) and follow the documentation there.
+
+After BigchainDB is running on your machine, modify the respective config values in [`./src/config.js`](./src/config.js).
 
 ## Code style
 
