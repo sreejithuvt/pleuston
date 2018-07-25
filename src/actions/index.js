@@ -90,22 +90,19 @@ export function putAsset(newAsset) {
     }
 }
 
-
 export function updateAsset(updatedAsset) {
     return async (dispatch, getState) => {
         const state = getState()
 
         await asset.updateMetadata(
-            object.assign(mockAssets[0], updatedAsset),
-            //... TODO
+            object.assign(mockAssets[0], updatedAsset)
+            // ... TODO
         )
-
     }
-
 }
 
 export function getAssets() {
-    /*Get list of assets for the current selected account */
+    /* Get list of assets for the current selected account */
     return async (dispatch, getState) => {
         const state = getState()
 
@@ -128,9 +125,8 @@ export function getAssets() {
     }
 }
 
-
 export function getCurrentAccountAssets() {
-    /*Get list of assets for the current selected account */
+    /* Get list of assets for the current selected account */
     return async (dispatch, getState) => {
         const state = getState()
 

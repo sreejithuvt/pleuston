@@ -1,3 +1,6 @@
+/* global fetch */
+/* eslint-disable camelcase */
+
 import TruffleContract from 'truffle-contract'
 
 import Market from '@oceanprotocol/keeper-contracts/build/contracts/Market'
@@ -5,10 +8,9 @@ import { dbNamespace } from '../config'
 
 const DEFAULT_GAS = 300 * 1000
 
-
 export function getOceanBackendURL(providers) {
     const { web3, ocean_backend } = providers
-    return ocean_backend.api_url + "/assets";
+    return ocean_backend.api_url + '/assets'
 }
 
 export async function deployContracts(provider) {
@@ -22,7 +24,7 @@ export async function deployContracts(provider) {
 export async function publish(asset, market_contract, account, providers) {
     const { web3, ocean_backend } = providers
 
-    let assetId = ""
+    let assetId = ''
 
     // First, register on the keeper (on-chain)
     try {
@@ -40,7 +42,7 @@ export async function publish(asset, market_contract, account, providers) {
     }
     // Now register in oceandb and publish the metadata
 
-    let ocean_register_resource_url = getOceanBackendURL(providers) + "/asset"
+    let ocean_register_resource_url = getOceanBackendURL(providers) + '/asset'
 
     const dbAsset = await ocean_backend.models.ocean
         .create({
@@ -57,15 +59,13 @@ export async function publish(asset, market_contract, account, providers) {
             }
         })
 
-
     fetch(ocean_register_resource_url, {
         method: 'POST',
         body: JSON.stringify(asset),
-        headers: {'Content-type': 'application/json'},
+        headers: { 'Content-type': 'application/json' }
     }).then(res => res.json())
         .catch(error => console.error('Error:', error))
-        .then(response => console.log('Success:', response));
-
+        .then(response => console.log('Success:', response))
 
     try {
         await market_contract.publish(
@@ -83,16 +83,14 @@ export async function updateMetadata(asset, account, providers) {
     const { web3, ocean_backend } = providers
 
     // get provider-backend url
-    let update_url = ocean_backend.api_url + "/assets/metadata";
+    let update_url = ocean_backend.api_url + '/assets/metadata'
     fetch(update_url, {
         method: 'PUT',
         body: JSON.stringify(asset),
-        headers: {'Content-type': 'application/json'},
+        headers: { 'Content-type': 'application/json' }
     }).then(res => res.json())
         .catch(error => console.error('Error:', error))
-        .then(response => console.log('Success:', response));
-
-
+        .then(response => console.log('Success:', response))
 }
 
 export async function purchaseResource(asset, account, providers) {
@@ -104,11 +102,9 @@ export async function purchaseResource(asset, account, providers) {
     // Once the purchase agreement is fetched, display to the user to get confirmation to proceed with purchase
     // When agreement accepted by consumer, pat the purchase price and continue with the purchase transaction
     // ...
-
 }
 
-
-export async function list(contract, account, providers, own_assets_only=false) {
+export async function list(contract, account, providers, own_assets_only = false) {
     const { db } = providers
 
     let web3AssetIds = []
@@ -124,7 +120,7 @@ export async function list(contract, account, providers, own_assets_only=false) 
     if (own_assets_only && account) {
         const act_str = account.name
         dbAssets = dbAssets.filter(obj => obj.data.web3.account === act_str)
-        console.log("num assets for current account: " + dbAssets.length + '>>>>  ' + act_str)
+        console.log('num assets for current account: ' + dbAssets.length + '>>>>  ' + act_str)
     }
 
     // console.log("num all assets: " + dbAssets.length + '>>>>  ' + act_str)
