@@ -21,9 +21,10 @@ module.exports = {
     dbScheme: 'https',
     dbHost: 'test.bigchaindb.com',
     dbHeaders: {
-        app_id: '54ed26dd', // Can get a new one from testnet.bigchaindb.com
+        // Get new credentials from testnet.bigchaindb.com
+        app_id: '54ed26dd',
         app_key: 'd068996d8d5b1a66cfc61dc3a83fa7ee'
-    }, // Can get a new one from testnet.bigchaindb.com
+    },
 
     dbNamespace: 'ocean:plankton:v0.0.0:asset:metadata'
 }

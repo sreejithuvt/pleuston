@@ -38,7 +38,7 @@ This repository houses Pleuston, the reference web app for consumers to explore,
 
 ## Quick Start
 
-Pleuston is a single page React app, created with [`create-react-app`](https://github.com/facebook/create-react-app).
+Pleuston is a single page React app, bootstrapped with [`create-react-app`](https://github.com/facebook/create-react-app).
 
 To start development, clone this repository, install all dependencies, and start the development server:
 
@@ -73,21 +73,15 @@ serve -s build/
 
 ## Keeper
 
-After following the instructions outlined above, Pleuston will connect to the Ocean Protocol test network where all smart contracts are deployed so you don't have to configure anything else.
+After following the instructions outlined above, Pleuston will connect to the Ocean Protocol test network where all required smart contracts are deployed so you don't have to configure anything else.
 
-The Keeper Contracts ABI's are published as a [NPM library](https://www.npmjs.com/package/@oceanprotocol/keeper-contracts) and imported in the project.
+The Keeper Contracts ABI's are published as a [npm package](https://www.npmjs.com/package/@oceanprotocol/keeper-contracts) and imported in the project.
 
 ### Run locally
 
-If you want to run the app against a local Ethereum RPC client you need to make sure to deploy all required contracts to it. Head over to [keeper-contracts](https://github.com/oceanprotocol/keeper-contracts) and follow the instructions to get this up and running.
+If you want to run the app against a local Ethereum RPC client you need to make sure to deploy all required contracts to it first. Head over to [keeper-contracts](https://github.com/oceanprotocol/keeper-contracts) and follow the instructions to get this up and running.
 
-After the RPC client is running on your machine, modify the respective config values in [`./src/config.js`](./src/config.js).
-
-## Database
-
-Pleuston is currently using [BigchainDB](http://github.com/bigchaindb/bigchaindb) as a database backend and is configured to automatically connect to an account on the [BigchainDB Test Network](https://testnet.bigchaindb.com/).
-
-Optionally, you can create your own account under [testnet.bigchaindb.com](https://testnet.bigchaindb.com/) and use your own `app_id` & `app_key` in [`./src/config.js`](./src/config.js):
+After the RPC client is running on your machine, modify the respective config values in [`./src/config.js`](./src/config.js):
 
 ```js
 module.exports = {
@@ -98,9 +92,26 @@ module.exports = {
 }
 ```
 
+## Database
+
+Pleuston is currently using [BigchainDB](http://github.com/bigchaindb/bigchaindb) as a database backend and is configured to automatically connect to an account on the [BigchainDB Test Network](https://testnet.bigchaindb.com/).
+
+Optionally, you can create your own account under [testnet.bigchaindb.com](https://testnet.bigchaindb.com/) and use your own `app_id` & `app_key` in [`./src/config.js`](./src/config.js):
+
+```js
+module.exports = {
+    ...
+    dbHeaders: {
+        app_id: 'dehwi323',
+        app_key: 'hfjewib3h2i3h2jen2jk2nj3k2njk3'
+    },
+    ...
+}
+```
+
 ### Run locally
 
-If you want to have the web app connect to a locally running instance of BigchainDB, you can do so with Docker and the included Dockerfiles:
+If you want to have the web app connect to a locally running instance of BigchainDB, you can do so with Docker:
 
 ```bash
 cd db/bigchaindb/
