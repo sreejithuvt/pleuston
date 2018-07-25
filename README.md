@@ -89,9 +89,26 @@ Plankton is currently using [BigchainDB](http://github.com/bigchaindb/bigchaindb
 
 ### Run locally
 
-If you want to have the web app connect to a locally running instance of BigchainDB, you can do so by heading over to the [BigchainDB repository](https://github.com/bigchaindb/bigchaindb) and follow the documentation there.
+If you want to have the web app connect to a locally running instance of BigchainDB, you can do so with Docker and the included Dockerfiles:
 
-After BigchainDB is running on your machine, modify the respective config values in [`./src/config.js`](./src/config.js).
+```bash
+cd db/bigchaindb/
+
+# will use db/bigchaindb/Dockerfile-dev
+docker-compose up
+```
+
+After BigchainDB is running on your machine, modify the respective config values in [`./src/config.js`](./src/config.js):
+
+```js
+module.exports = {
+    ...
+    dbPort: '9984',
+    dbScheme: 'http',
+    dbHost: 'localhost'
+    ...
+}
+```
 
 ## Code style
 
