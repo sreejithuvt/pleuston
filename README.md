@@ -87,7 +87,16 @@ After the RPC client is running on your machine, modify the respective config va
 
 Pleuston is currently using [BigchainDB](http://github.com/bigchaindb/bigchaindb) as a database backend and is configured to automatically connect to an account on the [BigchainDB Test Network](https://testnet.bigchaindb.com/).
 
-Optionally, you can create your own account under [testnet.bigchaindb.com](https://testnet.bigchaindb.com/) and use your own `app_id` & `app_key` in [`./src/config.js`](./src/config.js).
+Optionally, you can create your own account under [testnet.bigchaindb.com](https://testnet.bigchaindb.com/) and use your own `app_id` & `app_key` in [`./src/config.js`](./src/config.js):
+
+```js
+module.exports = {
+    ...
+    keeperHost: 'localhost',
+    keeperPort: 8545,
+    ...
+}
+```
 
 ### Run locally
 
@@ -105,9 +114,10 @@ After BigchainDB is running on your machine, modify the respective config values
 ```js
 module.exports = {
     ...
-    dbPort: '9984',
     dbScheme: 'http',
-    dbHost: 'localhost'
+    dbHost: 'localhost',
+    dbHeaders: {},
+    dbPort: 9984,
     ...
 }
 ```

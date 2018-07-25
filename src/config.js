@@ -1,7 +1,9 @@
 module.exports = {
     keeperScheme: 'http',
 
+    // -----
     // Setup with local services
+    // -----
     // keeperHost: 'localhost',
     // keeperPort: 8545,
     // dbScheme: 'http',
@@ -9,7 +11,9 @@ module.exports = {
     // dbHeaders: {},
     // dbPort: 9984,
 
+    // -----
     // Setup using remote services
+    // -----
     // private ocean test net @40.115.16.244
     keeperHost: '40.115.16.244',
     keeperPort: 8545,
