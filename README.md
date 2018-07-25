@@ -2,6 +2,10 @@
 
 <h1 align="center">Pleuston</h1>
 
+<p align="center">
+  <img width="400" src="https://user-images.githubusercontent.com/90316/43195950-cc01fd90-9006-11e8-8d5e-cb802c6502b3.gif" />
+</p>
+
 > 🦑 🦄 Web app for consumers to explore, download, and publish data assets.
 
 [![Build Status](https://travis-ci.com/oceanprotocol/pleuston.svg?token=3psqw6c8KMDqfdGQ2x6d&branch=master)](https://travis-ci.com/oceanprotocol/pleuston)
