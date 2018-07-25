@@ -28,7 +28,7 @@
 
 ## Features
 
-This repository houses the web app for consumers to explore, download, and publish data assets.
+This repository houses Pleuston, the reference web app for consumers to explore, download, and publish data assets.
 
 - Publish data assets
 - Download data assets
@@ -38,7 +38,7 @@ This repository houses the web app for consumers to explore, download, and publi
 
 ## Quick Start
 
-The web app is a single page React app, created with [`create-react-app`](https://github.com/facebook/create-react-app).
+Pleuston is a single page React app, created with [`create-react-app`](https://github.com/facebook/create-react-app).
 
 To start development, clone this repository, install all dependencies, and start the development server:
 
@@ -73,7 +73,7 @@ serve -s build/
 
 ## Keeper
 
-After following the instructions outlined above, the web app will connect to the Ocean Protocol test network where all smart contracts are deployed so you don't have to configure anything else.
+After following the instructions outlined above, Pleuston will connect to the Ocean Protocol test network where all smart contracts are deployed so you don't have to configure anything else.
 
 The Keeper Contracts ABI's are published as a [NPM library](https://www.npmjs.com/package/@oceanprotocol/keeper-contracts) and imported in the project.
 
@@ -85,7 +85,9 @@ After the RPC client is running on your machine, modify the respective config va
 
 ## Database
 
-Plankton is currently using [BigchainDB](http://github.com/bigchaindb/bigchaindb) as a database backend. The web app is configured to automatically connect to the [BigchainDB Test Network](https://testnet.bigchaindb.com/).
+Pleuston is currently using [BigchainDB](http://github.com/bigchaindb/bigchaindb) as a database backend and is configured to automatically connect to an account on the [BigchainDB Test Network](https://testnet.bigchaindb.com/).
+
+Optionally, you can create your own account under [testnet.bigchaindb.com](https://testnet.bigchaindb.com/) and use your own `app_id` & `app_key` in [`./src/config.js`](./src/config.js).
 
 ### Run locally
 
