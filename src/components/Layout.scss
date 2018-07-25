@@ -1,0 +1,12 @@
+.layout {
+    display: flex;
+    justify-content: space-between;
+}
+
+.layout__sidebar {
+    flex: 1 1 26%;
+}
+
+.layout__content {
+    flex: 1 1 70%;
+}
