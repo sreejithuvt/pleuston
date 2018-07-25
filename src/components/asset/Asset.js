@@ -4,9 +4,8 @@ import PropTypes from 'prop-types'
 import AssetMedia from './AssetMedia'
 import './Asset.css'
 
-
 const Asset = ({
-    asset,
+    asset
 }) => (
     <div className="asset">
         <header className="asset__header">
@@ -24,9 +23,9 @@ const Asset = ({
         <AssetMedia url={asset.url} />
         <aside className="asset__ticker">
             <div className="asset__symbol">XYZ</div>
-            <div className={asset.stats.change.includes('-') ?
-                'asset__change negative' :
-                'asset__change positive'}>
+            <div className={asset.stats.change.includes('-')
+                ? 'asset__change negative'
+                : 'asset__change positive'}>
                 {asset.stats.change}
             </div>
         </aside>
@@ -36,6 +35,5 @@ const Asset = ({
 Asset.propTypes = {
     asset: PropTypes.object.isRequired
 }
-
 
 export default Asset

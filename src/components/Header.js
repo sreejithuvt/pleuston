@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 
-import logo from '../../node_modules/oceanprotocol-art/logo/logo-white.svg'
+import logo from '@oceanprotocol/art/logo/logo-white.svg'
 import './Header.css'
 import AccountBalance from './account/AccountBalance'
 

@@ -1,3 +1,6 @@
+/* global fetch */
+/* eslint-disable camelcase */
+
 import TruffleContract from 'truffle-contract'
 
 import Market from '@oceanprotocol/keeper-contracts/build/contracts/Market'
@@ -5,10 +8,9 @@ import { dbNamespace } from '../config'
 
 const DEFAULT_GAS = 300 * 1000
 
-
 export function getOceanBackendURL(providers) {
     const { web3, ocean_backend } = providers
-    return ocean_backend.api_url + "/assets";
+    return ocean_backend.api_url + '/assets'
 }
 
 export async function deployContracts(provider) {
@@ -22,7 +24,7 @@ export async function deployContracts(provider) {
 export async function publish(asset, market_contract, account, providers) {
     const { web3, ocean_backend } = providers
 
-    let assetId = ""
+    let assetId = ''
 
     // First, register on the keeper (on-chain)
     try {
@@ -38,6 +40,7 @@ export async function publish(asset, market_contract, account, providers) {
         console.error(e)
         return
     }
+    // Now register in oceandb and publish the metadata
 
     // Now register in oceandb and publish the metadata
     let ocean_register_resource_url = getOceanBackendURL(providers) + "/asset"
@@ -124,7 +127,7 @@ export async function list(contract, account, providers, own_assets_only=false) 
     if (own_assets_only && account) {
         const act_str = account.name
         dbAssets = dbAssets.filter(obj => obj.data.web3.account === act_str)
-        console.log("num assets for current account: " + dbAssets.length + '>>>>  ' + act_str)
+        console.log('num assets for current account: ' + dbAssets.length + '>>>>  ' + act_str)
     }
 
     // console.log("num all assets: " + dbAssets.length + '>>>>  ' + act_str)

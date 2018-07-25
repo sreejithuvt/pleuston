@@ -13,9 +13,8 @@ import {
     dbScheme,
     keeperHost,
     keeperPort,
-    keeperScheme,
+    keeperScheme
 } from '../config'
-
 
 export function createProviders() {
     const web3URI = `${keeperScheme}://${keeperHost}:${keeperPort}`

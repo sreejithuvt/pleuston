@@ -1,5 +1,5 @@
 const initialState = {
-    market: null,
+    market: null
 }
 
 const contract = (state = initialState, action) => {

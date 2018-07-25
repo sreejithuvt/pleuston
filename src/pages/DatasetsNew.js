@@ -1,23 +1,11 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
-
-import ScreenHeader from '../components/ScreenHeader'
-import HeaderLoader from '../containers/HeaderLoader'
+import React from 'react'
+import Layout from '../components/Layout'
 import AssetNewLoader from '../containers/AssetNewLoader'
 
-
 const DatasetsNew = () => (
-    <Fragment>
-        <HeaderLoader />
-        <main className="screen screen--datasets">
-            <ScreenHeader title="Publish New Dataset" />
-            <AssetNewLoader />
-        </main>
-    </Fragment>
+    <Layout>
+        <AssetNewLoader />
+    </Layout>
 )
-
-DatasetsNew.propTypes = {
-    location: PropTypes.object.isRequired, // eslint-disable-line
-}
 
 export default DatasetsNew

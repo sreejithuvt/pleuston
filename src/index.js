@@ -19,7 +19,7 @@ import {
     getAccounts,
     getAssets,
     setProviders,
-    setContracts,
+    setContracts
 } from './actions/index'
 
 import App from './App'
@@ -47,7 +47,6 @@ ReactDOM.render(
 )
 
 registerServiceWorker()
-
 
 function boot() {
     console.log('booting up plankton') // eslint-disable-line no-console

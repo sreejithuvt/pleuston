@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 
-
 const AccountBalance = ({
     eth,
     ocn
@@ -22,7 +21,7 @@ const AccountBalance = ({
 
 AccountBalance.propTypes = {
     eth: PropTypes.object.isRequired,
-    ocn: PropTypes.object.isRequired,
+    ocn: PropTypes.number.isRequired
 }
 
 export default AccountBalance

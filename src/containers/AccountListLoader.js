@@ -8,7 +8,6 @@ import {
     setActiveAccount
 } from '../actions/index'
 
-
 export default connect(
     state => ({
         ...state.account

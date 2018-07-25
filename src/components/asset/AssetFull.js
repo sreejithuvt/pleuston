@@ -17,7 +17,7 @@ const AssetFull = ({
     publisher,
     token,
     tools,
-    url,
+    url
 }) => {
     if (!id) return null
 
@@ -107,7 +107,6 @@ const AssetFull = ({
     )
 }
 
-
 AssetFull.propTypes = {
     abstract: PropTypes.string,
     date: PropTypes.string,
@@ -118,7 +117,7 @@ AssetFull.propTypes = {
     stats: PropTypes.object,
     token: PropTypes.string,
     tools: PropTypes.string,
-    url: PropTypes.string,
+    url: PropTypes.string
 }
 
 AssetFull.defaultProps = {
@@ -131,7 +130,7 @@ AssetFull.defaultProps = {
     stats: null,
     token: null,
     tools: null,
-    url: null,
+    url: null
 }
 
 export default AssetFull

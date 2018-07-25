@@ -1,8 +1,13 @@
 import React from 'react'
 import { XYPlot, XAxis, YAxis, LineSeries, VerticalGridLines, HorizontalGridLines } from 'react-vis'
 
+import 'react-vis/dist/style.css'
 import './Chart.css'
-import '../../node_modules/react-vis/dist/style.css'
+
+const style = {
+    stroke: '#7b1173',
+    strokeWidth: 3
+}
 
 const Chart = () => {
     const data = [
@@ -24,11 +29,11 @@ const Chart = () => {
             <XYPlot height={300} width={500} xType="ordinal">
                 <VerticalGridLines />
                 <HorizontalGridLines />
-                <YAxis className='Title-color' title='Price in OCN' />
-                <XAxis className='Title-color' title='Q Local Tokens' />
+                <YAxis className="Title-color" title="Price in OCN" />
+                <XAxis className="Title-color" title="Q Local Tokens" />
                 <LineSeries
                     data={data}
-                    style={{ stroke: '#7b1173', strokeWidth: 3 /* stylelint-disable-line */ }} />
+                    style={style} />
             </XYPlot>
 
         </div>
@@ -55,11 +60,11 @@ const Chart2 = () => {
             <XYPlot height={300} width={500}>
                 <VerticalGridLines />
                 <HorizontalGridLines />
-                <YAxis className='Title-color' title='Price in OCN' />
-                <XAxis className='Title-color' title='Q Local Tokens' />
+                <YAxis className="Title-color" title="Price in OCN" />
+                <XAxis className="Title-color" title="Q Local Tokens" />
                 <LineSeries
                     data={data}
-                    style={{ stroke: '#7b1173', strokeWidth: 3 /* stylelint-disable-line */ }} />
+                    style={style} />
             </XYPlot>
         </div>
     )
@@ -67,5 +72,5 @@ const Chart2 = () => {
 
 export {
     Chart,
-    Chart2,
+    Chart2
 }

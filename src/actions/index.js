@@ -1,9 +1,7 @@
-import * as account from './account' // eslint-disable-line
-import * as asset from './asset' // eslint-disable-line
-
+import * as account from './account'
+import * as asset from './asset'
 
 import mockAssets from '../mock/assets'
-
 
 export function setProviders() {
     return (dispatch) => {
@@ -92,6 +90,16 @@ export function putAsset(newAsset) {
     }
 }
 
+export function updateAsset(updatedAsset) {
+    return async (dispatch, getState) => {
+        const state = getState()
+
+        await asset.updateMetadata(
+            Object.assign(mockAssets[0], updatedAsset)
+            // ... TODO
+        )
+    }
+}
 
 export function updateAsset(updatedAsset) {
     return async (dispatch, getState) => {
@@ -107,7 +115,7 @@ export function updateAsset(updatedAsset) {
 }
 
 export function getAssets() {
-    /*Get list of assets for the current selected account */
+    /* Get list of assets for the current selected account */
     return async (dispatch, getState) => {
         const state = getState()
 
@@ -130,9 +138,8 @@ export function getAssets() {
     }
 }
 
-
 export function getCurrentAccountAssets() {
-    /*Get list of assets for the current selected account */
+    /* Get list of assets for the current selected account */
     return async (dispatch, getState) => {
         const state = getState()
 

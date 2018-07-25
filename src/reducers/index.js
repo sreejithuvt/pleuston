@@ -11,7 +11,7 @@ const appReducer = combineReducers({
     account,
     asset,
     contract,
-    provider,
+    provider
 })
 
 export default appReducer

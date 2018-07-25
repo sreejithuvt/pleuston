@@ -37,10 +37,8 @@ AssetNew.propTypes = {
     handleSubmit: PropTypes.func.isRequired
 }
 
-
 const AssetNewForm = reduxForm({
     form: 'new_asset'
 })(AssetNew)
-
 
 export default AssetNewForm
