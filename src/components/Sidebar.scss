@@ -1,3 +1,31 @@
+@import 'variables';
+
 .sidebar {
     margin: 0;
+    padding: 0;
+
+
+    li {
+        list-style: none;
+    }
+
+    a {
+        display: block;
+        padding: $spacer / 4;
+        font-family: $font-family-button;
+        color: $brand-grey;
+
+        &:hover,
+        &:focus {
+            transform: none;
+            color: inherit;
+            background: lighten($brand-grey-lighter, 5%);
+        }
+
+        &.active,
+        &:active {
+            color: $brand-white;
+            background: $brand-black;
+        }
+    }
 }

@@ -101,7 +101,6 @@ export function updateAsset(updatedAsset) {
     }
 }
 
-
 export function getAssets() {
     /* Get list of assets for the current selected account */
     return async (dispatch, getState) => {

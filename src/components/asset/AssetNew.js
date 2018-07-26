@@ -15,19 +15,19 @@ const AssetNew = ({
             <form className="form" onSubmit={handleSubmit}>
                 <div className="form__group">
                     <FormLabel htmlFor="name" label="Title" />
-                    <FormInput required component="input" name="name" type="text" />
+                    <FormInput required component="input" name="name" type="text" placeholder="The title of your asset" />
                 </div>
                 <div className="form__group">
                     <FormLabel htmlFor="abstract" label="Abstract" />
-                    <FormInput required component="textarea" name="abstract" type="text" />
+                    <FormInput required component="textarea" name="abstract" placeholder="Describe your asset" />
                 </div>
                 <div className="form__group">
                     <FormLabel htmlFor="url" label="Url" />
-                    <FormInput required component="input" name="url" type="text" />
+                    <FormInput required component="input" name="url" type="url" placeholder="https://url.com/" />
                 </div>
-                <aside className="asset__ticker">
+                <div className="form__group">
                     <Button primary type="submit">Publish</Button>
-                </aside>
+                </div>
             </form>
         </div>
     </div>

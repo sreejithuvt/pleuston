@@ -42,8 +42,7 @@ export async function publish(asset, market_contract, account, providers) {
     }
     // Now register in oceandb and publish the metadata
 
-    // Now register in oceandb and publish the metadata
-    let ocean_register_resource_url = getOceanBackendURL(providers) + "/asset"
+    let ocean_register_resource_url = getOceanBackendURL(providers) + '/asset'
 
     const dbAsset = await ocean_backend.models.ocean
         .create({
@@ -60,15 +59,13 @@ export async function publish(asset, market_contract, account, providers) {
             }
         })
 
-
     fetch(ocean_register_resource_url, {
         method: 'POST',
         body: JSON.stringify(asset),
-        headers: {'Content-type': 'application/json'},
+        headers: { 'Content-type': 'application/json' }
     }).then(res => res.json())
         .catch(error => console.error('Error:', error))
-        .then(response => console.log('Success:', response));
-
+        .then(response => console.log('Success:', response))
 
     try {
         await market_contract.publish(
@@ -86,16 +83,14 @@ export async function updateMetadata(asset, account, providers) {
     const { web3, ocean_backend } = providers
 
     // get provider-backend url
-    let update_url = ocean_backend.api_url + "/assets/metadata";
+    let update_url = ocean_backend.api_url + '/assets/metadata'
     fetch(update_url, {
         method: 'PUT',
         body: JSON.stringify(asset),
-        headers: {'Content-type': 'application/json'},
+        headers: { 'Content-type': 'application/json' }
     }).then(res => res.json())
         .catch(error => console.error('Error:', error))
-        .then(response => console.log('Success:', response));
-
-
+        .then(response => console.log('Success:', response))
 }
 
 export async function purchaseResource(asset, account, providers) {
@@ -107,11 +102,9 @@ export async function purchaseResource(asset, account, providers) {
     // Once the purchase agreement is fetched, display to the user to get confirmation to proceed with purchase
     // When agreement accepted by consumer, pat the purchase price and continue with the purchase transaction
     // ...
-
 }
 
-
-export async function list(contract, account, providers, own_assets_only=false) {
+export async function list(contract, account, providers, own_assets_only = false) {
     const { db } = providers
 
     let web3AssetIds = []

@@ -1,12 +1,19 @@
+@import 'variables';
+
 .layout {
+    flex: 1;
     display: flex;
     justify-content: space-between;
 }
 
 .layout__sidebar {
     flex: 1 1 26%;
+    padding-top: $spacer;
+    padding-bottom: $spacer;
+    border-right: .1rem solid lighten($brand-grey-lighter, 5%);
 }
 
 .layout__content {
     flex: 1 1 70%;
+    padding: $spacer;
 }
