@@ -103,8 +103,8 @@ export async function purchaseResource(asset, account, providers) {
     // When agreement accepted by consumer, pat the purchase price and continue with the purchase transaction
     // ...
 }
-export async function list(contract, account, providers, own_assets_only = false) {
 
+export async function list(contract, account, providers, own_assets_only = false) {
     const { db } = providers
 
     let web3AssetIds = []

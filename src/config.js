@@ -28,7 +28,7 @@ module.exports = {
         app_key: 'd068996d8d5b1a66cfc61dc3a83fa7ee'
     },
 
-    dbNamespace: 'ocean:plankton:v0.0.0:asset:metadata',
+    dbNamespace: 'ocean:plankton:v0.0.0:asset:metadata'
     // ocnHost: '',
     // ocnPort: '3000',
 

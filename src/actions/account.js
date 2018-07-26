@@ -36,7 +36,7 @@ export function createProviders() {
 
     // ocean agent
     const ocnURL = `http://${ocnHost}:${ocnPort}/app/v1/provider`
-    return { web3, db, ocnURL}
+    return { web3, db, ocnURL }
 }
 
 export async function deployContracts(provider) {
