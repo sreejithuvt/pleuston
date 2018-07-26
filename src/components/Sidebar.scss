@@ -22,7 +22,9 @@
             background: lighten($brand-grey-lighter, 5%);
         }
 
-        &.active,
+        // stylelint-disable selector-no-qualifying-type
+        &.is-active,
+        // stylelint-enable selector-no-qualifying-type
         &:active {
             color: $brand-white;
             background: $brand-black;
