@@ -12,7 +12,7 @@ module.exports = {
     // dbPort: 9984,
     ocnScheme: 'http',
     ocnHost: 'localhost',
-    ocnPort: '5000',
+    ocnPort: 5000,
 
     // -----
     // Setup using remote services
@@ -32,6 +32,6 @@ module.exports = {
     dbNamespace: 'ocean:plankton:v0.0.0:asset:metadata'
     // ocnScheme: 'https',
     // ocnHost: '',
-    // ocnPort: '3000',
+    // ocnPort: 3000,
 
 }
