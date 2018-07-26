@@ -8,9 +8,6 @@ const Sidebar = () => (
                 <a href="/">Home</a>
             </li>
             <li>
-                <a href="/datasets/new">Publish Data</a>
-            </li>
-            <li>
                 <a href="/datasets">My Data</a>
             </li>
             <li>
