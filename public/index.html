@@ -43,10 +43,30 @@
     }
 
     .loader {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      margin-top: calc(50vh - 15px);
+        position: relative;
+        margin-top: calc(50vh - 15px);
+    }
+
+    .loader:before {
+        content: '';
+        box-sizing: border-box;
+        position: absolute;
+        top: -80%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin-top: -10px;
+        margin-left: -10px;
+        border-radius: 50%;
+        border: 2px solid #7b1173;
+        border-top-color: #e000cf;
+        animation: spinner .6s linear infinite;
+    }
+
+    @keyframes spinner {
+        to {
+            transform: rotate(360deg);
+        }
     }
 
     /* stylelint-enable */
@@ -58,7 +78,7 @@
     You need to enable JavaScript to run this app.
   </noscript>
   <div id="root">
-    <img class="loader" src="%PUBLIC_URL%/loader.svg" width="30" height="30" />
+    <div class="loader"></div>
   </div>
 </body>
 
