@@ -13,7 +13,9 @@ import {
     dbScheme,
     keeperHost,
     keeperPort,
-    keeperScheme
+    keeperScheme,
+    ocnHost,
+    ocnPort
 } from '../config'
 
 export function createProviders() {
@@ -31,7 +33,10 @@ export function createProviders() {
         headers
     )
     db.define('ocean', dbNamespace)
-    return { web3, db }
+
+    // ocean agent
+    const ocnURL = `http://${ocnHost}:${ocnPort}/app/v1/provider`
+    return { web3, db, ocnURL}
 }
 
 export async function deployContracts(provider) {
