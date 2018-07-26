@@ -101,18 +101,6 @@ export function updateAsset(updatedAsset) {
     }
 }
 
-export function updateAsset(updatedAsset) {
-    return async (dispatch, getState) => {
-        const state = getState()
-
-        await asset.updateMetadata(
-            object.assign(mockAssets[0], updatedAsset),
-            //... TODO
-        )
-
-    }
-
-}
 
 export function getAssets() {
     /* Get list of assets for the current selected account */
