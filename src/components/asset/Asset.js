@@ -16,9 +16,10 @@ const Asset = ({
         </header>
 
         <div className="asset__meta">
-            <h2 className="asset__caption">{ asset.abstract }</h2>
+            <h2 className="asset__caption">{ asset.description }</h2>
             <div className="asset__date">Date: { asset.date }</div>
-            <div className="asset__publisher">By: { asset.publisher }</div>
+            <div className="asset__publisher">By: {asset.publisher.slice(0, 25)}...</div>
+            <div className="asset__price">Price: { asset.price }</div>
         </div>
         <AssetMedia url={asset.url} />
         <aside className="asset__ticker">

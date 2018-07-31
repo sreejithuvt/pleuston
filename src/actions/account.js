@@ -36,16 +36,18 @@ export function createProviders() {
     db.define('ocean', dbNamespace)
 
     // ocean agent
-    const ocnURL = `${ocnScheme}://${ocnHost}:${ocnPort}/app/v1/provider`
+    const ocnURL = `${ocnScheme}://${ocnHost}:${ocnPort}/api/v1/provider`
     return { web3, db, ocnURL }
 }
 
 export async function deployContracts(provider) {
-    const ocean = TruffleContract(OceanToken)
-    ocean.setProvider(provider)
-    return {
-        ocean: await ocean.deployed()
+    const oceanToken = TruffleContract(OceanToken)
+    oceanToken.setProvider(provider)
+    let contracts = {
+        oceanToken: await oceanToken.deployed()
     }
+    console.log("OceanToken contract: ", contracts)
+    return contracts
 }
 
 export async function list(contract, providers) {

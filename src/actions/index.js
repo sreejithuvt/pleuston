@@ -17,13 +17,13 @@ export function getAccounts() {
         const {
             provider,
             contract: {
-                ocean
+                oceanToken
             }
         } = getState()
 
         dispatch({
             type: 'GET_ACCOUNTS',
-            accounts: await account.list(ocean, provider)
+            accounts: await account.list(oceanToken, provider)
         })
     }
 }
@@ -98,6 +98,8 @@ export function updateAsset(updatedAsset) {
             Object.assign(mockAssets[0], updatedAsset)
             // ... TODO
         )
+
+        dispatch(getAssets())
     }
 }
 
@@ -105,7 +107,7 @@ export function getAssets() {
     /* Get list of assets for the current selected account */
     return async (dispatch, getState) => {
         const state = getState()
-
+        console.log("market: ", state.contract.market)
         const assets = (await asset
             .list(
                 state.contract.market,
@@ -130,7 +132,7 @@ export function getCurrentAccountAssets() {
     return async (dispatch, getState) => {
         const state = getState()
 
-        const assets = (await asset
+        const myAssets = (await asset
             .list(
                 state.contract.market,
                 getActiveAccount(state),
@@ -143,8 +145,8 @@ export function getCurrentAccountAssets() {
             }, {})
 
         dispatch({
-            type: 'GET_ASSETS',
-            assets
+            type: 'GET_MY_ASSETS',
+            myAssets
         })
     }
 }

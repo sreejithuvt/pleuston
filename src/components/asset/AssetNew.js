@@ -18,15 +18,19 @@ const AssetNew = ({
                     <FormInput required component="input" name="name" type="text" placeholder="The title of your asset" />
                 </div>
                 <div className="form__group">
-                    <FormLabel htmlFor="abstract" label="Abstract" />
-                    <FormInput required component="textarea" name="abstract" placeholder="Describe your asset" />
+                    <FormLabel htmlFor="description" label="Abstract" />
+                    <FormInput required component="textarea" name="description" placeholder="Describe your asset" />
                 </div>
                 <div className="form__group">
                     <FormLabel htmlFor="url" label="Url" />
                     <FormInput required component="input" name="url" type="url" placeholder="https://url.com/" />
                 </div>
                 <div className="form__group">
-                    <Button primary type="submit">Publish</Button>
+                    <FormLabel htmlFor="price" label="Price" />
+                    <FormInput required type="number" component="input" name="price" placeholder="Price in ocean tokens" />
+                </div>
+                <div className="form__group">
+                    <Button primary="true" type="submit">Publish</Button>
                 </div>
             </form>
         </div>
