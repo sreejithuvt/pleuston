@@ -64,15 +64,18 @@ export async function publish(asset, market_contract, account, provider) {
     asset.id = assetId
     asset.publisher = account_address
     var jAsset = JSON.stringify({
-        "metadata": {
-            "name": asset.name,
-            "description": asset.description,
-            "links": asset.links,
-            "format": asset.format,
-            "size": asset.size
+        metadata: {
+            name: asset.name,
+            description: asset.description,
+            links: asset.links,
+            format: asset.format,
+            size: asset.size,
+            price: asset.price,
+            url: asset.url,
         },
-        "assetId": asset.id,
-        "publisherId": asset.publisher
+        assetId: asset.id,
+        publisherId: asset.publisher,
+        date: Date.now()
     })
     console.log('newasset to publish: ', jAsset, asset)
     let ocean_register_resource_url = getOceanBackendURL(provider) + '/metadata'
@@ -144,8 +147,6 @@ export async function list(contract, account, providers, own_assets_only=false) 
             ...dbAsset.metadata,
             id: dbAsset.assetId,
             publisher: dbAsset.publisherId,
-            date: "",
-            url: "",
             stats: {
                 change: '+4.5%',
                 accepted: '52%',
@@ -153,8 +154,6 @@ export async function list(contract, account, providers, own_assets_only=false) 
                 challenged: '3',
                 purchased: '142'
             },
-            price: 0.0,
-            // date: (new Date(dbAsset.metadata.date)).toLocaleDateString('en-US'),
 
         }))
     } else {
