@@ -8,16 +8,16 @@ const menuItems = [
         route: '/'
     },
     {
-        name: 'My Data',
+        name: 'Publish new',
+        route: '/newdataset'
+    },
+    {
+        name: 'My own data sets',
         route: '/datasets'
     },
     {
         name: 'Orders',
         route: '/orders'
-    },
-    {
-        name: 'History',
-        route: '/history'
     }
 ]
 

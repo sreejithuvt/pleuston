@@ -43,11 +43,9 @@ export function createProviders() {
 export async function deployContracts(provider) {
     const oceanToken = TruffleContract(OceanToken)
     oceanToken.setProvider(provider)
-    let contracts = {
+    return {
         oceanToken: await oceanToken.deployed()
     }
-    console.log("OceanToken contract: ", contracts)
-    return contracts
 }
 
 export async function list(contract, providers) {

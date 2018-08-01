@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Asset from './Asset'
-import AssetNewLoader from '../../containers/AssetNewLoader'
 
 import './AssetList.css'
 
@@ -11,7 +10,6 @@ const AssetList = ({
     handleClick
 }) => (
     <div className="assets">
-        <AssetNewLoader />
         {
             assets.map(asset => (
                 <div
