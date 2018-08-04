@@ -43,7 +43,7 @@
     "sha3": "^1.2.2",
     "truffle-contract": "^3.0.5",
     "util.promisify": "^1.0.0",
-    "web3": "^0.20.6"
+    "web3": "0.20.6"
   },
   "devDependencies": {
     "eslint": "^5.2.0",
