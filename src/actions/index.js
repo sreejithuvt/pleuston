@@ -182,8 +182,10 @@ export function purchaseAsset(assetId) {
         const state = getState()
 
         const token = await asset.purchase(
-            getActiveAsset(state).web3Id,
+            getActiveAsset(state),
             state.contract.market,
+            state.contract.acl,
+            state.contract.oceanToken,
             getActiveAccount(state),
             state.provider
         )

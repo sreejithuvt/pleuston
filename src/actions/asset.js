@@ -2,10 +2,10 @@
 /* eslint-disable camelcase */
 
 import TruffleContract from 'truffle-contract'
-
 import Market from '@oceanprotocol/keeper-contracts/build/contracts/OceanMarket'
 import Auth from '@oceanprotocol/keeper-contracts/build/contracts/OceanAuth'
-import { dbNamespace } from '../config'
+const nRSA = require("node-rsa")
+
 
 const DEFAULT_GAS = 300 * 1000
 
@@ -106,24 +106,25 @@ export async function list(contract, account, providers, own_assets_only=false) 
     let ocean_get_resource_ids_url = getOceanBackendURL(providers) + '/metadata'
     // console.log('provider url: ', ocean_get_resource_ids_url)
     var dbAssets = JSON.parse(await fetch(ocean_get_resource_ids_url, { method: 'GET' }).then( data => {return data.json()}))
-    // console.log('assets: ', dbAssets)
+    console.log('assets: ', dbAssets)
     dbAssets = Object.values(dbAssets)
 
     let filteredAssets = []
     for (var asset of dbAssets) {
-        let valid = true//await contract.checkAsset(asset.assetId)
+        let valid = await contract.checkAsset(asset.assetId)
         if (valid) {
             filteredAssets.push(asset)
         }
     }
     dbAssets = filteredAssets
+    console.log('assets (published on-chain): ', dbAssets)
 
     function myOwn(asset) {
         console.log("account: ", account.name)
         console.log("publisher: ", asset.publisherId)
         return asset.publisherId === account.name
     }
-    if (account) {
+    if (account && own_assets_only) {
         dbAssets = dbAssets.filter(myOwn)
     }
 
@@ -147,30 +148,144 @@ export async function list(contract, account, providers, own_assets_only=false) 
 
 }
 
-// export async function purchase(assetId, contract, account, providers) {
-//     const { web3 } = providers
-//
-//     await contract.purchase(
-//         assetId,
-//         { from: account.name, gas: 200000 }
-//     )
-//
-//     const token = web3.toAscii(await contract.getAssetToken(assetId))
-//
-//     // const dbAssetRetrieved = await db.models.ocean.retrieve(token)[0]
-//     return token
-// }
 
-export async function purchase(assetId, contract, account, providers) {
+function watchAccessRequestEvent(account, aclContract, marketContract) {
+    return async function watch1(error, result) {
+        if (error) {
+            console.log("Error in keeper event: ", error)
+            return null
+        }
+
+        console.log("keeper event received: ", result)
+        let accessId = 0x0
+        accessId = result.args._id
+        console.log('got new access request id: ', accessId)
+        // TODO: save access request id to local store
+    }
+}
+
+function watchAccessRequestCommittedEvent(account, asset, aclContract, marketContract) {
+    return async  function watch2(error, result) {
+        if (error) {
+            console.log("Error in keeper event: ", error)
+            return null
+        }
+
+        console.log("AccessRequestCommitted result: ", result, result.args._id);
+
+        // id, expire, discovery, permissions, accessAgreementRef
+        // Once the purchase agreement is fetched, display to the user to get confirmation to proceed with purchase
+        let continuePurchase = window.confirm("Provider committed access consent. Click `Ok` to submit payment and complete the purchase transaction or `Cancel` to withdraw the access request.")
+        if (continuePurchase) {
+            // send payment
+            let assetPrice = await marketContract.getAssetPrice(asset.id).then(function (price) {
+                return price.toNumber();
+            })
+            console.log('sending payment: ', result.args._id, asset.publisher, assetPrice, 9999999999)
+            marketContract.sendPayment(result.args._id, asset.publisher, assetPrice, 999999, {from: account.name})
+        } else {
+            aclContract.cancelAccessRequest(result.args._id, {from: account.name})
+        }
+    }
+}
+
+function watchAccessRequestRejectedEvent(account, aclContract, marketContract) {
+    return async  function watch3(error, result) {
+        if (error) {
+            console.log("Error in keeper event: ", error)
+            return null
+        }
+
+        console.log("access request rejected by provider: ", result)
+        // update order status locally
+
+    }
+
+}
+
+
+function watchPaymentReceivedEvent(account, aclContract, marketContract) {
+    return async  function watch4(error, result) {
+        if (error) {
+            console.log("Error in keeper event: ", error)
+            return null
+        }
+
+        console.log("payment received result: ", result);
+    }
+
+}
+
+function watchEncryptedTokenPublishedEvent(account, web3, aclContract, marketContract, key) {
+    return async  function watch5(error, result) {
+        if (error) {
+            console.log("Error in keeper event: ", error)
+            return null
+        }
+
+        console.log("access token published by provider: ", result)
+        // grab the access token from aclContract
+        let encryptedToken = await aclContract.getEncryptedAccessToken(result.args._id, {from: account.name})
+        console.log('encrypted token: ', encryptedToken)
+        // decrypt the token
+        let accessToken = key.decrypt(encryptedToken)
+        console.log('access token: ', accessToken)
+
+        // sign it
+        let signedToken = web3.eth.sign(account.name, accessToken)
+        console.log('signed token: ', signedToken)
+        // Download the data set from the provider using the url in the access token
+
+
+    }
+}
+
+
+export async function purchase(asset, marketContract, aclContract, tokenContract, account, providers) {
     const { web3, ocnURL } = providers
 
-    // TODO:
+    console.log('Purchasing asset by consumer: ', account.name, ' assetid: ', asset.id)
+
+    let assetId = asset.id
+
     // Verify assetId is valid on-chain
+    let isValid = await marketContract.checkAsset(assetId, { from: account.name})
+    let assetPrice = await marketContract.getAssetPrice(assetId).then(function(price) {return price.toNumber();})
+    console.log('is asset valid: ', isValid, ', asset price:', assetPrice)
+    if (!isValid) {
+        alert("this asset does not seem valid on-chain.")
+        return false
+    }
 
     // trigger purchaseResource on OceanAccessControl contract
-    // listen to `resourcePurchaseAgreementPublished`
-    // Once the purchase agreement is fetched, display to the user to get confirmation to proceed with purchase
-    // When agreement accepted by consumer, pat the purchase price and continue with the purchase transaction
-    // ...
+    // TODO: allow user to set timeout through the UI.
+    let timeout = 3600 * 12 // 12 hours
+    // generate temp key pair
+    const key = new nRSA({b: 512})
+    let privateKey=key.exportKey()
+    let publicKey=key.exportKey('public')
+
+    // listen to keeper events
+    var accessRequestedEvent = aclContract.AccessConsentRequested()
+    var accessCommittedEvent = aclContract.AccessRequestCommitted()
+    var accessRejectedEvent = aclContract.AccessRequestRejected()
+    var paymentReceivedEvent = marketContract.PaymentReceived()
+    var accessTokenPublishedEvent = aclContract.EncryptedTokenPublished()
+
+    accessRequestedEvent.watch(watchAccessRequestEvent(account, aclContract, marketContract))
+    accessCommittedEvent.watch(watchAccessRequestCommittedEvent(account, asset, aclContract, marketContract))
+    accessRejectedEvent.watch(watchAccessRequestRejectedEvent(account, aclContract, marketContract))
+    paymentReceivedEvent.watch(watchPaymentReceivedEvent(account, aclContract, marketContract))
+    accessTokenPublishedEvent.watch(watchEncryptedTokenPublishedEvent(account, web3, aclContract, marketContract, key))
+
+    // Allow OceanMarket contract to transfer funds on the consumer's behalf
+    tokenContract.approve(marketContract.address, assetPrice, { from: account.name })
+    let allowance = await tokenContract.allowance(account.name, marketContract.address).then(function(value) {return value.toNumber();})
+    console.log('OceanMarket allowance: ', allowance)
+    // Now we can start the access flow
+    aclContract.initiateAccessRequest(assetId, asset.publisher, publicKey,
+        timeout, {from: account.name, gas: 6000000})
+
 }
+
 

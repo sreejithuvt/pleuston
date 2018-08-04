@@ -1,5 +1,6 @@
 const initialState = {
     assets: {},
+    myAssets: {},
     activeAsset: null,
     filter: {}
 }
@@ -10,10 +11,10 @@ const asset = (state = initialState, action) => {
             return Object.assign({}, state, {
                 assets: action.assets
             })
-        case 'GET_MY_ASSETS':
-            return Object.assign({}, state, {
-                assets: action.myAssets
-            })
+        // case 'GET_MY_ASSETS':
+        //     return Object.assign({}, state, {
+        //         myAssets: action.myAssets
+        //     })
         case 'SET_ACTIVE_ASSET':
             return Object.assign({}, state, {
                 activeAsset: action.activeAsset

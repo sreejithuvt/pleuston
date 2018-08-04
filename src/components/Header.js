@@ -22,7 +22,7 @@ const Header = ({
                 activeAccount ? (
                     <Fragment>
                         <span className="header__menu__user" title={activeAccount.name}>
-                            {activeAccount.name.slice(0, 20)}...
+                            {activeAccount.name}
                         </span>
                         <AccountBalance {...activeAccount.balance} />
                     </Fragment>

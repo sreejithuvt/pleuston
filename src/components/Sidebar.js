@@ -4,7 +4,7 @@ import './Sidebar.css'
 
 const menuItems = [
     {
-        name: 'Home',
+        name: 'My accounts',
         route: '/'
     },
     {
