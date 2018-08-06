@@ -23,6 +23,7 @@
     "bip39": "^2.5.0",
     "classnames": "^2.2.5",
     "connected-react-router": "^4.3.0",
+    "eth-crypto": "^1.2.3",
     "history": "^4.7.2",
     "js-sha3": "^0.7.0",
     "prop-types": "^15.6.1",

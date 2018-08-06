@@ -4,8 +4,13 @@
 import TruffleContract from 'truffle-contract'
 import Market from '@oceanprotocol/keeper-contracts/build/contracts/OceanMarket'
 import Auth from '@oceanprotocol/keeper-contracts/build/contracts/OceanAuth'
-const nRSA = require("node-rsa")
+import EthCrypto from 'eth-crypto'
 
+// var crypto = require("crypto-js");
+// var eccrypto = require("eccrypto");
+
+// const nRSA = require("node-rsa")
+// const ethWallet = require("eth-crypto")
 
 const DEFAULT_GAS = 300 * 1000
 
@@ -164,7 +169,7 @@ function watchAccessRequestEvent(account, aclContract, marketContract) {
     }
 }
 
-function watchAccessRequestCommittedEvent(account, asset, aclContract, marketContract) {
+function watchAccessRequestCommittedEvent(account, asset, timeout, aclContract, marketContract) {
     return async  function watch2(error, result) {
         if (error) {
             console.log("Error in keeper event: ", error)
@@ -181,8 +186,8 @@ function watchAccessRequestCommittedEvent(account, asset, aclContract, marketCon
             let assetPrice = await marketContract.getAssetPrice(asset.id).then(function (price) {
                 return price.toNumber();
             })
-            console.log('sending payment: ', result.args._id, asset.publisher, assetPrice, 9999999999)
-            marketContract.sendPayment(result.args._id, asset.publisher, assetPrice, 999999, {from: account.name})
+            console.log('sending payment: ', result.args._id, asset.publisher, assetPrice, timeout)
+            marketContract.sendPayment(result.args._id, asset.publisher, assetPrice, timeout, {from: account.name})
         } else {
             aclContract.cancelAccessRequest(result.args._id, {from: account.name})
         }
@@ -226,11 +231,27 @@ function watchEncryptedTokenPublishedEvent(account, web3, aclContract, marketCon
         console.log("access token published by provider: ", result)
         // grab the access token from aclContract
         let encryptedToken = await aclContract.getEncryptedAccessToken(result.args._id, {from: account.name})
-        console.log('encrypted token: ', encryptedToken)
+        // console.log('encrypted token: ', encryptedToken)
         // decrypt the token
-        let accessToken = key.decrypt(encryptedToken)
-        console.log('access token: ', accessToken)
+        // let privKey = Buffer.from('0x' + key.toString())
 
+        // console.log("key: ", key.toString(), privKey,  bitcore.PublicKey(key).toString(), encryptedToken)
+        //
+        // let accessToken = await eccrypto.decrypt(privKey, encryptedToken).then(function(tok) {return tok.toString();})
+
+        // var myDecryptKey = ECIES().privateKey(key)
+        // console.log("keys::::::::::; ", key, privKey, myDecryptKey, encryptedToken)
+        // let accessToken = myDecryptKey.decrypt(encryptedToken)
+
+        // encryptedToken = new Buffer(encryptedToken, 'hex')
+        console.log("pub from priv: ", EthCrypto.publicKeyByPrivateKey(key.privateKey))
+        // const encTokenStr = EthCrypto.cipher.stringify(encryptedToken)
+
+        const encTokenStr = EthCrypto.cipher.parse(encryptedToken)
+        let accessToken = EthCrypto.decryptWithPrivateKey(key.privateKey, encTokenStr)
+
+
+        console.log('access token: ', accessToken)
         // sign it
         let signedToken = web3.eth.sign(account.name, accessToken)
         console.log('signed token: ', signedToken)
@@ -259,11 +280,14 @@ export async function purchase(asset, marketContract, aclContract, tokenContract
 
     // trigger purchaseResource on OceanAccessControl contract
     // TODO: allow user to set timeout through the UI.
-    let timeout = 3600 * 12 // 12 hours
+    let timeout = (new Date().getTime() / 1000) + 3600 * 12 // 12 hours
     // generate temp key pair
-    const key = new nRSA({b: 512})
-    let privateKey=key.exportKey()
-    let publicKey=key.exportKey('public')
+
+    const key = EthCrypto.createIdentity()  //new nRSA({b: 512})
+    let privateKey=key.privateKey  //exportKey()
+    let publicKey=key.publicKey  //exportKey('public')
+    let compressedKey = EthCrypto.publicKey.compress(publicKey)
+    console.log('temp pub key: ', publicKey, compressedKey)
 
     // listen to keeper events
     var accessRequestedEvent = aclContract.AccessConsentRequested()
@@ -273,7 +297,7 @@ export async function purchase(asset, marketContract, aclContract, tokenContract
     var accessTokenPublishedEvent = aclContract.EncryptedTokenPublished()
 
     accessRequestedEvent.watch(watchAccessRequestEvent(account, aclContract, marketContract))
-    accessCommittedEvent.watch(watchAccessRequestCommittedEvent(account, asset, aclContract, marketContract))
+    accessCommittedEvent.watch(watchAccessRequestCommittedEvent(account, asset, timeout, aclContract, marketContract))
     accessRejectedEvent.watch(watchAccessRequestRejectedEvent(account, aclContract, marketContract))
     paymentReceivedEvent.watch(watchPaymentReceivedEvent(account, aclContract, marketContract))
     accessTokenPublishedEvent.watch(watchEncryptedTokenPublishedEvent(account, web3, aclContract, marketContract, key))
@@ -283,7 +307,7 @@ export async function purchase(asset, marketContract, aclContract, tokenContract
     let allowance = await tokenContract.allowance(account.name, marketContract.address).then(function(value) {return value.toNumber();})
     console.log('OceanMarket allowance: ', allowance)
     // Now we can start the access flow
-    aclContract.initiateAccessRequest(assetId, asset.publisher, publicKey,
+    aclContract.initiateAccessRequest(assetId, asset.publisher, compressedKey,
         timeout, {from: account.name, gas: 6000000})
 
 }
