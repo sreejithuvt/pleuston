@@ -107,7 +107,7 @@ export function getAssets() {
     /* Get list of assets for the current selected account */
     return async (dispatch, getState) => {
         const state = getState()
-        console.log("market: ", state.contract.market)
+        console.log('market: ', state.contract.market)
         const assets = (await asset
             .list(
                 state.contract.market,

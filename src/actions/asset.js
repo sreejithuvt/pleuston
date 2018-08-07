@@ -38,7 +38,7 @@ export async function publish(asset, market_contract, account, provider) {
     // First, register on the keeper (on-chain)
     try {
         const id_str = asset.name + asset.description
-        await market_contract.requestTokens(2000, { from: account_address})
+        await market_contract.requestTokens(2000, { from: account_address })
         // try {
         //     let value = await market_contract.tokenBalance({from: account_address})
         //     console.log("balance: ", value)
@@ -50,15 +50,14 @@ export async function publish(asset, market_contract, account, provider) {
         // }
 
         assetId = await market_contract.generateId(id_str)
-        console.log("about to do market.register: ", assetId, asset.price, account_address)
+        console.log('about to do market.register: ', assetId, asset.price, account_address)
         await market_contract.register(
             assetId,
             asset.price, // price is zero for now.
             { from: account_address, gas: DEFAULT_GAS }
         )
-
     } catch (e) {
-        console.error("Error registering the asset on-chain:", e)
+        console.error('Error registering the asset on-chain:', e)
         return
     }
 
@@ -74,7 +73,7 @@ export async function publish(asset, market_contract, account, provider) {
             format: asset.format,
             size: asset.size,
             price: asset.price,
-            url: asset.url,
+            url: asset.url
         },
         assetId: asset.id,
         publisherId: asset.publisher,
@@ -87,9 +86,8 @@ export async function publish(asset, market_contract, account, provider) {
         body: jAsset,
         headers: { 'Content-type': 'application/json' }
     }).then(res => res.json())
-    .catch(error => console.error('Error:', error))
-    .then(response => console.log('Success:', response))
-
+        .catch(error => console.error('Error:', error))
+        .then(response => console.log('Success:', response))
 }
 
 export async function updateMetadata(asset, account, providers) {
@@ -106,11 +104,10 @@ export async function updateMetadata(asset, account, providers) {
         .then(response => console.log('Success:', response))
 }
 
-export async function list(contract, account, providers, own_assets_only=false) {
-
+export async function list(contract, account, providers, own_assets_only = false) {
     let ocean_get_resource_ids_url = getOceanBackendURL(providers) + '/metadata'
     // console.log('provider url: ', ocean_get_resource_ids_url)
-    var dbAssets = JSON.parse(await fetch(ocean_get_resource_ids_url, { method: 'GET' }).then( data => {return data.json()}))
+    var dbAssets = JSON.parse(await fetch(ocean_get_resource_ids_url, { method: 'GET' }).then(data => { return data.json() }))
     console.log('assets: ', dbAssets)
     dbAssets = Object.values(dbAssets)
 
@@ -125,16 +122,16 @@ export async function list(contract, account, providers, own_assets_only=false) 
     console.log('assets (published on-chain): ', dbAssets)
 
     function myOwn(asset) {
-        console.log("account: ", account.name)
-        console.log("publisher: ", asset.publisherId)
+        console.log('account: ', account.name)
+        console.log('publisher: ', asset.publisherId)
         return asset.publisherId === account.name
     }
     if (account && own_assets_only) {
         dbAssets = dbAssets.filter(myOwn)
     }
 
-    if (!!dbAssets) {
-        return Object.values(dbAssets).map( (dbAsset) => ({
+    if (dbAssets) {
+        return Object.values(dbAssets).map((dbAsset) => ({
             ...dbAsset.metadata,
             id: dbAsset.assetId,
             publisher: dbAsset.publisherId,
@@ -144,24 +141,22 @@ export async function list(contract, account, providers, own_assets_only=false) 
                 rejected: '32.8%',
                 challenged: '3',
                 purchased: '142'
-            },
+            }
 
         }))
     } else {
-        return {};
+        return {}
     }
-
 }
-
 
 function watchAccessRequestEvent(account, aclContract, marketContract) {
     return async function watch1(error, result) {
         if (error) {
-            console.log("Error in keeper event: ", error)
+            console.log('Error in keeper event: ', error)
             return null
         }
 
-        console.log("keeper event received: ", result)
+        console.log('keeper event received: ', result)
         let accessId = 0x0
         accessId = result.args._id
         console.log('got new access request id: ', accessId)
@@ -170,67 +165,63 @@ function watchAccessRequestEvent(account, aclContract, marketContract) {
 }
 
 function watchAccessRequestCommittedEvent(account, asset, timeout, aclContract, marketContract) {
-    return async  function watch2(error, result) {
+    return async function watch2(error, result) {
         if (error) {
-            console.log("Error in keeper event: ", error)
+            console.log('Error in keeper event: ', error)
             return null
         }
 
-        console.log("AccessRequestCommitted result: ", result, result.args._id);
+        console.log('AccessRequestCommitted result: ', result, result.args._id)
 
         // id, expire, discovery, permissions, accessAgreementRef
         // Once the purchase agreement is fetched, display to the user to get confirmation to proceed with purchase
-        let continuePurchase = window.confirm("Provider committed access consent. Click `Ok` to submit payment and complete the purchase transaction or `Cancel` to withdraw the access request.")
+        let continuePurchase = window.confirm('Provider committed access consent. Click `Ok` to submit payment and complete the purchase transaction or `Cancel` to withdraw the access request.')
         if (continuePurchase) {
             // send payment
-            let assetPrice = await marketContract.getAssetPrice(asset.id).then(function (price) {
-                return price.toNumber();
+            let assetPrice = await marketContract.getAssetPrice(asset.id).then(function(price) {
+                return price.toNumber()
             })
             console.log('sending payment: ', result.args._id, asset.publisher, assetPrice, timeout)
-            marketContract.sendPayment(result.args._id, asset.publisher, assetPrice, timeout, {from: account.name})
+            marketContract.sendPayment(result.args._id, asset.publisher, assetPrice, timeout, { from: account.name })
         } else {
-            aclContract.cancelAccessRequest(result.args._id, {from: account.name})
+            aclContract.cancelAccessRequest(result.args._id, { from: account.name })
         }
     }
 }
 
 function watchAccessRequestRejectedEvent(account, aclContract, marketContract) {
-    return async  function watch3(error, result) {
+    return async function watch3(error, result) {
         if (error) {
-            console.log("Error in keeper event: ", error)
+            console.log('Error in keeper event: ', error)
             return null
         }
 
-        console.log("access request rejected by provider: ", result)
+        console.log('access request rejected by provider: ', result)
         // update order status locally
-
     }
-
 }
 
-
 function watchPaymentReceivedEvent(account, aclContract, marketContract) {
-    return async  function watch4(error, result) {
+    return async function watch4(error, result) {
         if (error) {
-            console.log("Error in keeper event: ", error)
+            console.log('Error in keeper event: ', error)
             return null
         }
 
-        console.log("payment received result: ", result);
+        console.log('payment received result: ', result)
     }
-
 }
 
 function watchEncryptedTokenPublishedEvent(account, web3, aclContract, marketContract, key) {
-    return async  function watch5(error, result) {
+    return async function watch5(error, result) {
         if (error) {
-            console.log("Error in keeper event: ", error)
+            console.log('Error in keeper event: ', error)
             return null
         }
 
-        console.log("access token published by provider: ", result)
+        console.log('access token published by provider: ', result)
         // grab the access token from aclContract
-        let encryptedToken = await aclContract.getEncryptedAccessToken(result.args._id, {from: account.name})
+        let encryptedToken = await aclContract.getEncryptedAccessToken(result.args._id, { from: account.name })
         // console.log('encrypted token: ', encryptedToken)
         // decrypt the token
         // let privKey = Buffer.from('0x' + key.toString())
@@ -244,23 +235,19 @@ function watchEncryptedTokenPublishedEvent(account, web3, aclContract, marketCon
         // let accessToken = myDecryptKey.decrypt(encryptedToken)
 
         // encryptedToken = new Buffer(encryptedToken, 'hex')
-        console.log("pub from priv: ", EthCrypto.publicKeyByPrivateKey(key.privateKey))
+        console.log('pub from priv: ', EthCrypto.publicKeyByPrivateKey(key.privateKey))
         // const encTokenStr = EthCrypto.cipher.stringify(encryptedToken)
 
         const encTokenStr = EthCrypto.cipher.parse(encryptedToken)
         let accessToken = EthCrypto.decryptWithPrivateKey(key.privateKey, encTokenStr)
-
 
         console.log('access token: ', accessToken)
         // sign it
         let signedToken = web3.eth.sign(account.name, accessToken)
         console.log('signed token: ', signedToken)
         // Download the data set from the provider using the url in the access token
-
-
     }
 }
-
 
 export async function purchase(asset, marketContract, aclContract, tokenContract, account, providers) {
     const { web3, ocnURL } = providers
@@ -270,11 +257,11 @@ export async function purchase(asset, marketContract, aclContract, tokenContract
     let assetId = asset.id
 
     // Verify assetId is valid on-chain
-    let isValid = await marketContract.checkAsset(assetId, { from: account.name})
-    let assetPrice = await marketContract.getAssetPrice(assetId).then(function(price) {return price.toNumber();})
+    let isValid = await marketContract.checkAsset(assetId, { from: account.name })
+    let assetPrice = await marketContract.getAssetPrice(assetId).then(function(price) { return price.toNumber() })
     console.log('is asset valid: ', isValid, ', asset price:', assetPrice)
     if (!isValid) {
-        alert("this asset does not seem valid on-chain.")
+        alert('this asset does not seem valid on-chain.')
         return false
     }
 
@@ -283,9 +270,9 @@ export async function purchase(asset, marketContract, aclContract, tokenContract
     let timeout = (new Date().getTime() / 1000) + 3600 * 12 // 12 hours
     // generate temp key pair
 
-    const key = EthCrypto.createIdentity()  //new nRSA({b: 512})
-    let privateKey=key.privateKey  //exportKey()
-    let publicKey=key.publicKey  //exportKey('public')
+    const key = EthCrypto.createIdentity() // new nRSA({b: 512})
+    let privateKey = key.privateKey // exportKey()
+    let publicKey = key.publicKey // exportKey('public')
     let compressedKey = EthCrypto.publicKey.compress(publicKey)
     console.log('temp pub key: ', publicKey, compressedKey)
 
@@ -304,12 +291,9 @@ export async function purchase(asset, marketContract, aclContract, tokenContract
 
     // Allow OceanMarket contract to transfer funds on the consumer's behalf
     tokenContract.approve(marketContract.address, assetPrice, { from: account.name })
-    let allowance = await tokenContract.allowance(account.name, marketContract.address).then(function(value) {return value.toNumber();})
+    let allowance = await tokenContract.allowance(account.name, marketContract.address).then(function(value) { return value.toNumber() })
     console.log('OceanMarket allowance: ', allowance)
     // Now we can start the access flow
     aclContract.initiateAccessRequest(assetId, asset.publisher, compressedKey,
-        timeout, {from: account.name, gas: 6000000})
-
+        timeout, { from: account.name, gas: 6000000 })
 }
-
-

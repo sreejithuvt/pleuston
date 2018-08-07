@@ -7,10 +7,10 @@ const mockAssets = [
             race: 'string',
             velocity: 'float'
         },
-        caption: '',//'Statistical analysis of pigeons',
+        caption: '', // 'Statistical analysis of pigeons',
         description: '',
-        tools: '', //'Drone footage',
-        datePeriod: '',//'2018-02-21 - 2018-04-21',
+        tools: '', // 'Drone footage',
+        datePeriod: '', // '2018-02-21 - 2018-04-21',
         stats: {
             change: '+4.5%',
             accepted: '52%',

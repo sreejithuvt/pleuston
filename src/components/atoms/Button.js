@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import './Button.css'
 
 const Button = ({ children, ...props }) => {
-    const classes = (props.primary === "true") ? 'button button--primary' : 'button'
+    const classes = (props.primary === 'true') ? 'button button--primary' : 'button'
 
     return (
         <button className={classes} {...props}>{children}</button>
@@ -16,7 +16,7 @@ Button.propTypes = {
 }
 
 Button.defaultProps = {
-    primary: "false"
+    primary: 'false'
 }
 
 export default Button
