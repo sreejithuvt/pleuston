@@ -1,4 +1,4 @@
-'use strict';
+
 const xRegExp = require('xregexp');
 
 module.exports = (text, separator) => {
