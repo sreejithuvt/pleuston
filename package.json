@@ -7,16 +7,13 @@
     "lint:js": "eslint ./src/",
     "lint:css": "stylelint ./src/**/*.scss",
     "lint": "npm run lint:js && npm run lint:css",
-    "babel:bdb-orm": "babel node_modules/bigchaindb-orm/dist/node/ --out-dir src/lib/bigchaindb-orm",
-    "babel:bdb-js": "babel node_modules/bigchaindb-driver/dist/node/ --out-dir src/lib/bigchaindb-driver",
-    "babel": "npm run babel:bdb-orm && npm run babel:bdb-js",
     "build-css": "node-sass-chokidar --include-path src/assets/stylesheets/ src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar --include-path src/assets/stylesheets/ src/ -o src/ --watch --recursive",
     "start-js": "react-scripts start",
-    "start": "npm run babel && npm-run-all -p watch-css start-js",
+    "start": "npm-run-all -p watch-css start-js",
     "build-js": "react-scripts build",
-    "build": "npm run babel && npm-run-all build-css build-js",
-    "test": "npm run babel && npm run lint && react-scripts test --env=jsdom",
+    "build": "npm-run-all build-css build-js",
+    "test": "npm run lint && react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "dependencies": {
@@ -49,13 +46,6 @@
     "web3": "^0.20.6"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
-    "babel-plugin-transform-export-extensions": "^6.22.0",
-    "babel-plugin-transform-object-assign": "^6.22.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
     "eslint": "^5.2.0",
     "eslint-config-oceanprotocol": "^1.0.6",
     "eslint-config-standard": "^11.0.0",
