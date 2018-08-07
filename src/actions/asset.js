@@ -15,7 +15,7 @@ import EthCrypto from 'eth-crypto'
 const DEFAULT_GAS = 300 * 1000
 
 export function getOceanBackendURL(providers) {
-    const { web3, ocnURL } = providers
+    const { ocnURL } = providers
     return ocnURL + '/assets'
 }
 
@@ -31,8 +31,6 @@ export async function deployContracts(provider) {
 }
 
 export async function publish(asset, market_contract, account, provider) {
-    const { web3, ocnURL } = provider
-
     let account_address = account.name
     let assetId = ''
     // First, register on the keeper (on-chain)
@@ -91,7 +89,7 @@ export async function publish(asset, market_contract, account, provider) {
 }
 
 export async function updateMetadata(asset, account, providers) {
-    const { web3, ocnURL } = providers
+    const { ocnURL } = providers
 
     // get provider-backend url
     let update_url = ocnURL.api_url + '/assets/metadata'
@@ -250,7 +248,7 @@ function watchEncryptedTokenPublishedEvent(account, web3, aclContract, marketCon
 }
 
 export async function purchase(asset, marketContract, aclContract, tokenContract, account, providers) {
-    const { web3, ocnURL } = providers
+    const { web3 } = providers
 
     console.log('Purchasing asset by consumer: ', account.name, ' assetid: ', asset.id)
 
@@ -261,7 +259,7 @@ export async function purchase(asset, marketContract, aclContract, tokenContract
     let assetPrice = await marketContract.getAssetPrice(assetId).then(function(price) { return price.toNumber() })
     console.log('is asset valid: ', isValid, ', asset price:', assetPrice)
     if (!isValid) {
-        alert('this asset does not seem valid on-chain.')
+        window.alert('this asset does not seem valid on-chain.')
         return false
     }
 
@@ -271,8 +269,7 @@ export async function purchase(asset, marketContract, aclContract, tokenContract
     // generate temp key pair
 
     const key = EthCrypto.createIdentity() // new nRSA({b: 512})
-    let privateKey = key.privateKey // exportKey()
-    let publicKey = key.publicKey // exportKey('public')
+    let { publicKey } = key // exportKey()
     let compressedKey = EthCrypto.publicKey.compress(publicKey)
     console.log('temp pub key: ', publicKey, compressedKey)
 

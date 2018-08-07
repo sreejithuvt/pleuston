@@ -92,7 +92,7 @@ export function putAsset(newAsset) {
 
 export function updateAsset(updatedAsset) {
     return async (dispatch, getState) => {
-        const state = getState()
+        getState()
 
         await asset.updateMetadata(
             Object.assign(mockAssets[0], updatedAsset)
