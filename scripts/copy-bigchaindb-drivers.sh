@@ -8,11 +8,20 @@ cp -R ./node_modules/decamelize/ ./src/lib/decamelize
 
 replaceStrings () {
     # remove 'use strict'; from all js files
-    sed -i "s|'use strict';||g" "$1"
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i "" "s|'use strict';||g" "$1"
+    else
+       sed -i "s|'use strict';||g" "$1"
+    fi
 
     # replace require/import calls with local versions
-    sed -i "s|'bigchaindb-driver'|'../bigchaindb-driver'|g" "$1"
-    sed -i "s|'decamelize'|'../decamelize'|g" "$1"
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i "" "s|'bigchaindb-driver'|'../bigchaindb-driver'|g" "$1"
+        sed -i "" "s|'decamelize'|'../decamelize'|g" "$1"
+    else
+        sed -i "s|'bigchaindb-driver'|'../bigchaindb-driver'|g" "$1"
+        sed -i "s|'decamelize'|'../decamelize'|g" "$1"
+    fi
 }
 
 for i in ./src/lib/**/*.js; do
