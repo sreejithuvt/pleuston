@@ -2,8 +2,8 @@
 /* eslint-disable camelcase */
 
 import TruffleContract from 'truffle-contract'
-import Market from '@oceanprotocol/keeper-contracts/build/contracts/OceanMarket'
-import Auth from '@oceanprotocol/keeper-contracts/build/contracts/OceanAuth'
+import Market from '@oceanprotocol/keeper-contracts/build/contracts/Market'
+import Auth from '@oceanprotocol/keeper-contracts/build/contracts/Auth'
 import EthCrypto from 'eth-crypto'
 
 // var crypto = require("crypto-js");
