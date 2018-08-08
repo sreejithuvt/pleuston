@@ -24,7 +24,7 @@ const menuItems = [
 const Sidebar = () => (
     <ul className="sidebar">
         {menuItems.map(menuItem =>
-            <Link to={menuItem.route}>
+            <Link key={menuItem.name} to={menuItem.route}>
                 {menuItem.name}
             </Link>
         )}
