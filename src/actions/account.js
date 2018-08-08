@@ -1,5 +1,5 @@
 import Web3 from 'web3'
-import Orm from 'bigchaindb-orm'
+import Orm from '../lib/bigchaindb-orm' // transpile workaround, use modified local version
 import bip39 from 'bip39'
 import TruffleContract from 'truffle-contract'
 
