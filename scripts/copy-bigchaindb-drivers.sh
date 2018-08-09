@@ -18,9 +18,15 @@ replaceStrings () {
     if [[ "$OSTYPE" == "darwin"* ]]; then
         sed -i "" "s|'use strict';||g" "$1"
         sed -i "" "s|\"use strict\"||g" "$1"
+
+        sed -i "" "s| == | === |g" "$1"
+        sed -i "" "s| != | !== |g" "$1"
     else
-       sed -i "s|'use strict';||g" "$1"
-       sed -i "s|\"use strict\"||g" "$1"
+        sed -i "s|'use strict';||g" "$1"
+        sed -i "s|\"use strict\"||g" "$1"
+
+        sed -i "s| == | === |g" "$1"
+        sed -i "s| != | !== |g" "$1"
     fi
 
     # replace require/import calls with local versions

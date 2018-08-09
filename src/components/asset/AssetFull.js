@@ -11,6 +11,13 @@ const Editable = ({ name, value, onFieldChange, onValueChange }) => (
     <input name={name} type="text" value={value} onChange={onValueChange} />
 )
 
+Editable.propTypes = {
+    name: PropTypes.string,
+    value: PropTypes.string,
+    onFieldChange: PropTypes.func,
+    onValueChange: PropTypes.func
+}
+
 class AssetFull extends PureComponent {
     constructor(props) {
         super(props)
