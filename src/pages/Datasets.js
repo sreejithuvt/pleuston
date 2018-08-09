@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import Layout from '../components/Layout'
 
@@ -12,9 +11,5 @@ const Datasets = () => (
         <AssetListLoader />
     </Layout>
 )
-
-Datasets.propTypes = {
-    location: PropTypes.object.isRequired, // eslint-disable-line
-}
 
 export default Datasets
