@@ -2,15 +2,10 @@
 /* eslint-disable camelcase */
 
 import TruffleContract from 'truffle-contract'
-import Market from '@oceanprotocol/keeper-contracts/build/contracts/Market'
-import Auth from '@oceanprotocol/keeper-contracts/build/contracts/Auth'
+import Market from '@oceanprotocol/keeper-contracts/build/contracts/OceanMarket'
+import Auth from '@oceanprotocol/keeper-contracts/build/contracts/OceanAuth'
 import EthCrypto from 'eth-crypto'
-
-// var crypto = require("crypto-js");
-// var eccrypto = require("eccrypto");
-
-// const nRSA = require("node-rsa")
-// const ethWallet = require("eth-crypto")
+const ethecies = require('../lib/eth-ecies')
 
 const DEFAULT_GAS = 300 * 1000
 
@@ -220,24 +215,9 @@ function watchEncryptedTokenPublishedEvent(account, web3, aclContract, marketCon
         console.log('access token published by provider: ', result)
         // grab the access token from aclContract
         let encryptedToken = await aclContract.getEncryptedAccessToken(result.args._id, { from: account.name })
-        // console.log('encrypted token: ', encryptedToken)
-        // decrypt the token
-        // let privKey = Buffer.from('0x' + key.toString())
-
-        // console.log("key: ", key.toString(), privKey,  bitcore.PublicKey(key).toString(), encryptedToken)
-        //
-        // let accessToken = await eccrypto.decrypt(privKey, encryptedToken).then(function(tok) {return tok.toString();})
-
-        // var myDecryptKey = ECIES().privateKey(key)
-        // console.log("keys::::::::::; ", key, privKey, myDecryptKey, encryptedToken)
-        // let accessToken = myDecryptKey.decrypt(encryptedToken)
-
-        // encryptedToken = new Buffer(encryptedToken, 'hex')
-        console.log('pub from priv: ', EthCrypto.publicKeyByPrivateKey(key.privateKey))
-        // const encTokenStr = EthCrypto.cipher.stringify(encryptedToken)
-
-        const encTokenStr = EthCrypto.cipher.parse(encryptedToken)
-        let accessToken = EthCrypto.decryptWithPrivateKey(key.privateKey, encTokenStr)
+        encryptedToken = Buffer(encryptedToken.slice(2), 'hex')
+        console.log('encrypted token from keeper: ', encryptedToken.toString('hex'), encryptedToken)
+        const accessToken = ethecies.decrypt(key.privateKey, encryptedToken)
 
         console.log('access token: ', accessToken)
         // sign it
