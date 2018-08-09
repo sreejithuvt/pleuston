@@ -216,7 +216,7 @@ function watchEncryptedTokenPublishedEvent(account, web3, aclContract, marketCon
         console.log('access token published by provider: ', result)
         // grab the access token from aclContract
         let encryptedToken = await aclContract.getEncryptedAccessToken(result.args._id, { from: account.name })
-        encryptedToken = Buffer(encryptedToken.slice(2), 'hex')
+        encryptedToken = Buffer.from(encryptedToken.slice(2), 'hex')
         console.log('encrypted token from keeper: ', encryptedToken.toString('hex'), encryptedToken)
         const accessToken = ethecies.decrypt(key.privateKey, encryptedToken)
 
