@@ -1,0 +1,15 @@
+@import 'variables';
+
+.empty {
+    width: 100%;
+    text-align: center;
+    color: $brand-grey-light;
+    max-width: 35rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.empty__title {
+    font-size: $font-size-h4;
+    margin-bottom: $spacer / 10;
+}

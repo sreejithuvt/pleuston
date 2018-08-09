@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Asset from './Asset'
+import Empty from '../atoms/Empty'
 
 import './AssetList.css'
 
@@ -10,8 +11,8 @@ const AssetList = ({
     handleClick
 }) => (
     <div className="assets">
-        {
-            assets.map(asset => (
+        {assets.length
+            ? assets.map(asset => (
                 <div
                     className="assets__tile assets_count"
                     key={asset.id}
@@ -21,8 +22,9 @@ const AssetList = ({
                     tabIndex={0}>
                     <Asset asset={asset} />
                 </div>
-            ))
-        }
+            )) : (
+                <Empty title="No data sets found :-(" text="Have you checked your Keeper connection and selected an account?" />
+            )}
     </div>
 )
 

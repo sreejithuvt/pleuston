@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Account from './Account'
+import Empty from '../atoms/Empty'
 
 import './AccountList.css'
 
@@ -10,13 +11,15 @@ const AccountList = ({
     handleClick
 }) => (
     <div className="accounts">
-        {
-            accounts.map((account, index) => (
+        {accounts.length
+            ? accounts.map((account, index) => (
                 <Account
                     key={account.name}
                     {...account}
                     handleClick={() => handleClick(index)} />
-            ))
+            )) : (
+                <Empty title="No accounts found :-(" text="Have you checked your Keeper connection?" />
+            )
         }
     </div>
 )
