@@ -2,10 +2,11 @@
 /* eslint-disable camelcase */
 
 import TruffleContract from 'truffle-contract'
+import EthCrypto from 'eth-crypto'
+import ethecies from 'eth-ecies'
+
 import Market from '@oceanprotocol/keeper-contracts/build/contracts/OceanMarket'
 import Auth from '@oceanprotocol/keeper-contracts/build/contracts/OceanAuth'
-import EthCrypto from 'eth-crypto'
-const ethecies = require('../lib/eth-ecies')
 
 const DEFAULT_GAS = 300 * 1000
 

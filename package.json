@@ -25,7 +25,8 @@
     "classnames": "^2.2.5",
     "connected-react-router": "^4.3.0",
     "elliptic": "^6.4.0",
-    "secp256k1": "^3.5.0",
+    "eth-crypto": "^1.2.3",
+    "eth-ecies": "^1.0.3",
     "history": "^4.7.2",
     "js-sha3": "^0.7.0",
     "prop-types": "^15.6.1",
@@ -43,9 +44,11 @@
     "redux-devtools-extension": "^2.13.2",
     "redux-form": "^7.3.0",
     "redux-thunk": "^2.3.0",
+    "secp256k1": "^3.5.0",
     "sha3": "^1.2.2",
     "truffle-contract": "^3.0.5",
     "util.promisify": "^1.0.0",
+    "uuid": "^3.3.2",
     "web3": "0.20.6"
   },
   "devDependencies": {
