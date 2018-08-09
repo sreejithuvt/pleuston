@@ -5,6 +5,7 @@ node_js:
 # will run `npm install` automatically
 
 script:
+  - npm -g install truffle
   - npm run build-css
   - npm run test
   - npm run build
