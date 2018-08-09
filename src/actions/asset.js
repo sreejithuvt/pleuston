@@ -2,8 +2,8 @@
 /* eslint-disable camelcase */
 
 import TruffleContract from 'truffle-contract'
-import EthCrypto from 'eth-crypto'
-import ethecies from 'eth-ecies'
+import EthCrypto from '../lib/eth-crypto'
+import ethecies from '../lib/eth-ecies'
 
 import Market from '@oceanprotocol/keeper-contracts/build/contracts/OceanMarket'
 import Auth from '@oceanprotocol/keeper-contracts/build/contracts/OceanAuth'
