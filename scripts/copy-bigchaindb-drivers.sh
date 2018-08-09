@@ -48,4 +48,9 @@ for i in ./src/lib/**/**/*.js; do
     replaceStrings "$i"
 done
 
+# remove all test files
+for i in ./src/lib/**/test*; do
+    rm -rf "$i"
+done
+
 printf '👍 Successfully copied BigchainDB drivers. Hooray!\n\n   See why we are doing this:\n   https://github.com/bigchaindb/js-driver-orm/issues/56\n'
