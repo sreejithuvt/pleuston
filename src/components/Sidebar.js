@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import './Sidebar.css'
 
 const menuItems = [
@@ -25,9 +25,9 @@ const Sidebar = () => (
     <ul className="sidebar">
         {menuItems.map(menuItem =>
             <li key={menuItem.name}>
-                <Link to={menuItem.route}>
+                <NavLink exact to={menuItem.route} activeClassName="is-active">
                     {menuItem.name}
-                </Link>
+                </NavLink>
             </li>
         )}
     </ul>
