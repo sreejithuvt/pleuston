@@ -2,44 +2,37 @@
  * @fileoverview Provides easy encryption/decryption methods using AES 256 GCM.
  */
 
+import crypto from 'crypto'
 
-
-const crypto = require('crypto');
-
-const ALGORITHM = 'aes-256-gcm';
-const BLOCK_SIZE_BYTES = 16; // 128 bit
+const ALGORITHM = 'aes-256-gcm'
+const BLOCK_SIZE_BYTES = 16 // 128 bit
 const CODING = 'utf8' // 'ascii' 'utf8
 
 /**
  * Provides easy encryption/decryption methods using AES 256 GCM.
  */
 class Aes256Gcm {
-  /**
-   * No need to run the constructor. The class only has static methods.
-   */
-  constructor() { }
-
-  /**
+    /**
    * Encrypts text with AES 256 GCM.
    * @param {string} text - Cleartext to encode.
    * @param {string} secret - Shared secret key, must be 32 bytes.
    * @returns {object}
    */
-  static encrypt(text, secret) {
-    const iv = crypto.randomBytes(BLOCK_SIZE_BYTES);
-    const cipher = crypto.createCipheriv(ALGORITHM, secret, iv);
+    static encrypt(text, secret) {
+        const iv = crypto.randomBytes(BLOCK_SIZE_BYTES)
+        const cipher = crypto.createCipheriv(ALGORITHM, secret, iv)
 
-    let ciphertext = cipher.update(text, CODING, 'base64');
-    ciphertext += cipher.final('base64');
-    let tag = cipher.getAuthTag()
-    return {
-      ciphertext,
-      iv: iv.toString('base64'),
-      tag: tag.toString('base64'),
-    };
-  }
+        let ciphertext = cipher.update(text, CODING, 'base64')
+        ciphertext += cipher.final('base64')
+        let tag = cipher.getAuthTag()
+        return {
+            ciphertext,
+            iv: iv.toString('base64'),
+            tag: tag.toString('base64')
+        }
+    }
 
-  /**
+    /**
    * Decrypts AES 256 CGM encrypted text.
    * @param {string} ciphertext - Base64-encoded ciphertext.
    * @param {string} iv - The base64-encoded initialization vector.
@@ -47,15 +40,15 @@ class Aes256Gcm {
    * @param {string} secret - Shared secret key, must be 32 bytes.
    * @returns {string}
    */
-  static decrypt(ciphertext, iv, tag, secret) {
-    const decipher = crypto.createDecipheriv(ALGORITHM, secret, Buffer.from(iv, 'base64'));
-    decipher.setAuthTag(Buffer.from(tag, 'base64'));
+    static decrypt(ciphertext, iv, tag, secret) {
+        const decipher = crypto.createDecipheriv(ALGORITHM, secret, Buffer.from(iv, 'base64'))
+        decipher.setAuthTag(Buffer.from(tag, 'base64'))
 
-    let cleartext = decipher.update(ciphertext, 'base64', CODING);
-    cleartext += decipher.final(CODING);
+        let cleartext = decipher.update(ciphertext, 'base64', CODING)
+        cleartext += decipher.final(CODING)
 
-    return cleartext;
-  }
+        return cleartext
+    }
 }
 
-module.exports = Aes256Gcm;
+export default Aes256Gcm
