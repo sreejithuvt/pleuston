@@ -2,6 +2,10 @@
 
 .layout {
     padding: $spacer / 2;
+    max-width: $break-point--huge;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 
     @media (min-width: $break-point--small) {
         flex: 1;
@@ -22,7 +26,7 @@
     margin-right: -($spacer / 2);
     padding-left: $spacer / 2;
     padding-right: $spacer / 2;
-    padding-bottom: $spacer / 4;
+    padding-bottom: $spacer / 2;
     text-align: center;
     border-bottom: .1rem solid lighten($brand-grey-lighter, 5%);
 
