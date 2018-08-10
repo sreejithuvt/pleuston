@@ -11,13 +11,11 @@ const Header = ({
     handleClickLogo
 }) => (
     <header className="header">
-        <div className="header__logo" onClick={handleClickLogo}> {/* eslint-disable-line */}
+        <div className="header__logo" onClick={handleClickLogo}>
             <img alt="logo" className="header__logo__image" src={logo} />
-            <h1 className="header__title">
-                    Meme market
-            </h1>
+            <h1 className="header__title">Meme market</h1>
         </div>
-        <nav className="header__menu" onClick={handleClickAccount}> {/* eslint-disable-line */}
+        <nav className="header__menu" onClick={handleClickAccount}>
             {
                 activeAccount ? (
                     <Fragment>
@@ -37,7 +35,7 @@ const Header = ({
 Header.propTypes = {
     handleClickAccount: PropTypes.func.isRequired,
     handleClickLogo: PropTypes.func.isRequired,
-    activeAccount: PropTypes.object, // eslint-disable-line
+    activeAccount: PropTypes.object
 }
 
 export default Header

@@ -12,14 +12,15 @@ const Account = ({
     name
 }) => (
     <button className="account" onClick={handleClick}>
-        {
-            image || <Blockies className="account__image" seed={name} />
-        }
+
         {
             typeof name === 'string'
                 ? <h3 className="account__title">{name.slice(0, 25)}...</h3> : name
         }
-        <AccountBalance {...balance} />
+        {image || <Blockies seed={name} />}
+        <div className="account__balance">
+            <AccountBalance {...balance} />
+        </div>
     </button>
 )
 
