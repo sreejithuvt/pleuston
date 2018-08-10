@@ -237,8 +237,8 @@ function watchEncryptedTokenPublishedEvent(account, web3, aclContract, marketCon
         console.log(`access token published by provider: <${tokenNo0x.slice(0, 10)}..${tokenNo0x.slice(tokenLength - 10)}>`)
         console.log('***************************************************')
 
-        let accessToken = ethecies.decrypt(Buffer.from(privateKey, 'hex'), encryptedTokenBuffer)
-        accessToken = JWT.decode(accessToken) // Returns a json object
+        let accessTokenEncoded = ethecies.decrypt(Buffer.from(privateKey, 'hex'), encryptedTokenBuffer)
+        accessToken = JWT.decode(accessTokenEncoded) // Returns a json object
         console.log('access token: ', accessToken)
 
         // sign it
@@ -267,9 +267,9 @@ function watchEncryptedTokenPublishedEvent(account, web3, aclContract, marketCon
         // decode the access token, grab the service_endpoint, request_id,
         const provider_url = `${accessToken.service_endpoint}/${asset.id}`
 
-        // payload keys: ['requestId', 'consumerId', 'fixed_msg', 'sigEncJWT']
+        // payload keys: ['consumerId', 'fixed_msg', 'sigEncJWT', 'jwt']
         const payload = {
-            requestId: accessToken.request_id,
+            jwt: accessTokenEncoded,
             consumerId: account.name,
             fixed_msg: fixedMsgSha,
             sigEncJWT: signature
