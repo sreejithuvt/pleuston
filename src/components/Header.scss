@@ -64,6 +64,10 @@
     }
 }
 
-.header__menu__balance {
-    margin-left: $spacer / 4;
+.header__menu__user {
+    display: none;
+
+    @media screen and (min-width: $break-point--small) {
+        display: inline-block;
+    }
 }

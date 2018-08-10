@@ -4,7 +4,7 @@ $breakpoint-small: 50rem;
 
 .account {
     padding: $spacer / 2;
-    background: lighten($brand-grey-lighter, 8%);
+    background: $brand-white;
     border-radius: 2px;
     border: 1px solid $brand-grey-lighter;
     margin-bottom: $spacer / 2;
@@ -26,7 +26,7 @@ $breakpoint-small: 50rem;
 
     &:hover,
     &:focus {
-        background: $brand-gradient;
+        background: $brand-black;
 
         * {
             color: $brand-white;

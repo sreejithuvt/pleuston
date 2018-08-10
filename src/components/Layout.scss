@@ -49,5 +49,6 @@
     @media (min-width: $break-point--small) {
         flex: 1 1 70%;
         padding: $spacer;
+        padding-right: $spacer / 2;
     }
 }

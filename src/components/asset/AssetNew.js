@@ -12,9 +12,6 @@ const AssetNew = ({
 }) => (
     <form className="form" onSubmit={handleSubmit}>
         <div className="form__group">
-            <h1 className="form__title">Publish a new asset</h1>
-        </div>
-        <div className="form__group">
             <FormLabel htmlFor="name" label="Title" />
             <FormInput required component="input" name="name" id="name" type="text" placeholder="The title of your asset" />
         </div>

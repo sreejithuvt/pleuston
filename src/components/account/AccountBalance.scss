@@ -1,0 +1,10 @@
+@import 'variables';
+
+.header__menu__balance {
+    margin-left: $spacer / 2;
+    white-space: nowrap;
+
+    &:first-child {
+        margin-left: 0;
+    }
+}
