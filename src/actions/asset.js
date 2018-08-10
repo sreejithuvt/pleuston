@@ -6,7 +6,7 @@ import ethers from 'ethers'
 import ethjs_util from 'ethereumjs-util'
 import JWT from 'jsonwebtoken'
 import EthCrypto from '../lib/eth-crypto'
-import ethecies from '../cryptolibs/eth-ecies'
+import EthEcies from '../cryptolibs/eth-ecies'
 
 import Market from '@oceanprotocol/keeper-contracts/build/contracts/OceanMarket'
 import Auth from '@oceanprotocol/keeper-contracts/build/contracts/OceanAuth'
@@ -178,8 +178,8 @@ function watchAccessRequestCommittedEvent(account, asset, timeout, aclContract, 
             let assetPrice = await marketContract.getAssetPrice(asset.id).then(function(price) {
                 return price.toNumber()
             })
-            console.log('sending payment: ', result.args._id, asset.publisher, assetPrice, timeout)
-            marketContract.sendPayment(result.args._id, asset.publisher, assetPrice, timeout, { from: account.name, gas: 9000000 })
+            console.log('sending payment:  ', result.args._id, asset.publisher, assetPrice, timeout)
+            marketContract.sendPayment(result.args._id, asset.publisher, assetPrice, timeout, { from: account.name, gas: 3000000 })
         } else {
             aclContract.cancelAccessRequest(result.args._id, { from: account.name })
         }
@@ -226,18 +226,18 @@ function watchEncryptedTokenPublishedEvent(account, web3, aclContract, marketCon
         let tokenNo0x = encryptedToken.slice(2)
         let encryptedTokenBuffer = Buffer.from(tokenNo0x, 'hex')
         let tokenLength = tokenNo0x.length
-        // console.log('encrypted token from keeper: ',
-        //     '\nraw token', encryptedToken.toString('hex'), encryptedToken,
-        //     '\nremoved 0x: ', tokenNo0x,
-        //     '\ntoken buffer: ', encryptedTokenBuffer,
-        //     '\nlength of token: ', tokenLength,
-        //     '\nprivateKey: ', key.privateKey
-        // )
+        console.log('encrypted token from keeper: ',
+            '\nraw token', encryptedToken.toString('hex'), encryptedToken,
+            '\nremoved 0x: ', tokenNo0x,
+            '\ntoken buffer: ', encryptedTokenBuffer,
+            '\nlength of token: ', tokenLength,
+            '\nprivateKey: ', key.privateKey
+        )
         console.log('***************************************************')
         console.log(`access token published by provider: <${tokenNo0x.slice(0, 10)}..${tokenNo0x.slice(tokenLength - 10)}>`)
         console.log('***************************************************')
 
-        let accessTokenEncoded = ethecies.decrypt(Buffer.from(privateKey, 'hex'), encryptedTokenBuffer)
+        let accessTokenEncoded = EthEcies.Decrypt(Buffer.from(privateKey, 'hex'), encryptedTokenBuffer)
         let accessToken = JWT.decode(accessTokenEncoded) // Returns a json object
         console.log('access token: ', accessToken)
 
@@ -257,7 +257,7 @@ function watchEncryptedTokenPublishedEvent(account, web3, aclContract, marketCon
 
         const res = await aclContract.isSigned(account.name, fixedMsgSha, splitSignature.v, splitSignature.r,
             splitSignature.s, { from: asset.publisher })
-        console.log('validate the signature comes from consumer? isSigned: ', res)
+        console.log('validate the signature  comes from consumer? isSigned: ', res)
 
         console.log('signature: ', signature, splitSignature.v, splitSignature.r, splitSignature.s,
             // '\nfixedMsg: ', fixedMsg,
@@ -265,7 +265,7 @@ function watchEncryptedTokenPublishedEvent(account, web3, aclContract, marketCon
 
         // Download the data set from the provider using the url in the access token
         // decode the access token, grab the service_endpoint, request_id,
-        const provider_url = `${accessToken.service_endpoint}/${asset.id}`
+        const provider_url = `${accessToken.service_endpoint}/${accessToken.resource_id}`
 
         // payload keys: ['consumerId', 'fixed_msg', 'sigEncJWT', 'jwt']
         const payload = {
@@ -329,7 +329,7 @@ export async function purchase(asset, marketContract, aclContract, tokenContract
     accessTokenPublishedEvent.watch(watchEncryptedTokenPublishedEvent(account, web3, aclContract, marketContract, key, asset))
 
     // Allow OceanMarket contract to transfer funds on the consumer's behalf
-    tokenContract.approve(marketContract.address, assetPrice, { from: account.name, gas: 200000 })
+    tokenContract.approve(marketContract.address, assetPrice, { from: account.name, gas: 3000000 })
     let allowance = await tokenContract.allowance(account.name, marketContract.address).then(function(value) { return value.toNumber() })
     console.log('OceanMarket allowance: ', allowance)
     // Now we can start the access flow
