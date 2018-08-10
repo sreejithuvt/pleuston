@@ -14,10 +14,6 @@ $breakpoint-small: 50rem;
     color: $brand-grey;
     font-size: $font-size-base;
     text-align: left;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
     transition: background .2s ease-out;
     position: relative;
 
@@ -70,12 +66,21 @@ $breakpoint-small: 50rem;
     overflow: hidden;
 }
 
-.account .identicon,
+.account__image,
 .account__title {
     display: inline-block;
+}
+
+.account__image {
+    text-align: right;
+    padding-left: $spacer / 2;
+    width: 20%;
 }
 
 .account__title {
     font-size: $font-size-base;
     margin: 0;
+    width: 80%;
+    vertical-align: top;
+    margin-top: $spacer / 4;
 }
