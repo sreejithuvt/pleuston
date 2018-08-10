@@ -5,8 +5,8 @@ $breakpoint-small: 50rem;
 .account {
     padding: $spacer / 2;
     background: $brand-white;
-    border-radius: 2px;
-    border: 1px solid $brand-grey-lighter;
+    border-radius: .1rem;
+    border: 0;
     margin-bottom: $spacer / 2;
     cursor: pointer;
     width: 100%;
@@ -14,48 +14,73 @@ $breakpoint-small: 50rem;
     color: $brand-grey;
     font-size: $font-size-base;
     text-align: left;
-    display: block;
+    transition: background .2s ease-out;
+    position: relative;
 
-    @media (min-width: $breakpoint-small) {
-        flex: 1 0 45%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    @media (min-width: $break-point--small) {
+        flex: 1 1 45%;
         margin-left: $spacer / 2;
+    }
+
+    &:before {
+        content: '';
+        display: block;
+        background: $brand-gradient;
+        position: absolute;
+        left: -.1rem;
+        right: -.1rem;
+        top: -.1rem;
+        bottom: -.1rem;
+        z-index: -1;
+        border-radius: .15rem;
     }
 
     &:hover,
     &:focus {
-        background: $brand-black;
+        background: $brand-grey-light;
 
         * {
             color: $brand-white;
         }
     }
-}
 
-.account__image,
-.account__title {
-    display: block;
-
-    @media (min-width: $breakpoint-small) {
-        display: inline-block;
+    &:active {
+        transition: none;
+        background: $brand-black;
     }
 }
 
 .account__balance {
+    margin-top: $spacer / 4;
+    width: 100%;
+
     @media (min-width: $breakpoint-small) {
-        text-align: right;
+        margin-top: 0;
     }
+}
+
+.identicon {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+}
+
+.account__image,
+.account__title {
+    display: inline-block;
+}
+
+.account__image {
+    text-align: right;
+    padding-left: $spacer / 2;
+    width: 20%;
 }
 
 .account__title {
     font-size: $font-size-base;
     margin: 0;
-    width: 100%;
-
-    @media (min-width: $breakpoint-small) {
-        margin-left: $spacer / 2;
-        margin-right: $spacer / 2;
-    }
+    width: 80%;
+    vertical-align: top;
+    margin-top: $spacer / 4;
 }

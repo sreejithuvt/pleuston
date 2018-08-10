@@ -22,7 +22,7 @@ const AccountBalance = ({
 
 AccountBalance.propTypes = {
     eth: PropTypes.object.isRequired,
-    ocn: PropTypes.number.isRequired
+    ocn: PropTypes.object.isRequired
 }
 
 export default AccountBalance
