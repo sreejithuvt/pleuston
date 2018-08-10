@@ -3,17 +3,22 @@
 .sidebar {
     margin: 0;
     padding: 0;
-
+    width: 100%;
 
     li {
         list-style: none;
+        display: inline;
     }
 
     a {
-        display: block;
+        display: inline-block;
         padding: $spacer / 4;
         font-family: $font-family-button;
         color: $brand-grey;
+
+        @media (min-width: $break-point--small) {
+            display: block;
+        }
 
         &:hover,
         &:focus {

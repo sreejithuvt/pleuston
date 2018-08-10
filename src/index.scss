@@ -30,13 +30,13 @@ body {
 
 .app {
     color: $brand-grey;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
     height: 100%;
     min-height: 100vh;
 
     @media screen and (min-width: $break-point--small) {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
         min-height: calc(100vh - #{$page-frame * 2});
     }
 }

@@ -1,19 +1,19 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import './Sidebar.css'
 
 const menuItems = [
     {
-        name: 'My accounts',
+        name: 'Accounts',
         route: '/'
     },
     {
-        name: 'Publish new',
-        route: '/newdataset'
+        name: 'Data Sets',
+        route: '/datasets'
     },
     {
-        name: 'My own data sets',
-        route: '/datasets'
+        name: 'Publish',
+        route: '/datasets/new'
     },
     {
         name: 'Orders',
@@ -24,9 +24,11 @@ const menuItems = [
 const Sidebar = () => (
     <ul className="sidebar">
         {menuItems.map(menuItem =>
-            <Link key={menuItem.name} to={menuItem.route}>
-                {menuItem.name}
-            </Link>
+            <li key={menuItem.name}>
+                <NavLink exact to={menuItem.route} activeClassName="is-active">
+                    {menuItem.name}
+                </NavLink>
+            </li>
         )}
     </ul>
 )

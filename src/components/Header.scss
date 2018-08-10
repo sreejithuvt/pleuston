@@ -21,10 +21,14 @@
 }
 
 .header__title {
-    display: inline-block;
     font-size: $font-size-h4;
     color: $brand-white;
     margin-left: $spacer;
+    display: none;
+
+    @media (min-width: $break-point--small) {
+        display: inline-block;
+    }
 }
 
 .header__menu {
