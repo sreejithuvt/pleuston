@@ -48,15 +48,22 @@ _architecture overview: pleuston, keeper, provider, database_
 
 Pleuston is a single page React app, bootstrapped with [`create-react-app`](https://github.com/facebook/create-react-app).
 
-To start development, clone this repository, install all dependencies, and start the development server:
+To start development, first clone this repository and start up all the other Ocean Protocol components with `docker-compose`:
 
 ```bash
 git clone git@github.com:oceanprotocol/pleuston.git
 cd pleuston/
 
+docker-compose up
+```
+
+Then move on to a new terminal window, install all dependencies, and start the development server of `pleuston`:
+
+```bash
 npm i
 npm start
-```
+````
+
 This should output a message as follows:
 
 ```bash
