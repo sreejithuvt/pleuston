@@ -179,7 +179,7 @@ function watchAccessRequestCommittedEvent(account, asset, timeout, aclContract, 
                 return price.toNumber()
             })
             console.log('sending payment: ', result.args._id, asset.publisher, assetPrice, timeout)
-            marketContract.sendPayment(result.args._id, asset.publisher, assetPrice, timeout, { from: account.name, gas: 6000000 })
+            marketContract.sendPayment(result.args._id, asset.publisher, assetPrice, timeout, { from: account.name, gas: 9000000 })
         } else {
             aclContract.cancelAccessRequest(result.args._id, { from: account.name })
         }
@@ -238,7 +238,7 @@ function watchEncryptedTokenPublishedEvent(account, web3, aclContract, marketCon
         console.log('***************************************************')
 
         let accessTokenEncoded = ethecies.decrypt(Buffer.from(privateKey, 'hex'), encryptedTokenBuffer)
-        accessToken = JWT.decode(accessTokenEncoded) // Returns a json object
+        let accessToken = JWT.decode(accessTokenEncoded) // Returns a json object
         console.log('access token: ', accessToken)
 
         // sign it
