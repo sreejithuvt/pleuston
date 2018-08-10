@@ -2,16 +2,14 @@
 /* eslint-disable camelcase */
 
 import TruffleContract from 'truffle-contract'
-import EthCrypto from '../lib/eth-crypto'
-import ethecies from '../lib/eth-ecies'
 
 import Market from '@oceanprotocol/keeper-contracts/build/contracts/OceanMarket'
 import Auth from '@oceanprotocol/keeper-contracts/build/contracts/OceanAuth'
 import EthCrypto from 'eth-crypto'
+import ethers from 'ethers'
 const ethecies = require('../cryptolibs/eth-ecies')
 const ethjs_util = require('ethereumjs-util')
 const JWT = require('jsonwebtoken')
-import ethers from 'ethers'
 
 
 const DEFAULT_GAS = 300 * 1000
@@ -266,7 +264,6 @@ function watchEncryptedTokenPublishedEvent(account, web3, aclContract, marketCon
             // '\nfixedMsg: ', fixedMsg,
             '\nmsgSha: ', fixedMsgSha)
 
-
         // Download the data set from the provider using the url in the access token
         // decode the access token, grab the service_endpoint, request_id,
         const provider_url = `${accessToken.service_endpoint}/${asset.id}`
@@ -320,8 +317,6 @@ export async function purchase(asset, marketContract, aclContract, tokenContract
     const key = EthCrypto.createIdentity()
     let { privateKey, publicKey } = key
     publicKey = ethjs_util.privateToPublic(privateKey).toString('hex')
-    let compressedKey = EthCrypto.publicKey.compress(publicKey)
-    console.log('temp pub key: ', publicKey, compressedKey)
 
     // listen to keeper events
     var accessRequestedEvent = aclContract.AccessConsentRequested()
