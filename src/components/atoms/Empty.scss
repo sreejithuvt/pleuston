@@ -5,8 +5,7 @@
     text-align: center;
     color: $brand-grey-light;
     max-width: 35rem;
-    margin-left: auto;
-    margin-right: auto;
+    margin: $spacer * 2 auto;
 }
 
 .empty__title {
