@@ -18,8 +18,10 @@ import appReducer from './reducers'
 import {
     getAccounts,
     getAssets,
+    getOrders,
     setProviders,
-    setContracts
+    setContracts,
+    processKeeperEvents
 } from './actions/index'
 
 import App from './App'
@@ -54,6 +56,8 @@ function boot() {
     store.dispatch(setContracts()).then(() => {
         store.dispatch(getAccounts())
         store.dispatch(getAssets())
+        // store.dispatch(getOrders())
+        // store.dispatch(processKeeperEvents())
     })
 }
 /* Das */boot()
