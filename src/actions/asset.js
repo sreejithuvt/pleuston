@@ -170,5 +170,5 @@ export async function purchase(asset, contracts, account, providers) {
     acl.initiateAccessRequest(assetId, asset.publisher, publicKey,
         timeout, { from: account.name, gas: 1000000 })
 
-    watchAccessRequest(asset, contracts, account, providers)
+    watchAccessRequest(asset, contracts, account, providers, key)
 }

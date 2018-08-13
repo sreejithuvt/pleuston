@@ -32,7 +32,7 @@ export async function list(contracts, account, providers) {
 }
 
 
-export function watchAccessRequest(asset, contracts, account, providers) {
+export function watchAccessRequest(asset, contracts, account, providers, key) {
     let {market, acl} = contracts
     let eth_address = account.name
     let {web3, db, ocnURL} = providers
@@ -48,13 +48,13 @@ export function watchAccessRequest(asset, contracts, account, providers) {
             console.log('got new access request id: ', accessId)
             // TODO: save new order with access request id to local store
 
-            let order = {id: accessId, assetId: asset.id, asset: asset}
+            let order = {id: accessId, assetId: asset.id, asset: asset, timeout: result.args._timeout, pubkey: result.args._pubKey, key: key}
             watchAccessRequestCommitted(order, contracts, account, providers)
             // watchAccessRequestRejected(order, contracts, account)
         }
 
         // stop watching
-        // event.stopWatching()
+        event.stopWatching()
     })
 }
 
@@ -99,7 +99,7 @@ export function watchAccessRequestCommitted(order, contracts, account, providers
             }
 
             // stop watching
-            // event.stopWatching()
+            event.stopWatching()
     }
     event.watch(callback)
 
@@ -144,7 +144,7 @@ export function watchPaymentReceived(order, contracts, account, providers) {
             watchEncryptedTokenPublished(order, contracts, account, providers)
 
             // stop watching
-            // event.stopWatching()
+            event.stopWatching()
     }
     event.watch(callback)
 
@@ -243,7 +243,7 @@ export function watchEncryptedTokenPublished(order, contracts, account, provider
 
 
             // stop watching
-            // event.stopWatching()
+            event.stopWatching()
     }
 
     event.watch(callback)
