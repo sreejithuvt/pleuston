@@ -35,16 +35,17 @@ class AssetFull extends PureComponent {
 
     render() {
         const {
-            abstract,
-            datePeriod,
+            date,
+            description,
             handlePurchase,
             id,
-            stats,
-            date,
+            license,
             publisher,
+            stats,
+            tags,
             token,
-            tools,
-            url
+            url,
+            updateFrequency
         } = this.props
 
         if (!id) return null
@@ -71,16 +72,7 @@ class AssetFull extends PureComponent {
                         </div>
 
                         <p>
-                            <span className="asset__label">Publisher</span>
-                            {this.state.isWritable &&
-                            <Editable
-                                name="publisher"
-                                value={publisher}
-                                onFieldChange={this.onEdit}
-                                onValueChange={this.onEdit}
-                            />}
-                            {!this.state.isWritable && publisher }
-                            <button onClick={() => this.setState({ isWritable: !this.state.isWritable })}>Edit</button>
+                            <span className="asset__label">Publisher</span> { publisher }
                         </p>
 
                         <p>
@@ -90,21 +82,18 @@ class AssetFull extends PureComponent {
                             <span className="asset__label">ID</span> { id }
                         </p>
 
-                        {abstract && (
-                            <p className="asset__abstract">
-                                <span className="asset__label">Abstract</span> { abstract }
-                            </p>
-                        )}
-
-                        {tools && (
-                            <p className="asset__tools">
-                                <span className="asset__label">Methods or Tools</span> { tools }
-                            </p>
-                        )}
-
-                        {datePeriod && (
-                            <p className="asset__date_period">
-                                <span className="asset__label">Period of data gathering</span> { datePeriod }
+                        {description && (
+                            <p className="asset__description">
+                                <span className="asset__label">Description</span>
+                                {this.state.isWritable &&
+                                <Editable
+                                    name="description"
+                                    value={description}
+                                    onFieldChange={this.onEdit}
+                                    onValueChange={this.onEdit}
+                                />}
+                                {!this.state.isWritable && description }
+                                <button onClick={() => this.setState({ isWritable: !this.state.isWritable })}>Edit</button>
                             </p>
                         )}
 
@@ -115,9 +104,27 @@ class AssetFull extends PureComponent {
                             </p>
                         )}
 
-                        <p className="asset__url">
+                        <p className="asset__token">
                             <span className="asset__label">Token</span> { token || 'Please purchase' }
                         </p>
+
+                        {tags && (
+                            <p className="asset__tags">
+                                <span className="asset__label">Tags</span> { tags.map(tag => (tag)) }
+                            </p>
+                        )}
+
+                        {license && (
+                            <p className="asset__license">
+                                <span className="asset__label">License</span> { license }
+                            </p>
+                        )}
+
+                        {updateFrequency && (
+                            <p className="asset__updateFrequency">
+                                <span className="asset__label">Update Frequency</span> { updateFrequency }
+                            </p>
+                        )}
 
                         <div className="asset__actions">
                             <Button primary onClick={() => handlePurchase(id)}>Purchase</Button>
@@ -146,29 +153,17 @@ class AssetFull extends PureComponent {
 }
 
 AssetFull.propTypes = {
-    abstract: PropTypes.string,
+    description: PropTypes.string,
     date: PropTypes.string,
-    datePeriod: PropTypes.string,
     handlePurchase: PropTypes.func,
     id: PropTypes.string,
+    tags: PropTypes.array,
+    license: PropTypes.string,
     publisher: PropTypes.string,
     stats: PropTypes.object,
     token: PropTypes.string,
-    tools: PropTypes.string,
-    url: PropTypes.string
-}
-
-AssetFull.defaultProps = {
-    abstract: null,
-    date: null,
-    datePeriod: null,
-    handlePurchase: null,
-    id: null,
-    publisher: null,
-    stats: null,
-    token: null,
-    tools: null,
-    url: null
+    updateFrequency: PropTypes.string,
+    url: PropTypes.array
 }
 
 export default AssetFull
