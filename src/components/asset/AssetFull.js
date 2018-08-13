@@ -35,17 +35,14 @@ class AssetFull extends PureComponent {
 
     render() {
         const {
-            category,
-            classification,
+            date,
             description,
             handlePurchase,
-            industry,
-            labels,
-            license,
             id,
-            stats,
-            date,
+            license,
             publisher,
+            stats,
+            tags,
             token,
             url,
             updateFrequency
@@ -75,16 +72,7 @@ class AssetFull extends PureComponent {
                         </div>
 
                         <p>
-                            <span className="asset__label">Publisher</span>
-                            {this.state.isWritable &&
-                            <Editable
-                                name="publisher"
-                                value={publisher}
-                                onFieldChange={this.onEdit}
-                                onValueChange={this.onEdit}
-                            />}
-                            {!this.state.isWritable && publisher }
-                            <button onClick={() => this.setState({ isWritable: !this.state.isWritable })}>Edit</button>
+                            <span className="asset__label">Publisher</span> { publisher }
                         </p>
 
                         <p>
@@ -96,7 +84,16 @@ class AssetFull extends PureComponent {
 
                         {description && (
                             <p className="asset__description">
-                                <span className="asset__label">Description</span> { description }
+                                <span className="asset__label">Description</span>
+                                {this.state.isWritable &&
+                                <Editable
+                                    name="description"
+                                    value={description}
+                                    onFieldChange={this.onEdit}
+                                    onValueChange={this.onEdit}
+                                />}
+                                {!this.state.isWritable && description }
+                                <button onClick={() => this.setState({ isWritable: !this.state.isWritable })}>Edit</button>
                             </p>
                         )}
 
@@ -111,33 +108,15 @@ class AssetFull extends PureComponent {
                             <span className="asset__label">Token</span> { token || 'Please purchase' }
                         </p>
 
+                        {tags && (
+                            <p className="asset__tags">
+                                <span className="asset__label">Tags</span> { tags.map(tag => (tag)) }
+                            </p>
+                        )}
+
                         {license && (
                             <p className="asset__license">
                                 <span className="asset__label">License</span> { license }
-                            </p>
-                        )}
-
-                        {category && (
-                            <p className="asset__category">
-                                <span className="asset__label">Category</span> { category }
-                            </p>
-                        )}
-
-                        {labels && (
-                            <p className="asset__labels">
-                                <span className="asset__label">Labels</span> { labels.map(label => (label)) }
-                            </p>
-                        )}
-
-                        {classification && (
-                            <p className="asset__abstract">
-                                <span className="asset__label">Classification</span> { classification }
-                            </p>
-                        )}
-
-                        {industry && (
-                            <p className="asset__abstract">
-                                <span className="asset__label">Industry</span> { industry }
                             </p>
                         )}
 
@@ -174,20 +153,17 @@ class AssetFull extends PureComponent {
 }
 
 AssetFull.propTypes = {
-    category: PropTypes.string,
-    classification: PropTypes.string,
     description: PropTypes.string,
     date: PropTypes.string,
     handlePurchase: PropTypes.func,
     id: PropTypes.string,
-    industry: PropTypes.string,
-    labels: PropTypes.array,
+    tags: PropTypes.array,
     license: PropTypes.string,
     publisher: PropTypes.string,
     stats: PropTypes.object,
     token: PropTypes.string,
     updateFrequency: PropTypes.string,
-    url: PropTypes.string
+    url: PropTypes.array
 }
 
 export default AssetFull

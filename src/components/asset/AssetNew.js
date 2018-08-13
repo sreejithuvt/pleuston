@@ -32,30 +32,13 @@ const AssetNew = ({
         </div>
 
         <div className="form__group">
+            <FormLabel htmlFor="tags" label="Tags" />
+            <FormInput component="input" name="tags" id="tags" placeholder="e.g. climate, ocean, atmosphere, temperature, earth-science, public" />
+            <FormHelp>Categorize your data set by one or more tags.</FormHelp>
+        </div>
+        <div className="form__group">
             <FormLabel htmlFor="license" label="License" />
             <FormInput required component="input" name="license" id="license" placeholder="e.g. proprietary" />
-        </div>
-        <div className="form__group">
-            <FormLabel htmlFor="labels" label="Labels" />
-            <FormInput component="input" name="labels" id="labels" placeholder="e.g. climate, ocean, atmosphere, temperature" />
-            <FormHelp>Labels can serve the role of multiple categories.</FormHelp>
-        </div>
-        <div className="form__group">
-            <FormLabel htmlFor="classification" label="Classification" />
-            <FormInput component="input" name="classification" id="classification" placeholder="e.g. public" />
-        </div>
-        <div className="form__group">
-            <FormLabel htmlFor="industry" label="Industry" />
-            <FormInput component="input" name="industry" id="industry" placeholder="e.g. Earth Sciences" />
-        </div>
-        <div className="form__group">
-            <FormLabel htmlFor="category" label="Category" />
-            <FormInput component="input" name="category" id="category" placeholder="e.g. Climate" />
-        </div>
-        <div className="form__group">
-            <FormLabel htmlFor="keywords" label="Keywords" />
-            <FormInput component="input" name="keywords" id="keywords" placeholder="e.g. climate, ocean, atmosphere, temperature" />
-            <FormHelp>Can enhance search and find functions.</FormHelp>
         </div>
         <div className="form__group">
             <FormLabel htmlFor="updateFrequency" label="Update Frequency" />
