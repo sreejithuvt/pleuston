@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Empty from '../atoms/Empty'
 import Order from './Order'
-import './OrdersList.css'
+import './OrderList.css'
 
 const OrderList = ({
     orders,
@@ -35,4 +35,4 @@ OrderList.propTypes = {
     handleClick: PropTypes.func.isRequired
 }
 
-export default OrdersList
+export default OrderList

@@ -27,6 +27,7 @@ class OrderFull extends PureComponent {
 
     render() {
         const {
+            id
         } = this.props
 
         if (!id) return null

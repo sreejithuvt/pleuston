@@ -11,11 +11,8 @@ export async function list(contracts, account, providers) {
     let eth_address = account.name
     let {web3, db, ocnURL } = providers
 
-    let orders = acl.getPastEvents('AccessConsentRequested', {
-        filter: {_consumer: account.name, },
-        },
-        function(error, events) { console.log('got events:', events )}
-    ).then(events => { return events})
+    let accessConsentEvent = acl.AccessConsentRequested({_consumer: account.name, })
+    let orders = accessConsentEvent.get((error, events) => { return events} )
 
     return orders.map( (event) => ({
         id: event._id,
@@ -26,8 +23,8 @@ export async function list(contracts, account, providers) {
         // committed, delivered, revoked
         status: acl.statusOfAccessRequest(event._id),
         timeout: event._timeout,
-        paid: market.verifyPaymentReceived(event._id)
-
+        paid: market.verifyPaymentReceived(event._id),
+        key: null
 
         })
     )
@@ -40,7 +37,7 @@ export function watchAccessRequest(asset, contracts, account, providers) {
     let eth_address = account.name
     let {web3, db, ocnURL} = providers
 
-    const filter = {_resourceId: asset.assetId}
+    const filter = {_resourceId: asset.id}
     var event = acl.AccessConsentRequested(filter)
     event.watch((error, result) => {
         if (error) {
@@ -51,7 +48,7 @@ export function watchAccessRequest(asset, contracts, account, providers) {
             console.log('got new access request id: ', accessId)
             // TODO: save new order with access request id to local store
 
-            let order = {id: accessId, assetId: assetId}
+            let order = {id: accessId, assetId: asset.id, asset: asset}
             watchAccessRequestCommitted(order, contracts, account, providers)
             // watchAccessRequestRejected(order, contracts, account)
         }
@@ -83,10 +80,11 @@ export function watchAccessRequestCommitted(order, contracts, account, providers
                 )
                 if (continuePurchase) {
                     // send payment
+                    let asset = order.asset
                     let assetPrice = await market.getAssetPrice(asset.id).then(function (price) {
                         return price.toNumber()
                     })
-                    console.log('sending payment:  ', result.args._id, asset.publisher, assetPrice, timeout)
+                    console.log('sending payment:  ', result.args._id, asset.publisher, assetPrice, order.timeout)
                     market.sendPayment(result.args._id, asset.publisher, assetPrice, order.timeout, {
                         from: account.name,
                         gas: 3000000
@@ -101,7 +99,7 @@ export function watchAccessRequestCommitted(order, contracts, account, providers
             }
 
             // stop watching
-            event.stopWatching()
+            // event.stopWatching()
     }
     event.watch(callback)
 
@@ -110,7 +108,6 @@ export function watchAccessRequestCommitted(order, contracts, account, providers
 export function watchAccessRequestRejected(order, contracts, account) {
     let {market, acl} = contracts
     let eth_address = account.name
-    let {web3, db, ocnURL} = providers
 
     const filter = {_id: order.id}
     var event = acl.AccessRequestRejected(filter)
@@ -123,7 +120,7 @@ export function watchAccessRequestRejected(order, contracts, account) {
             }
 
             // stop watching
-            event.stopWatching()
+            // event.stopWatching()
     }
     event.watch(callback)
 
@@ -147,7 +144,7 @@ export function watchPaymentReceived(order, contracts, account, providers) {
             watchEncryptedTokenPublished(order, contracts, account, providers)
 
             // stop watching
-            event.stopWatching()
+            // event.stopWatching()
     }
     event.watch(callback)
 
@@ -174,9 +171,10 @@ export function watchEncryptedTokenPublished(order, contracts, account, provider
             console.log('***************************************************')
             console.log(`access token published by provider: <${args._id}>`)
             console.log('***************************************************')
+            const key = order.key
             let privateKey = key.privateKey.slice(2)
             // grab the access token from aclContract
-            let encryptedToken = await aclContract.getEncryptedAccessToken(result.args._id, { from: account.name })
+            let encryptedToken = await acl.getEncryptedAccessToken(result.args._id, { from: account.name })
             let tokenNo0x = encryptedToken.slice(2)
             let encryptedTokenBuffer = Buffer.from(tokenNo0x, 'hex')
             let tokenLength = tokenNo0x.length
@@ -209,8 +207,8 @@ export function watchEncryptedTokenPublished(order, contracts, account, provider
             const fixedMsgSha = web3.sha3(fixedMsg)
             console.log('signed message hash from consumer to be validated: ', fixedMsgSha)
 
-            const res = await aclContract.isSigned(account.name, fixedMsgSha, splitSignature.v, splitSignature.r,
-                splitSignature.s, { from: asset.publisher })
+            const res = await acl.isSigned(account.name, fixedMsgSha, splitSignature.v, splitSignature.r,
+                splitSignature.s, { from: order.asset.publisher })
             console.log('validate the signature  comes from consumer? isSigned: ', res)
 
             console.log('signature: ', signature, splitSignature.v, splitSignature.r, splitSignature.s,
@@ -245,7 +243,7 @@ export function watchEncryptedTokenPublished(order, contracts, account, provider
 
 
             // stop watching
-            event.stopWatching()
+            // event.stopWatching()
     }
 
     event.watch(callback)

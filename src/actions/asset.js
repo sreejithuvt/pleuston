@@ -138,7 +138,7 @@ export async function list(contract, account, providers) {
 
 export async function purchase(asset, contracts, account, providers) {
     const { web3 } = providers
-    let {market, acl} = contracts
+    let {market, acl, oceanToken} = contracts
 
     console.log('Purchasing asset by consumer: ', account.name, ' assetid: ', asset.id)
 
@@ -163,8 +163,8 @@ export async function purchase(asset, contracts, account, providers) {
     publicKey = ethjs_util.privateToPublic(privateKey).toString('hex')
 
     // Allow OceanMarket contract to transfer funds on the consumer's behalf
-    tokenContract.approve(market.address, assetPrice, { from: account.name, gas: 3000000 })
-    let allowance = await tokenContract.allowance(account.name, market.address).then(function(value) { return value.toNumber() })
+    oceanToken.approve(market.address, assetPrice, { from: account.name, gas: 3000000 })
+    let allowance = await oceanToken.allowance(account.name, market.address).then(function(value) { return value.toNumber() })
     console.log('OceanMarket allowance: ', allowance)
     // Now we can start the access flow
     acl.initiateAccessRequest(assetId, asset.publisher, publicKey,
