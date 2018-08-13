@@ -16,20 +16,24 @@
 }
 
 .assets__tile {
-    width: 30%;
     margin-bottom: $spacer / 2;
 
-    @media (min-width: $break-point--small) {
+    @media (min-width: $break-point--medium) {
         flex: 0 0 calc(50% - #{$spacer});
         margin-left: $spacer / 2;
     }
 
-    @media (min-width: $break-point--medium) {
+    @media (min-width: $break-point--large) {
         flex-basis: calc(33.3333333% - #{$spacer});
     }
 
     a {
         display: block;
         height: 100%;
+    }
+
+    button {
+        width: 100%;
+        margin-top: $spacer / 2;
     }
 }

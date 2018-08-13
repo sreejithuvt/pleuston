@@ -10,27 +10,27 @@ import './Asset.css'
 const AssetNew = ({
     handleSubmit
 }) => (
-    <div className="assets__tile">
-        <div className="asset asset-new">
-            <form className="form" onSubmit={handleSubmit}>
-                <div className="form__group">
-                    <FormLabel htmlFor="name" label="Title" />
-                    <FormInput required component="input" name="name" type="text" />
-                </div>
-                <div className="form__group">
-                    <FormLabel htmlFor="abstract" label="Abstract" />
-                    <FormInput required component="textarea" name="abstract" type="text" />
-                </div>
-                <div className="form__group">
-                    <FormLabel htmlFor="url" label="Url" />
-                    <FormInput required component="input" name="url" type="text" />
-                </div>
-                <aside className="asset__ticker">
-                    <Button primary type="submit">Publish</Button>
-                </aside>
-            </form>
+    <form className="form" onSubmit={handleSubmit}>
+        <div className="form__group">
+            <FormLabel htmlFor="name" label="Title" />
+            <FormInput required component="input" name="name" id="name" type="text" placeholder="The title of your asset" />
         </div>
-    </div>
+        <div className="form__group">
+            <FormLabel htmlFor="description" label="Abstract" />
+            <FormInput required component="textarea" name="description" id="description" placeholder="Describe your asset" />
+        </div>
+        <div className="form__group">
+            <FormLabel htmlFor="url" label="Url" />
+            <FormInput required component="input" name="url" id="url" type="url" placeholder="https://url.com/" />
+        </div>
+        <div className="form__group">
+            <FormLabel htmlFor="price" label="Price" />
+            <FormInput required type="number" component="input" name="price" id="price" placeholder="Price in ocean tokens" />
+        </div>
+        <div className="form__group">
+            <Button primary="true" type="submit">Publish</Button>
+        </div>
+    </form>
 )
 
 AssetNew.propTypes = {

@@ -1,11 +1,13 @@
 @import 'variables';
 
 .footer {
-    color: rgba($brand-grey-light, .8);
+    color: $brand-grey-light;
     width: 100%;
-    margin-top: $spacer * 2;
     align-self: flex-end;
     text-align: center;
+    padding-top: $spacer;
+    padding-bottom: $spacer / 2;
+    border-top: .1rem solid lighten($brand-grey-lighter, 5%);
 
     @media screen and (min-width: $break-point--small) {
         text-align: left;
@@ -23,7 +25,7 @@
 
         &:hover,
         &:focus {
-            color: #fff;
+            color: $brand-grey;
         }
     }
 }

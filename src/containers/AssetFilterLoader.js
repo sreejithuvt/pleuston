@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 
-import AssetFilter from '../components/AssetFilter'
+import AssetFilter from '../components/asset/AssetFilter'
 
 import { setAssetFilter } from '../actions'
 

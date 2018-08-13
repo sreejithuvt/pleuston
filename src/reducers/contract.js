@@ -1,5 +1,7 @@
 const initialState = {
-    market: null
+    market: null,
+    acl: null,
+    oceanToken: null
 }
 
 const contract = (state = initialState, action) => {

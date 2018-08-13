@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Blockies from 'react-blockies'
+import Truncate from 'react-truncate'
 
 import './Account.css'
 import AccountBalance from './AccountBalance'
@@ -13,13 +14,17 @@ const Account = ({
 }) => (
     <button className="account" onClick={handleClick}>
         {
-            image || <Blockies className="account__image" seed={name} />
-        }
-        {
             typeof name === 'string'
-                ? <h3 className="account__title">{name.slice(0, 25)}...</h3> : name
+                ? <h3 className="account__title">
+                    <Truncate>{name}</Truncate>
+                </h3> : name
         }
-        <AccountBalance {...balance} />
+        <div className="account__image">
+            {image || <Blockies seed={name} />}
+        </div>
+        <div className="account__balance">
+            <AccountBalance {...balance} />
+        </div>
     </button>
 )
 

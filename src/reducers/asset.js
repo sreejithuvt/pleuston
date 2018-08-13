@@ -4,7 +4,7 @@ const initialState = {
     filter: {}
 }
 
-const account = (state = initialState, action) => {
+const asset = (state = initialState, action) => {
     switch (action.type) {
         case 'GET_ASSETS':
             return Object.assign({}, state, {
@@ -23,4 +23,4 @@ const account = (state = initialState, action) => {
     }
 }
 
-export default account
+export default asset

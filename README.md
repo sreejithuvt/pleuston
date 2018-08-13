@@ -22,6 +22,8 @@
   - [Quick Start](#quick-start)
   - [Keeper](#keeper)
      - [Run locally](#run-locally)
+  - [Provider](#provider)
+     - [Run locally](#run-locally)
   - [Database](#database)
      - [Run locally](#run-locally)
   - [Code style](#code-style)
@@ -38,21 +40,30 @@ This repository houses Pleuston, the reference web app for consumers to explore,
 - Download data assets
 - ...
 
+_architecture overview: pleuston, keeper, provider, database_
+
 ![output](https://user-images.githubusercontent.com/6178597/41625184-37cf5e4c-7418-11e8-81c2-f779e5f7ee8b.gif)
 
 ## Quick Start
 
 Pleuston is a single page React app, bootstrapped with [`create-react-app`](https://github.com/facebook/create-react-app).
 
-To start development, clone this repository, install all dependencies, and start the development server:
+To start development, first clone this repository and start up all the other Ocean Protocol components with `docker-compose`:
 
 ```bash
 git clone git@github.com:oceanprotocol/pleuston.git
 cd pleuston/
 
+docker-compose up
+```
+
+Then move on to a new terminal window, install all dependencies, and start the development server of `pleuston`:
+
+```bash
 npm i
 npm start
-```
+````
+
 This should output a message as follows:
 
 ```bash
@@ -90,8 +101,29 @@ After the RPC client is running on your machine, modify the respective config va
 ```js
 module.exports = {
     ...
+    keeperScheme: 'http',
     keeperHost: 'localhost',
     keeperPort: 8545,
+    ...
+}
+```
+
+## Provider
+
+The app connects to the Ocean Protocol Provider backend...
+
+### Run locally
+
+_Instructions to run Provider locally_
+
+After the Provider backend is running on your machine, modify the respective config values in [`./src/config.js`](./src/config.js):
+
+```js
+module.exports = {
+    ...
+    ocnScheme: 'http',
+    ocnHost: 'localhost',
+    ocnPort: 5000,
     ...
 }
 ```

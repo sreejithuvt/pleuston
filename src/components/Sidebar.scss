@@ -1,0 +1,38 @@
+@import 'variables';
+
+.sidebar {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    li {
+        list-style: none;
+        display: inline;
+    }
+
+    a {
+        display: inline-block;
+        padding: $spacer / 4;
+        font-family: $font-family-button;
+        color: $brand-grey;
+
+        @media (min-width: $break-point--small) {
+            display: block;
+        }
+
+        &:hover,
+        &:focus {
+            transform: none;
+            color: inherit;
+            background: lighten($brand-grey-lighter, 5%);
+        }
+
+        // stylelint-disable selector-no-qualifying-type
+        &.is-active,
+        // stylelint-enable selector-no-qualifying-type
+        &:active {
+            color: $brand-white;
+            background: $brand-black;
+        }
+    }
+}
