@@ -1,7 +1,12 @@
 import * as account from './account'
 import * as asset from './asset'
+import * as order from "./order";
 
 import mockAssets from '../mock/assets'
+import {watchAccessRequestCommitted} from "./order";
+import {watchAccessRequestRejected} from "./order";
+import {watchEncryptedTokenPublished} from "./order";
+import {watchPaymentReceived} from "./order";
 
 export function setProviders() {
     return (dispatch) => {
@@ -112,8 +117,7 @@ export function getAssets() {
             .list(
                 state.contract.market,
                 getActiveAccount(state),
-                state.provider,
-                false
+                state.provider
             ))
             .reduce((map, obj) => {
                 map[obj.id] = obj
@@ -126,31 +130,6 @@ export function getAssets() {
         })
     }
 }
-
-export function getCurrentAccountAssets() {
-    /* Get list of assets for the current selected account */
-    return async (dispatch, getState) => {
-        const state = getState()
-
-        const myAssets = (await asset
-            .list(
-                state.contract.market,
-                getActiveAccount(state),
-                state.provider,
-                true
-            ))
-            .reduce((map, obj) => {
-                map[obj.id] = obj
-                return map
-            }, {})
-
-        dispatch({
-            type: 'GET_MY_ASSETS',
-            myAssets
-        })
-    }
-}
-
 export function setActiveAsset(assetId) {
     return (dispatch) => {
         dispatch({
@@ -183,9 +162,7 @@ export function purchaseAsset(assetId) {
 
         const token = await asset.purchase(
             getActiveAsset(state),
-            state.contract.market,
-            state.contract.acl,
-            state.contract.oceanToken,
+            state.contract,
             getActiveAccount(state),
             state.provider
         )
@@ -205,4 +182,80 @@ export function setAssetFilter(filter) {
             filter
         })
     }
+}
+
+export function getActiveOrder(state) {
+    const { activeOrder, orders } = state.order
+
+    if (!!activeOrder) {
+        return orders[activeOrder]
+
+    }
+
+    return {}
+
+}
+
+export function setActiveOrder(orderId) {
+    return (dispatch) => {
+        dispatch({
+            type: 'SET_ACTIVE_ORDER',
+            activeOrder: orderId
+        })
+    }
+}
+
+export function getOrders() {
+    return async (dispatch, getState) => {
+        const state = getState()
+        const orders = (await order
+            .list(
+                state.contract,
+                getActiveAccount(state),
+                state.provider
+            ))
+            .reduce((map, obj) => {
+                map[obj.id] = obj
+                return map
+            }, {})
+
+        dispatch({
+            type: 'GET_ORDERS',
+            orders
+        })
+    }
+}
+
+
+export function processKeeperEvents() {
+    // Depends on getOrders so orders are already set in the store
+     return async (dispatch, getState) => {
+         const state = getState()
+         let {orders, activeOrder, filter} = state.order
+
+         // for each order:
+         // if delivered, revoked, or expired (unpaid, committed or not) -> skip
+         // else -> listen to event that matches the current status:
+         //    if committed && not paid -> listen to committed event
+         //    elif committed && paid -> listen to token published event
+
+         const account = getActiveAccount(state)
+         const curTime = new Date().getTime()
+         Object.values(orders).forEach(o => {
+             if (o.status === 3 || o.status === 2 || (curTime > o.timeout && !o.paid)) {
+                 console.log('Skip order not needing action: ', o.id, o.assetId, o.status)
+
+             } else if (o.status === 0) {
+                 console.log('Uncommitted order, process commitment event: ', o.id, o.assetId)
+                 watchAccessRequestCommitted(o, state.contract, account.name, state.provider)
+                 // watchAccessRequestRejected(o, state.contract, account.name)
+             } else if (o.paid) { // status must be 1, i.e. COMMITTED
+                 console.log('Order committed and paid, process published jwt event: ', o.id, o.assetId)
+                 watchPaymentReceived(o, state.contract, account.name, state.provider)
+                 // watchEncryptedTokenPublished(o, state.contract, account.name, state.provider)
+             }
+
+         })
+
+     }
 }
