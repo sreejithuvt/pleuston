@@ -19,6 +19,7 @@ import {
 export function createProviders() {
     const web3URI = `${keeperScheme}://${keeperHost}:${keeperPort}`
 
+
     const web3Provider = new Web3.providers.HttpProvider(web3URI)
     const web3 = new Web3(web3Provider)
 
