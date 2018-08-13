@@ -20,12 +20,10 @@
 
   - [Features](#features)
   - [Quick Start](#quick-start)
-  - [Keeper](#keeper)
-     - [Run locally](#run-locally)
-  - [Provider](#provider)
-     - [Run locally](#run-locally)
-  - [Database](#database)
-     - [Run locally](#run-locally)
+  - [Ocean Protocol Components](#ocean-protocol-components)
+     - [Keeper](#keeper)
+     - [Provider](#provider)
+     - [Database](#database)
   - [Code style](#code-style)
   - [Testing](#testing)
   - [License](#license)
@@ -84,90 +82,25 @@ serve -s build/
 # go to http://localhost:5000
 ```
 
-> Oops - that didn't work - see [https://github.com/bigchaindb/js-driver-orm/issues/56](https://github.com/bigchaindb/js-driver-orm/issues/56)
+## Ocean Protocol Components
 
-## Keeper
+All required components to get `pleuston` running are pre-configured and started with the above `docker-compose` command, and the web app is configured to connect to them.
 
-After following the instructions outlined above, Pleuston will connect to the Ocean Protocol test network where all required smart contracts are deployed so you don't have to configure anything else.
+If you want to change and run `pleuston` against your own deployed components, head over to the [`src/config.js`](./src/config.js) file and modify the respective values.
+
+### Keeper
+
+After following the instructions outlined above, Pleuston will connect to the locally running RPC client under `http://localhost:8545` where all required smart contracts are deployed so you don't have to configure anything else.
 
 The Keeper Contracts ABI's are published as a [npm package](https://www.npmjs.com/package/@oceanprotocol/keeper-contracts) and imported in the project.
 
-### Run locally
+### Provider
 
-If you want to run the app against a local Ethereum RPC client you need to make sure to deploy all required contracts to it first. Head over to [keeper-contracts](https://github.com/oceanprotocol/keeper-contracts) and follow the instructions to get this up and running.
+The app connects to the locally running Ocean Protocol Provider backend, exposed under `http://localhost:5000`.
 
-After the RPC client is running on your machine, modify the respective config values in [`./src/config.js`](./src/config.js):
+### Database
 
-```js
-module.exports = {
-    ...
-    keeperScheme: 'http',
-    keeperHost: 'localhost',
-    keeperPort: 8545,
-    ...
-}
-```
-
-## Provider
-
-The app connects to the Ocean Protocol Provider backend...
-
-### Run locally
-
-_Instructions to run Provider locally_
-
-After the Provider backend is running on your machine, modify the respective config values in [`./src/config.js`](./src/config.js):
-
-```js
-module.exports = {
-    ...
-    ocnScheme: 'http',
-    ocnHost: 'localhost',
-    ocnPort: 5000,
-    ...
-}
-```
-
-## Database
-
-Pleuston is currently using [BigchainDB](http://github.com/bigchaindb/bigchaindb) as a database backend and is configured to automatically connect to an account on the [BigchainDB Test Network](https://testnet.bigchaindb.com/).
-
-Optionally, you can create your own account under [testnet.bigchaindb.com](https://testnet.bigchaindb.com/) and use your own `app_id` & `app_key` in [`./src/config.js`](./src/config.js):
-
-```js
-module.exports = {
-    ...
-    dbHeaders: {
-        app_id: 'dehwi323',
-        app_key: 'hfjewib3h2i3h2jen2jk2nj3k2njk3'
-    },
-    ...
-}
-```
-
-### Run locally
-
-If you want to have the web app connect to a locally running instance of BigchainDB, you can do so with Docker:
-
-```bash
-cd db/bigchaindb/
-
-# will use db/bigchaindb/Dockerfile-dev
-docker-compose up
-```
-
-After BigchainDB is running on your machine, modify the respective config values in [`./src/config.js`](./src/config.js):
-
-```js
-module.exports = {
-    ...
-    dbScheme: 'http',
-    dbHost: 'localhost',
-    dbHeaders: {},
-    dbPort: 9984,
-    ...
-}
-```
+Pleuston is currently using [BigchainDB](http://github.com/bigchaindb/bigchaindb) as a database backend and is configured to automatically connect to the locally running BigchainDB node, exposed under `http://localhost:9984`.
 
 ## Code style
 
