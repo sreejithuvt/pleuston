@@ -8,6 +8,10 @@ const Editable = ({ name, value, onFieldChange, onValueChange }) => (
 )
 
 Editable.propTypes = {
+    name: PropTypes.string,
+    value: PropTypes.string,
+    onFieldChange: PropTypes.func,
+    onValueChange: PropTypes.func
 }
 
 class OrderFull extends PureComponent {
@@ -35,11 +39,8 @@ class OrderFull extends PureComponent {
         return (
             <div className="order-full">
                 <div className="order-grid">
-                    <div className="order-grid__col">
-
-                    </div>
-                    <div className="order-grid__col">
-                    </div>
+                    <div className="order-grid__col" />
+                    <div className="order-grid__col" />
                 </div>
             </div>
         )
@@ -47,6 +48,7 @@ class OrderFull extends PureComponent {
 }
 
 OrderFull.propTypes = {
+    id: PropTypes.number
 }
 
 OrderFull.defaultProps = {

@@ -18,10 +18,10 @@ import appReducer from './reducers'
 import {
     getAccounts,
     getAssets,
-    getOrders,
+    // getOrders,
     setProviders,
-    setContracts,
-    processKeeperEvents
+    setContracts
+    // processKeeperEvents
 } from './actions/index'
 
 import App from './App'

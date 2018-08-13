@@ -7,7 +7,7 @@ import EthCrypto from '../lib/eth-crypto'
 
 import Market from '@oceanprotocol/keeper-contracts/build/contracts/OceanMarket'
 import Auth from '@oceanprotocol/keeper-contracts/build/contracts/OceanAuth'
-import {watchAccessRequest} from "./order";
+import { watchAccessRequest } from './order'
 
 const DEFAULT_GAS = 300 * 1000
 
@@ -135,10 +135,9 @@ export async function list(contract, account, providers) {
     }
 }
 
-
 export async function purchase(asset, contracts, account, providers) {
-    const { web3 } = providers
-    let {market, acl, oceanToken} = contracts
+    // const { web3 } = providers
+    let { market, acl, oceanToken } = contracts
 
     console.log('Purchasing asset by consumer: ', account.name, ' assetid: ', asset.id)
 

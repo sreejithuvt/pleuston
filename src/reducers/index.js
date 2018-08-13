@@ -7,7 +7,6 @@ import contract from './contract'
 import provider from './provider'
 import order from './order'
 
-
 const appReducer = combineReducers({
     form: formReducer,
     account,

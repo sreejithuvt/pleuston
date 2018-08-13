@@ -1,12 +1,8 @@
 import * as account from './account'
 import * as asset from './asset'
-import * as order from "./order";
+import * as order from './order'
 
 import mockAssets from '../mock/assets'
-import {watchAccessRequestCommitted} from "./order";
-import {watchAccessRequestRejected} from "./order";
-import {watchEncryptedTokenPublished} from "./order";
-import {watchPaymentReceived} from "./order";
 
 export function setProviders() {
     return (dispatch) => {
@@ -187,13 +183,11 @@ export function setAssetFilter(filter) {
 export function getActiveOrder(state) {
     const { activeOrder, orders } = state.order
 
-    if (!!activeOrder) {
+    if (activeOrder) {
         return orders[activeOrder]
-
     }
 
     return {}
-
 }
 
 export function setActiveOrder(orderId) {
@@ -226,36 +220,32 @@ export function getOrders() {
     }
 }
 
-
 export function processKeeperEvents() {
     // Depends on getOrders so orders are already set in the store
-     return async (dispatch, getState) => {
-         const state = getState()
-         let {orders, activeOrder, filter} = state.order
+    return async (dispatch, getState) => {
+        const state = getState()
+        let { orders } = state.order
 
-         // for each order:
-         // if delivered, revoked, or expired (unpaid, committed or not) -> skip
-         // else -> listen to event that matches the current status:
-         //    if committed && not paid -> listen to committed event
-         //    elif committed && paid -> listen to token published event
+        // for each order:
+        // if delivered, revoked, or expired (unpaid, committed or not) -> skip
+        // else -> listen to event that matches the current status:
+        //    if committed && not paid -> listen to committed event
+        //    elif committed && paid -> listen to token published event
 
-         const account = getActiveAccount(state)
-         const curTime = new Date().getTime()
-         Object.values(orders).forEach(o => {
-             if (o.status === 3 || o.status === 2 || (curTime > o.timeout && !o.paid)) {
-                 console.log('Skip order not needing action: ', o.id, o.assetId, o.status)
-
-             } else if (o.status === 0) {
-                 console.log('Uncommitted order, process commitment event: ', o.id, o.assetId)
-                 watchAccessRequestCommitted(o, state.contract, account.name, state.provider)
-                 // watchAccessRequestRejected(o, state.contract, account.name)
-             } else if (o.paid) { // status must be 1, i.e. COMMITTED
-                 console.log('Order committed and paid, process published jwt event: ', o.id, o.assetId)
-                 watchPaymentReceived(o, state.contract, account.name, state.provider)
-                 // watchEncryptedTokenPublished(o, state.contract, account.name, state.provider)
-             }
-
-         })
-
-     }
+        const account = getActiveAccount(state)
+        const curTime = new Date().getTime()
+        Object.values(orders).forEach(o => {
+            if (o.status === 3 || o.status === 2 || (curTime > o.timeout && !o.paid)) {
+                console.log('Skip order not needing action: ', o.id, o.assetId, o.status)
+            } else if (o.status === 0) {
+                console.log('Uncommitted order, process commitment event: ', o.id, o.assetId)
+                order.watchAccessRequestCommitted(o, state.contract, account.name, state.provider)
+                // watchAccessRequestRejected(o, state.contract, account.name)
+            } else if (o.paid) { // status must be 1, i.e. COMMITTED
+                console.log('Order committed and paid, process published jwt event: ', o.id, o.assetId)
+                order.watchPaymentReceived(o, state.contract, account.name, state.provider)
+                // watchEncryptedTokenPublished(o, state.contract, account.name, state.provider)
+            }
+        })
+    }
 }
