@@ -17,7 +17,7 @@ const AssetNew = ({
         </div>
         <div className="form__group">
             <FormLabel htmlFor="description" label="Description" />
-            <FormInput required component="textarea" name="description" id="description" placeholder="" />
+            <FormInput required component="textarea" name="description" id="description" rows="5" placeholder="" />
             <FormHelp>Describe your data set, explaining what the data represents and what it can be used for.</FormHelp>
         </div>
         <div className="form__group">
@@ -42,7 +42,13 @@ const AssetNew = ({
         </div>
         <div className="form__group">
             <FormLabel htmlFor="updateFrequency" label="Update Frequency" />
-            <FormInput component="input" name="updateFrequency" id="updateFrequency" placeholder="e.g. annually" />
+            <FormInput component="select" name="updateFrequency" id="updateFrequency">
+                <option />
+                <option value="seldom">seldom</option>
+                <option value="annually">annually</option>
+                <option value="quarterly">quarterly</option>
+                <option value="never">never expected to get updated</option>
+            </FormInput>
             <FormHelp>How often are updates expected (seldom, annually, quarterly, etc.), or is the resource static (never expected to get updated).</FormHelp>
         </div>
         <div className="form__group">
