@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import './FormHelp.css'
 
 const FormHelp = ({ children }) => (
@@ -6,5 +8,9 @@ const FormHelp = ({ children }) => (
         {children}
     </div>
 )
+
+FormHelp.propTypes = {
+    children: PropTypes.string
+}
 
 export default FormHelp

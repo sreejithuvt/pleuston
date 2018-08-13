@@ -36,9 +36,9 @@ const AssetNew = ({
             <FormInput required component="input" name="license" id="license" placeholder="e.g. proprietary" />
         </div>
         <div className="form__group">
-            <FormLabel htmlFor="date" label="Date" />
-            <FormInput component="input" name="date" id="date" placeholder="e.g. 2018-01-01" />
-            <FormHelp>The date the resource was made available.</FormHelp>
+            <FormLabel htmlFor="labels" label="Labels" />
+            <FormInput component="input" name="labels" id="labels" placeholder="e.g. climate, ocean, atmosphere, temperature" />
+            <FormHelp>Labels can serve the role of multiple categories.</FormHelp>
         </div>
         <div className="form__group">
             <FormLabel htmlFor="classification" label="Classification" />
@@ -55,6 +55,7 @@ const AssetNew = ({
         <div className="form__group">
             <FormLabel htmlFor="keywords" label="Keywords" />
             <FormInput component="input" name="keywords" id="keywords" placeholder="e.g. climate, ocean, atmosphere, temperature" />
+            <FormHelp>Can enhance search and find functions.</FormHelp>
         </div>
         <div className="form__group">
             <FormLabel htmlFor="updateFrequency" label="Update Frequency" />
