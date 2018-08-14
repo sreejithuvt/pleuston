@@ -1,8 +1,8 @@
-export default class OceanAgent {
+/* global fetch */
 
+export default class OceanAgent {
     constructor(connectionUrl) {
         this.assetsUrl = connectionUrl + '/assets'
-
     }
 
     getAssetsMetadata() {
