@@ -1,5 +1,3 @@
-/* global fetch */
-
 import TruffleContract from 'truffle-contract'
 import EthjsUtil from 'ethereumjs-util'
 import EthCrypto from '../lib/eth-crypto'
@@ -9,11 +7,6 @@ import Auth from '@oceanprotocol/keeper-contracts/build/contracts/OceanAuth'
 import { watchAccessRequest } from './order'
 
 const DEFAULT_GAS = 1000 * 1000
-
-export function getOceanBackendURL(providers) {
-    const { ocnURL } = providers
-    return ocnURL + '/assets'
-}
 
 export async function deployContracts(provider) {
     const market = TruffleContract(Market)
@@ -28,7 +21,8 @@ export async function deployContracts(provider) {
     }
 }
 
-export async function publish(asset, marketContract, account, provider) {
+export async function publish(asset, marketContract, account, providers) {
+    const { oceanAgent } = providers
     // First, register on the keeper (on-chain)
     await marketContract.requestTokens(2000, { from: account.name })
 
@@ -41,35 +35,27 @@ export async function publish(asset, marketContract, account, provider) {
     )
 
     // Now register in oceandb and publish the metadata
-    fetch(getOceanBackendURL(provider) + '/metadata',
+    oceanAgent.publishDataAsset(
         {
-            method: 'POST',
-            body: JSON.stringify({
-                assetId,
-                metadata: {
-                    name: asset.name,
-                    description: asset.description,
-                    links: asset.links,
-                    format: asset.format,
-                    size: asset.size,
-                    price: asset.price,
-                    url: asset.url
-                },
-                publisherId: asset.publisher,
-                date: Math.round((new Date()).getTime())
-            }),
-            headers: { 'Content-type': 'application/json' }
-        })
-        .then(res => res.json())
-        .then(response => console.log('Success:', response))
+            assetId,
+            metadata: {
+                name: asset.name,
+                description: asset.description,
+                links: asset.links,
+                format: asset.format,
+                size: asset.size,
+                price: asset.price,
+                url: asset.url
+            },
+            publisherId: asset.publisher,
+            date: Math.round((new Date()).getTime())
+        }
+    )
 }
 
 export async function list(contract, account, providers) {
-    let getMetadataUrl = getOceanBackendURL(providers) + '/metadata'
-    // console.log('provider url: ', ocean_get_resource_ids_url)
-    var dbAssets = JSON.parse(await fetch(getMetadataUrl, { method: 'GET' }).then(data => {
-        return data.json()
-    }))
+    const { oceanAgent } = providers
+    var dbAssets = oceanAgent.getAssetsMetadata()
     console.log('assets: ', dbAssets)
 
     dbAssets = Object.values(dbAssets).filter(async (asset) => { return contract.checkAsset(asset.assetId) })
