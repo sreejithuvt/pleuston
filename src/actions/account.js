@@ -9,9 +9,9 @@ import {
     keeperHost,
     keeperPort,
     keeperScheme,
-    ocnHost,
-    ocnPort,
-    ocnScheme
+    oceanHost,
+    oceanPort,
+    oceanScheme
 } from '../config'
 
 export function createProviders() {
@@ -21,7 +21,7 @@ export function createProviders() {
     const web3 = new Web3(web3Provider)
 
     // ocean agent
-    const ocnURL = `${ocnScheme}://${ocnHost}:${ocnPort}/api/v1/provider`
+    const ocnURL = `${oceanScheme}://${oceanHost}:${oceanPort}/api/v1/provider`
     const oceanAgent = new OceanAgent(ocnURL)
     return { web3, oceanAgent }
 }
