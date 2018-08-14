@@ -29,17 +29,15 @@ export async function deployContracts(provider) {
 }
 
 export async function publish(asset, marketContract, account, provider) {
-    const accountAddress = account.name
-
     // First, register on the keeper (on-chain)
-    await marketContract.requestTokens(2000, { from: accountAddress })
+    await marketContract.requestTokens(2000, { from: account.name })
 
     const assetId = await marketContract.generateId(asset.name + asset.description)
 
     await marketContract.register(
         assetId,
         asset.price, // price is zero for now.
-        { from: accountAddress, gas: DEFAULT_GAS }
+        { from: account.name, gas: DEFAULT_GAS }
     )
 
     // Now register in oceandb and publish the metadata
@@ -58,7 +56,7 @@ export async function publish(asset, marketContract, account, provider) {
                     url: asset.url
                 },
                 publisherId: asset.publisher,
-                date: accountAddress
+                date: Math.round((new Date()).getTime())
             }),
             headers: { 'Content-type': 'application/json' }
         })
