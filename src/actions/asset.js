@@ -1,7 +1,7 @@
 /* global fetch */
 
 import TruffleContract from 'truffle-contract'
-import ethjs_util from 'ethereumjs-util' // eslint-disable-line
+import EthjsUtil from 'ethereumjs-util'
 import EthCrypto from '../lib/eth-crypto'
 
 import Market from '@oceanprotocol/keeper-contracts/build/contracts/OceanMarket'
@@ -64,35 +64,15 @@ export async function publish(asset, marketContract, account, provider) {
         .then(response => console.log('Success:', response))
 }
 
-export async function updateMetadata(asset, account, providers) {
-    const { ocnURL } = providers
-
-    // get provider-backend url
-    let update_url = ocnURL.api_url + '/assets/metadata'
-    fetch(update_url, {
-        method: 'PUT',
-        body: JSON.stringify(asset),
-        headers: { 'Content-type': 'application/json' }
-    }).then(res => res.json())
-        .catch(error => console.error('Error:', error))
-        .then(response => console.log('Success:', response))
-}
-
 export async function list(contract, account, providers) {
-    let ocean_get_resource_ids_url = getOceanBackendURL(providers) + '/metadata'
+    let getMetadataUrl = getOceanBackendURL(providers) + '/metadata'
     // console.log('provider url: ', ocean_get_resource_ids_url)
-    var dbAssets = JSON.parse(await fetch(ocean_get_resource_ids_url, { method: 'GET' }).then(data => { return data.json() }))
+    var dbAssets = JSON.parse(await fetch(getMetadataUrl, { method: 'GET' }).then(data => {
+        return data.json()
+    }))
     console.log('assets: ', dbAssets)
-    dbAssets = Object.values(dbAssets)
 
-    let filteredAssets = []
-    for (var asset of dbAssets) {
-        let valid = await contract.checkAsset(asset.assetId)
-        if (valid) {
-            filteredAssets.push(asset)
-        }
-    }
-    dbAssets = filteredAssets
+    dbAssets = Object.values(dbAssets).filter(async (asset) => { return contract.checkAsset(asset.assetId) })
     console.log('assets (published on-chain): ', dbAssets)
 
     if (dbAssets) {
@@ -100,13 +80,6 @@ export async function list(contract, account, providers) {
             ...dbAsset.metadata,
             id: dbAsset.assetId,
             publisher: dbAsset.publisherId,
-            stats: {
-                change: '+4.5%',
-                accepted: '52%',
-                rejected: '32.8%',
-                challenged: '3',
-                purchased: '142'
-            }
 
         }))
     } else {
@@ -115,16 +88,16 @@ export async function list(contract, account, providers) {
 }
 
 export async function purchase(asset, contracts, account, providers) {
-    // const { web3 } = providers
+    const { web3 } = providers
     let { market, acl, oceanToken } = contracts
 
     console.log('Purchasing asset by consumer: ', account.name, ' assetid: ', asset.id)
 
-    let assetId = asset.id
-
-    // Verify assetId is valid on-chain
-    let isValid = await market.checkAsset(assetId, { from: account.name })
-    let assetPrice = await market.getAssetPrice(assetId).then(function(price) { return price.toNumber() })
+    // Verify asset.id is valid on-chain
+    const isValid = await market.checkAsset(asset.id, { from: account.name })
+    const assetPrice = await market.getAssetPrice(asset.id).then(function(price) {
+        return price.toNumber()
+    })
     console.log('is asset valid: ', isValid, ', asset price:', assetPrice)
     if (!isValid) {
         window.alert('this asset does not seem valid on-chain.')
@@ -134,19 +107,19 @@ export async function purchase(asset, contracts, account, providers) {
     // trigger purchaseResource on OceanAccessControl contract
     // TODO: allow user to set timeout through the UI.
     let timeout = (new Date().getTime() / 1000) + 3600 * 12 // 12 hours
-    // generate temp key pair
 
+    // generate temp key pair
     const key = EthCrypto.createIdentity()
     let { privateKey, publicKey } = key
-    publicKey = ethjs_util.privateToPublic(privateKey).toString('hex')
+    publicKey = EthjsUtil.privateToPublic(privateKey).toString('hex')
 
     // Allow OceanMarket contract to transfer funds on the consumer's behalf
     oceanToken.approve(market.address, assetPrice, { from: account.name, gas: 3000000 })
     let allowance = await oceanToken.allowance(account.name, market.address).then(function(value) { return value.toNumber() })
     console.log('OceanMarket allowance: ', allowance)
     // Now we can start the access flow
-    acl.initiateAccessRequest(assetId, asset.publisher, publicKey,
+    acl.initiateAccessRequest(asset.id, asset.publisher, publicKey,
         timeout, { from: account.name, gas: 1000000 })
 
-    watchAccessRequest(asset, contracts, account, providers, key)
+    watchAccessRequest(asset, contracts, account, web3, key)
 }

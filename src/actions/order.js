@@ -18,10 +18,8 @@ export async function buildOrdersFromEvents(events, acl, market, account) {
         }))
 }
 
-export function watchAccessRequest(asset, contracts, account, providers, key) {
+export function watchAccessRequest(asset, contracts, account, web3, key) {
     let { acl } = contracts
-    // let eth_address = account.name
-    // let { web3, db, ocnURL } = providers
 
     const filter = { _resourceId: asset.id }
     var event = acl.AccessConsentRequested(filter)
@@ -35,7 +33,7 @@ export function watchAccessRequest(asset, contracts, account, providers, key) {
             // TODO: save new order with access request id to local store
 
             let order = { id: accessId, assetId: asset.id, asset: asset, timeout: result.args._timeout, pubkey: result.args._pubKey, key: key }
-            watchAccessRequestCommitted(order, contracts, account, providers)
+            watchAccessRequestCommitted(order, contracts, account, web3)
             // watchAccessRequestRejected(order, contracts, account)
         }
 
@@ -44,10 +42,8 @@ export function watchAccessRequest(asset, contracts, account, providers, key) {
     })
 }
 
-export function watchAccessRequestCommitted(order, contracts, account, providers) {
+export function watchAccessRequestCommitted(order, contracts, account, web3) {
     let { market, acl } = contracts
-    // let eth_address = account.name
-    // let { web3, db, ocnURL } = providers
 
     const filter = { _id: order.id }
     var event = acl.AccessRequestCommitted(filter)
@@ -75,7 +71,7 @@ export function watchAccessRequestCommitted(order, contracts, account, providers
                     gas: 5000000
                 })
 
-                watchPaymentReceived(order, contracts, account, providers)
+                watchPaymentReceived(order, contracts, account, web3)
             } else {
                 acl.cancelAccessRequest(result.args._id, { from: account.name })
             }
@@ -89,7 +85,6 @@ export function watchAccessRequestCommitted(order, contracts, account, providers
 
 export function watchAccessRequestRejected(order, contracts, account) {
     let { acl } = contracts
-    // let eth_address = account.name
 
     const filter = { _id: order.id }
     var event = acl.AccessRequestRejected(filter)
@@ -100,16 +95,13 @@ export function watchAccessRequestRejected(order, contracts, account) {
             console.log('keeper AccessRequestRejected event received: ', order.id, result.args)
         }
 
-        // stop watching
-        // event.stopWatching()
+        event.stopWatching()
     }
     event.watch(callback)
 }
 
-export function watchPaymentReceived(order, contracts, account, providers) {
+export function watchPaymentReceived(order, contracts, account, web3) {
     let { market } = contracts
-    // let eth_address = account.name
-    // let { web3, db, ocnURL } = providers
 
     const filter = { _id: order.id }
     var event = market.PaymentReceived(filter)
@@ -120,7 +112,7 @@ export function watchPaymentReceived(order, contracts, account, providers) {
             console.log('keeper PaymentReceived event received: ', order.id, result.args)
         }
 
-        watchEncryptedTokenPublished(order, contracts, account, providers)
+        watchEncryptedTokenPublished(order, contracts, account, web3)
 
         // stop watching
         event.stopWatching()
@@ -128,10 +120,9 @@ export function watchPaymentReceived(order, contracts, account, providers) {
     event.watch(callback)
 }
 
-export function watchEncryptedTokenPublished(order, contracts, account, providers) {
+export function watchEncryptedTokenPublished(order, contracts, account, web3) {
     let { acl } = contracts
     // let eth_address = account.name
-    let { web3 } = providers
 
     const filter = { _id: order.id }
     var event = acl.EncryptedTokenPublished(filter)

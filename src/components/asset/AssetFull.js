@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import AssetMedia from './AssetMedia'
 
 import Button from '../atoms/Button'
-import { Chart, Chart2 } from '../Chart'
 import './AssetFull.css'
 
 const Editable = ({ name, value, onFieldChange, onValueChange }) => (
@@ -41,7 +40,6 @@ class AssetFull extends PureComponent {
             id,
             license,
             publisher,
-            stats,
             tags,
             token,
             url,
@@ -50,8 +48,6 @@ class AssetFull extends PureComponent {
 
         if (!id) return null
 
-        const changeClasses = stats.change.includes('-') ? 'asset__change negative' : 'asset__change positive'
-
         return (
             <div className="asset-full">
                 <div className="asset-grid">
@@ -59,13 +55,6 @@ class AssetFull extends PureComponent {
                         <p>
                             <AssetMedia url={url} />
                         </p>
-
-                        <div className="asset__stats">
-                            <p><strong>{stats.accepted}</strong> of curators accepted</p>
-                            <p><strong>{stats.rejected}</strong> of curators rejected</p>
-                            <p><strong>{stats.challenged}</strong> times challenged</p>
-                            <p><strong>{stats.purchased}</strong> times purchased</p>
-                        </div>
 
                         <div className="asset__actions">
                             <Button>View data structure</Button>
@@ -128,23 +117,7 @@ class AssetFull extends PureComponent {
 
                         <div className="asset__actions">
                             <Button primary onClick={() => handlePurchase(id)}>Purchase</Button>
-                            <Button primary>Curate</Button>
                         </div>
-                    </div>
-                    <div className="asset-grid__col">
-                        <div className="asset__graph__label">
-                            <div className="asset__symbol">XYZ</div>
-                            <div className="asset__graph__description">Supply & cost</div>
-                        </div>
-
-                        <div className="asset__graph"><Chart2 /></div>
-
-                        <div className="asset__graph__label">
-                            <div className={changeClasses}>{stats.change}</div>
-                            <div className="asset__graph__description">Exchange rate history</div>
-                        </div>
-
-                        <div className="asset__graph"><Chart /></div>
                     </div>
                 </div>
             </div>
@@ -160,7 +133,6 @@ AssetFull.propTypes = {
     tags: PropTypes.array,
     license: PropTypes.string,
     publisher: PropTypes.string,
-    stats: PropTypes.object,
     token: PropTypes.string,
     updateFrequency: PropTypes.string,
     url: PropTypes.array

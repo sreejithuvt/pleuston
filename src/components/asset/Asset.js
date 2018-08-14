@@ -22,14 +22,6 @@ const Asset = ({
             <div className="asset__price">Price: { asset.price }</div>
         </div>
         <AssetMedia url={asset.url} />
-        <aside className="asset__ticker">
-            <div className="asset__symbol">XYZ</div>
-            <div className={asset.stats.change.includes('-')
-                ? 'asset__change negative'
-                : 'asset__change positive'}>
-                {asset.stats.change}
-            </div>
-        </aside>
     </div>
 )
 

@@ -39,8 +39,10 @@ export function setActiveAccount(accountId) {
 }
 
 export function getActiveAccount(state) {
-    const { activeAccount, accounts } = state.account
-    // TODO: accounts.lengths == 0
+    let { activeAccount, accounts } = state.account
+    if (accounts.length === 0) {
+        return null
+    }
     return accounts[activeAccount]
 }
 
