@@ -274,7 +274,7 @@ export function processKeeperEvents() {
         const curTime = new Date().getTime()
         Object.values(orders).forEach(o => {
             if (o.status === 3 || o.status === 2 || (curTime > o.timeout && !o.paid)) {
-                console.log('Skip order not neeawaitding action: ', o.id, o.assetId, o.status)
+                console.log('Skip order not needing action: ', o.id, o.assetId, o.status)
             } else if (o.status === 0) {
                 console.log('Uncommitted order, process commitment event: ', o.id, o.assetId)
                 order.watchAccessRequestCommitted(o, state.contract, account.name, state.provider)
