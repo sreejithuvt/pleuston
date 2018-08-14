@@ -5,11 +5,10 @@ import ethers from 'ethers'
 import JWT from 'jsonwebtoken'
 import EthEcies from '../cryptolibs/eth-ecies'
 
-
 export async function buildOrdersFromEvents(events, acl, market, account) {
     console.log('events: ', events.length, events)
-    async function getStatus(id) {return await acl.statusOfAccessRequest(id)}
-    async function isPaid(id) {return await market.verifyPaymentReceived(id)}
+    async function getStatus(id) { return acl.statusOfAccessRequest(id) }
+    async function isPaid(id) { return market.verifyPaymentReceived(id) }
     let _events = events.filter(obj => {
         return (obj.args._consumer === account.name)
     })
@@ -227,7 +226,6 @@ export function watchEncryptedTokenPublished(order, contracts, account, provider
             .then(consumption_url => {
                 console.log('Success accessing consume endpoint:', consumption_url)
             })
-
     }
 
     event.watch(callback)
