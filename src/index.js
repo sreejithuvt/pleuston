@@ -18,10 +18,9 @@ import appReducer from './reducers'
 import {
     getAccounts,
     getAssets,
-    // getOrders,
+    getOrders,
     setProviders,
     setContracts
-    // processKeeperEvents
 } from './actions/index'
 
 import App from './App'
@@ -54,10 +53,10 @@ function boot() {
     console.log('booting up plankton') // eslint-disable-line no-console
     store.dispatch(setProviders())
     store.dispatch(setContracts()).then(() => {
-        store.dispatch(getAccounts())
         store.dispatch(getAssets())
-        // store.dispatch(getOrders())
-        // store.dispatch(processKeeperEvents())
+        store.dispatch(getAccounts()).then(() => {
+            store.dispatch(getOrders())
+        })
     })
 }
 /* Das */boot()

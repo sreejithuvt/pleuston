@@ -9,7 +9,7 @@ import Market from '@oceanprotocol/keeper-contracts/artifacts/OceanMarket.develo
 import Auth from '@oceanprotocol/keeper-contracts/artifacts/OceanAuth.development'
 import { watchAccessRequest } from './order'
 
-const DEFAULT_GAS = 300 * 1000
+const DEFAULT_GAS = 1000 * 1000
 
 export function getOceanBackendURL(providers) {
     const { ocnURL } = providers

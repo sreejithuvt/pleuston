@@ -5,28 +5,27 @@ import ethers from 'ethers'
 import JWT from 'jsonwebtoken'
 import EthEcies from '../cryptolibs/eth-ecies'
 
-export async function list(contracts, account, providers) {
-    let { market, acl } = contracts
-    // let eth_address = account.name
-    // let { web3, db, ocnURL } = providers
+export async function buildOrdersFromEvents(events, acl, market, account) {
+    console.log('events: ', events.length, events)
+    async function getStatus(id) { return acl.statusOfAccessRequest(id) }
+    async function isPaid(id) { return market.verifyPaymentReceived(id) }
+    let _events = events.filter(obj => {
+        return (obj.args._consumer === account.name)
+    })
 
-    let accessConsentEvent = acl.AccessConsentRequested({ _consumer: account.name })
-    let orders = accessConsentEvent.get((events) => { return events })
-
-    return orders.map((event) => ({
-        id: event._id,
-        consumer: event._consumer,
-        provider: event._provider,
-        assetId: event._resourceId,
-        pubKey: event._pubKey,
+    return _events.map((event) => ({
+        id: event.args._id,
+        consumer: event.args._consumer,
+        provider: event.args._provider,
+        assetId: event.args._resourceId,
+        pubKey: event.args._pubKey,
         // committed, delivered, revoked
-        status: acl.statusOfAccessRequest(event._id),
-        timeout: event._timeout,
-        paid: market.verifyPaymentReceived(event._id),
+        status: getStatus(event.args._id),
+        timeout: event.args._timeout,
+        paid: isPaid(event.args._id),
         key: null
 
-    })
-    )
+    }))
 }
 
 export function watchAccessRequest(asset, contracts, account, providers, key) {
@@ -83,7 +82,7 @@ export function watchAccessRequestCommitted(order, contracts, account, providers
                 console.log('sending payment:  ', result.args._id, asset.publisher, assetPrice, order.timeout)
                 market.sendPayment(result.args._id, asset.publisher, assetPrice, order.timeout, {
                     from: account.name,
-                    gas: 3000000
+                    gas: 5000000
                 })
 
                 watchPaymentReceived(order, contracts, account, providers)
@@ -175,6 +174,9 @@ export function watchEncryptedTokenPublished(order, contracts, account, provider
         console.log(`access token published by provider: <${tokenNo0x.slice(0, 10)}..${tokenNo0x.slice(tokenLength - 10)}>`)
         console.log('***************************************************')
 
+        // stop watching
+        event.stopWatching()
+
         let accessTokenEncoded = EthEcies.Decrypt(Buffer.from(privateKey, 'hex'), encryptedTokenBuffer)
         let accessToken = JWT.decode(accessTokenEncoded) // Returns a json object
         console.log('access token: ', accessToken)
@@ -218,16 +220,12 @@ export function watchEncryptedTokenPublished(order, contracts, account, provider
             headers: { 'Content-type': 'application/json' }
 
         }
-        // TODO: this fails for some reason, need to debug and fix it.
         console.log('Consuming resource from: ', JSON.stringify(payload), '\n', provider_url)
         await fetch(provider_url, fetchParams).then(res => res.toString())
             .catch(error => console.error('Error  :', error))
             .then(consumption_url => {
                 console.log('Success accessing consume endpoint:', consumption_url)
             })
-
-        // stop watching
-        event.stopWatching()
     }
 
     event.watch(callback)
