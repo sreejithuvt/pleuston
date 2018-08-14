@@ -41,7 +41,7 @@ export async function publish(asset, marketContract, account, provider) {
     )
 
     // Now register in oceandb and publish the metadata
-    fetch(getOceanBackendURL(provider) + '/metadata',
+    fetch(`${getOceanBackendURL(provider)}/metadata`,
         {
             method: 'POST',
             body: JSON.stringify({
@@ -64,38 +64,25 @@ export async function publish(asset, marketContract, account, provider) {
         .then(response => console.log('Success:', response))
 }
 
-export async function list(contract, account, providers) {
-    let getMetadataUrl = getOceanBackendURL(providers) + '/metadata'
-    // console.log('provider url: ', ocean_get_resource_ids_url)
-    var dbAssets = JSON.parse(await fetch(getMetadataUrl, { method: 'GET' }).then(data => {
-        return data.json()
-    }))
-    console.log('assets: ', dbAssets)
+export async function list(contract, account, provider) {
+    let getMetadataUrl = `${getOceanBackendURL(provider)}/metadata`
+    let dbAssets = await fetch(getMetadataUrl, { method: 'GET' })
+        .then(res => res.json())
+        .then(resJson => JSON.parse(resJson))
 
-    dbAssets = Object.values(dbAssets).filter(async (asset) => { return contract.checkAsset(asset.assetId) })
-    console.log('assets (published on-chain): ', dbAssets)
-
-    if (dbAssets) {
-        return Object.values(dbAssets).map((dbAsset) => ({
-            ...dbAsset.metadata,
-            id: dbAsset.assetId,
-            publisher: dbAsset.publisherId,
-
-        }))
-    } else {
-        return {}
-    }
+    return Object.values(dbAssets)
+        .filter(async (asset) => contract.checkAsset(asset.assetId))
 }
 
 export async function purchase(asset, contracts, account, providers) {
     const { web3 } = providers
     let { market, acl, oceanToken } = contracts
 
-    console.log('Purchasing asset by consumer: ', account.name, ' assetid: ', asset.id)
+    console.log('Purchasing asset by consumer: ', account.name, ' assetid: ', asset.assetId)
 
-    // Verify asset.id is valid on-chain
-    const isValid = await market.checkAsset(asset.id, { from: account.name })
-    const assetPrice = await market.getAssetPrice(asset.id).then(function(price) {
+    // Verify asset.assetId is valid on-chain
+    const isValid = await market.checkAsset(asset.assetId, { from: account.name })
+    const assetPrice = await market.getAssetPrice(asset.assetId).then(function(price) {
         return price.toNumber()
     })
     console.log('is asset valid: ', isValid, ', asset price:', assetPrice)
@@ -118,7 +105,7 @@ export async function purchase(asset, contracts, account, providers) {
     let allowance = await oceanToken.allowance(account.name, market.address).then(function(value) { return value.toNumber() })
     console.log('OceanMarket allowance: ', allowance)
     // Now we can start the access flow
-    acl.initiateAccessRequest(asset.id, asset.publisher, publicKey,
+    acl.initiateAccessRequest(asset.assetId, asset.publisher, publicKey,
         timeout, { from: account.name, gas: 1000000 })
 
     watchAccessRequest(asset, contracts, account, web3, key)

@@ -21,18 +21,25 @@ export async function buildOrdersFromEvents(events, acl, market, account) {
 export function watchAccessRequest(asset, contracts, account, web3, key) {
     let { acl } = contracts
 
-    const filter = { _resourceId: asset.id }
+    const filter = { _resourceId: asset.assetId }
     var event = acl.AccessConsentRequested(filter)
     event.watch((error, result) => {
         if (error) {
-            console.log('Error in keeper AccessConsentRequested event on asset: ', asset.id, '\nerror:', error)
+            console.log('Error in keeper AccessConsentRequested event on asset: ', asset.assetId, '\nerror:', error)
         } else {
-            console.log('keeper AccessConsentRequested event received on asset: ', asset.id, '\nresult:', result.args)
+            console.log('keeper AccessConsentRequested event received on asset: ', asset.assetId, '\nresult:', result.args)
             let accessId = result.args._id
             console.log('got new access request id: ', accessId)
             // TODO: save new order with access request id to local store
 
-            let order = { id: accessId, assetId: asset.id, asset: asset, timeout: result.args._timeout, pubkey: result.args._pubKey, key: key }
+            let order = {
+                id: accessId,
+                assetId: asset.assetId,
+                asset: asset,
+                timeout: result.args._timeout,
+                pubkey: result.args._pubKey,
+                key: key
+            }
             watchAccessRequestCommitted(order, contracts, account, web3)
             // watchAccessRequestRejected(order, contracts, account)
         }
@@ -62,7 +69,7 @@ export function watchAccessRequestCommitted(order, contracts, account, web3) {
             if (continuePurchase) {
                 // send payment
                 let { asset } = order
-                let assetPrice = await market.getAssetPrice(asset.id).then(function(price) {
+                let assetPrice = await market.getAssetPrice(asset.assetId).then(function(price) {
                     return price.toNumber()
                 })
                 console.log('sending payment:  ', result.args._id, asset.publisher, assetPrice, order.timeout)
