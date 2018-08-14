@@ -3,7 +3,6 @@ import * as asset from './asset'
 import * as order from './order'
 
 import mockAssets from '../mock/assets'
-import {buildOrdersFromEvents} from "./order";
 
 export function setProviders() {
     return (dispatch) => {
@@ -40,16 +39,8 @@ export function setActiveAccount(accountId) {
 }
 
 export function getActiveAccount(state) {
-    let { activeAccount, accounts } = state.account
-    if (accounts.length === 0) {
-        return null
-    }
-    console.log('active acc: ', activeAccount, !activeAccount, accounts)
-
-    if (activeAccount === null) {
-        activeAccount = 0
-        setActiveAccount(activeAccount)
-    }
+    const { activeAccount, accounts } = state.account
+    // TODO: accounts.lengths == 0
     return accounts[activeAccount]
 }
 
@@ -101,24 +92,11 @@ export function putAsset(newAsset) {
     }
 }
 
-export function updateAsset(updatedAsset) {
-    return async (dispatch, getState) => {
-        getState()
-
-        await asset.updateMetadata(
-            Object.assign(mockAssets[0], updatedAsset)
-            // ... TODO
-        )
-
-        dispatch(getAssets())
-    }
-}
-
 export function getAssets() {
     /* Get list of assets for the current selected account */
     return async (dispatch, getState) => {
         const state = getState()
-        console.log('market: ', state.contract.market)
+
         const assets = (await asset
             .list(
                 state.contract.market,
@@ -136,6 +114,7 @@ export function getAssets() {
         })
     }
 }
+
 export function setActiveAsset(assetId) {
     return (dispatch) => {
         dispatch({
@@ -209,6 +188,24 @@ export function setActiveOrder(orderId) {
     }
 }
 
+export function getOrders() {
+    return async (dispatch, getState) => {
+        const state = getState()
+        const account = getActiveAccount(state)
+        if (!account) {
+            return []
+        }
+
+        let { acl } = state.contract
+
+        let accessConsentEvent = acl.AccessConsentRequested({ _consumer: account.name }, {
+            fromBlock: 0,
+            toBlock: 'latest'
+        })
+        accessConsentEvent.get(getEventsClosure(processOrdersEvents, getState, dispatch, account))
+    }
+}
+
 function getEventsClosure(callback, getState, dispatch, account) {
     return async function getEvents(error, logs) {
         if (!!error) {
@@ -221,13 +218,12 @@ function getEventsClosure(callback, getState, dispatch, account) {
     }
 }
 
-
 async function processOrdersEvents(dispatch, getState, events, error, account) {
-    if (!!error) {
+    if (error) {
         return
     }
     const state = getState()
-    let orders = await buildOrdersFromEvents(events, state.contract.acl, state.contract.market, account)
+    let orders = await order.buildOrdersFromEvents(events, state.contract.acl, state.contract.market, account)
     console.log('ORDERS: ', orders)
 
     // orders = Object.values(orders).reduce((map, obj) => {
@@ -243,21 +239,6 @@ async function processOrdersEvents(dispatch, getState, events, error, account) {
         type: 'GET_ORDERS',
         orders
     })
-}
-
-export function getOrders() {
-    return async (dispatch, getState) => {
-        const state = getState()
-        const account = getActiveAccount(state)
-        if (!account) {
-            return []
-        }
-
-        let {acl} = state.contract
-
-        let accessConsentEvent = acl.AccessConsentRequested({_consumer: account.name}, {fromBlock: 0, toBlock: 'latest'})
-        accessConsentEvent.get(getEventsClosure(processOrdersEvents, getState, dispatch, account))
-    }
 }
 
 export function processKeeperEvents() {

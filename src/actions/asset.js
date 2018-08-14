@@ -1,8 +1,7 @@
 /* global fetch */
-/* eslint-disable camelcase */
 
 import TruffleContract from 'truffle-contract'
-import ethjs_util from 'ethereumjs-util'
+import ethjs_util from 'ethereumjs-util' // eslint-disable-line
 import EthCrypto from '../lib/eth-crypto'
 
 import Market from '@oceanprotocol/keeper-contracts/build/contracts/OceanMarket'
@@ -18,69 +17,52 @@ export function getOceanBackendURL(providers) {
 
 export async function deployContracts(provider) {
     const market = TruffleContract(Market)
-    market.setProvider(provider)
     const acl = TruffleContract(Auth)
+
+    market.setProvider(provider)
     acl.setProvider(provider)
+
     return {
         market: await market.deployed(),
         acl: await acl.deployed()
     }
 }
 
-export async function publish(asset, market_contract, account, provider) {
-    let account_address = account.name
-    let assetId = ''
-    // First, register on the keeper (on-chain)
-    try {
-        const id_str = asset.name + asset.description
-        await market_contract.requestTokens(2000, { from: account_address })
-        // try {
-        //     let value = await market_contract.tokenBalance({from: account_address})
-        //     console.log("balance: ", value)
-        // } catch (e) {
-        //     // await market_contract.requestTokens(2000, { from: account_address})
-        //     // let value = await market_contract.tokenBalance({from: account_address})
-        //
-        //     console.log('got error calling market.tokenBalance', e.toString())
-        // }
+export async function publish(asset, marketContract, account, provider) {
+    const accountAddress = account.name
 
-        assetId = await market_contract.generateId(id_str)
-        console.log('about to do market.register: ', assetId, asset.price, account_address)
-        await market_contract.register(
-            assetId,
-            asset.price, // price is zero for now.
-            { from: account_address, gas: DEFAULT_GAS }
-        )
-    } catch (e) {
-        console.error('Error registering the asset on-chain:', e)
-        return
-    }
+    // First, register on the keeper (on-chain)
+    await marketContract.requestTokens(2000, { from: accountAddress })
+
+    const assetId = await marketContract.generateId(asset.name + asset.description)
+
+    await marketContract.register(
+        assetId,
+        asset.price, // price is zero for now.
+        { from: accountAddress, gas: DEFAULT_GAS }
+    )
 
     // Now register in oceandb and publish the metadata
-    // prepare the asset json payload
-    asset.id = assetId
-    asset.publisher = account_address
-    var jAsset = JSON.stringify({
-        metadata: {
-            name: asset.name,
-            description: asset.description,
-            links: asset.links,
-            format: asset.format,
-            size: asset.size,
-            price: asset.price,
-            url: asset.url
-        },
-        assetId: asset.id,
-        publisherId: asset.publisher,
-        date: Date.now()
-    })
-    console.log('newasset to publish: ', jAsset, asset)
-    let ocean_register_resource_url = getOceanBackendURL(provider) + '/metadata'
-    fetch(ocean_register_resource_url, {
-        method: 'POST',
-        body: jAsset,
-        headers: { 'Content-type': 'application/json' }
-    }).then(res => res.json())
+    fetch(getOceanBackendURL(provider) + '/metadata',
+        {
+            method: 'POST',
+            body: JSON.stringify({
+                assetId,
+                metadata: {
+                    name: asset.name,
+                    description: asset.description,
+                    links: asset.links,
+                    format: asset.format,
+                    size: asset.size,
+                    price: asset.price,
+                    url: asset.url
+                },
+                publisherId: asset.publisher,
+                date: accountAddress
+            }),
+            headers: { 'Content-type': 'application/json' }
+        })
+        .then(res => res.json())
         .catch(error => console.error('Error:', error))
         .then(response => console.log('Success:', response))
 }

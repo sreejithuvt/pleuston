@@ -5,28 +5,17 @@ import ethers from 'ethers'
 import JWT from 'jsonwebtoken'
 import EthEcies from '../cryptolibs/eth-ecies'
 
-
 export async function buildOrdersFromEvents(events, acl, market, account) {
-    console.log('events: ', events.length, events)
-    async function getStatus(id) {return await acl.statusOfAccessRequest(id)}
-    async function isPaid(id) {return await market.verifyPaymentReceived(id)}
-    let _events = events.filter(obj => {
-        return (obj.args._consumer === account.name)
-    })
-
-    return _events.map((event) => ({
-        id: event.args._id,
-        consumer: event.args._consumer,
-        provider: event.args._provider,
-        assetId: event.args._resourceId,
-        pubKey: event.args._pubKey,
-        // committed, delivered, revoked
-        status: getStatus(event.args._id),
-        timeout: event.args._timeout,
-        paid: isPaid(event.args._id),
-        key: null
-
-    }))
+    return events
+        .filter(obj => {
+            return (obj.args._consumer === account.name)
+        })
+        .map(async (event) => ({
+            ...event.args,
+            status: (await acl.statusOfAccessRequest(event.args._id)),
+            paid: (await market.verifyPaymentReceived(event.args._id)),
+            key: null
+        }))
 }
 
 export function watchAccessRequest(asset, contracts, account, providers, key) {
@@ -222,7 +211,8 @@ export function watchEncryptedTokenPublished(order, contracts, account, provider
 
         }
         console.log('Consuming resource from: ', JSON.stringify(payload), '\n', provider_url)
-        await fetch(provider_url, fetchParams).then(res => res.toString())
+        await fetch(provider_url, fetchParams)
+            .then(res => res.toString())
             .catch(error => console.error('Error  :', error))
             .then(consumption_url => {
                 console.log('Success accessing consume endpoint:', consumption_url)
