@@ -12,7 +12,7 @@ import { watchAccessRequest } from './order'
 const DEFAULT_GAS = 300 * 1000
 
 export function getOceanBackendURL(providers) {
-    const {ocnURL} = providers
+    const { ocnURL } = providers
     return ocnURL + '/assets'
 }
 
@@ -33,7 +33,7 @@ export async function publish(asset, market_contract, account, provider) {
     // First, register on the keeper (on-chain)
     try {
         const id_str = asset.name + asset.description
-        await market_contract.requestTokens(2000, {from: account_address})
+        await market_contract.requestTokens(2000, { from: account_address })
         // try {
         //     let value = await market_contract.tokenBalance({from: account_address})
         //     console.log("balance: ", value)
@@ -49,7 +49,7 @@ export async function publish(asset, market_contract, account, provider) {
         await market_contract.register(
             assetId,
             asset.price, // price is zero for now.
-            {from: account_address, gas: DEFAULT_GAS}
+            { from: account_address, gas: DEFAULT_GAS }
         )
     } catch (e) {
         console.error('Error registering the asset on-chain:', e)
@@ -79,21 +79,21 @@ export async function publish(asset, market_contract, account, provider) {
     fetch(ocean_register_resource_url, {
         method: 'POST',
         body: jAsset,
-        headers: {'Content-type': 'application/json'}
+        headers: { 'Content-type': 'application/json' }
     }).then(res => res.json())
         .catch(error => console.error('Error:', error))
         .then(response => console.log('Success:', response))
 }
 
 export async function updateMetadata(asset, account, providers) {
-    const {ocnURL} = providers
+    const { ocnURL } = providers
 
     // get provider-backend url
     let update_url = ocnURL.api_url + '/assets/metadata'
     fetch(update_url, {
         method: 'PUT',
         body: JSON.stringify(asset),
-        headers: {'Content-type': 'application/json'}
+        headers: { 'Content-type': 'application/json' }
     }).then(res => res.json())
         .catch(error => console.error('Error:', error))
         .then(response => console.log('Success:', response))
@@ -102,7 +102,7 @@ export async function updateMetadata(asset, account, providers) {
 export async function list(contract, account, providers) {
     let ocean_get_resource_ids_url = getOceanBackendURL(providers) + '/metadata'
     // console.log('provider url: ', ocean_get_resource_ids_url)
-    var dbAssets = JSON.parse(await fetch(ocean_get_resource_ids_url, {method: 'GET'}).then(data => {
+    var dbAssets = JSON.parse(await fetch(ocean_get_resource_ids_url, { method: 'GET' }).then(data => {
         return data.json()
     }))
     console.log('assets: ', dbAssets)
@@ -139,15 +139,15 @@ export async function list(contract, account, providers) {
 
 export async function purchase(asset, contracts, account, providers) {
     // const { web3 } = providers
-    let {market, acl, oceanToken} = contracts
+    let { market, acl, oceanToken } = contracts
 
     console.log('Purchasing asset by consumer: ', account.name, ' assetid: ', asset.id)
 
     let assetId = asset.id
 
     // Verify assetId is valid on-chain
-    let isValid = await market.checkAsset(assetId, {from: account.name})
-    let assetPrice = await market.getAssetPrice(assetId).then(function (price) {
+    let isValid = await market.checkAsset(assetId, { from: account.name })
+    let assetPrice = await market.getAssetPrice(assetId).then(function(price) {
         return price.toNumber()
     })
     console.log('is asset valid: ', isValid, ', asset price:', assetPrice)
@@ -162,18 +162,18 @@ export async function purchase(asset, contracts, account, providers) {
     // generate temp key pair
 
     const key = EthCrypto.createIdentity()
-    let {privateKey, publicKey} = key
+    let { privateKey, publicKey } = key
     publicKey = ethjs_util.privateToPublic(privateKey).toString('hex')
 
     // Allow OceanMarket contract to transfer funds on the consumer's behalf
-    oceanToken.approve(market.address, assetPrice, {from: account.name, gas: 3000000})
-    let allowance = await oceanToken.allowance(account.name, market.address).then(function (value) {
+    oceanToken.approve(market.address, assetPrice, { from: account.name, gas: 3000000 })
+    let allowance = await oceanToken.allowance(account.name, market.address).then(function(value) {
         return value.toNumber()
     })
     console.log('OceanMarket allowance: ', allowance)
     // Now we can start the access flow
     acl.initiateAccessRequest(assetId, asset.publisher, publicKey,
-        timeout, {from: account.name, gas: 1000000})
+        timeout, { from: account.name, gas: 1000000 })
 
     watchAccessRequest(asset, contracts, account, providers, key)
 }
