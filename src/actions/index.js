@@ -209,31 +209,32 @@ export function setActiveOrder(orderId) {
     }
 }
 
-function getEventsClosure(callback, getState, dispatch) {
+function getEventsClosure(callback, getState, dispatch, account) {
     return async function getEvents(error, logs) {
         if (!!error) {
-            callback(dispatch, getState, [], error)
+            callback(dispatch, getState, [], error, account)
             return
         }
 
         console.log('got events: ', logs)
-        callback(dispatch, getState, logs,  null)
+        callback(dispatch, getState, logs, null, account)
     }
 }
 
 
-async function processOrdersEvents(dispatch, getState, events, error) {
+async function processOrdersEvents(dispatch, getState, events, error, account) {
     if (!!error) {
         return
     }
     const state = getState()
-    let orders = await buildOrdersFromEvents(events, state.contract.acl, state.contract.market)
+    let orders = await buildOrdersFromEvents(events, state.contract.acl, state.contract.market, account)
     console.log('ORDERS: ', orders)
 
-    // Object.values(orders).reduce((map, obj) => {
+    // orders = Object.values(orders).reduce((map, obj) => {
     //     map[obj.id] = obj
     //     return map
     // }, {})
+
     if (!orders) {
         return
     }
@@ -254,8 +255,8 @@ export function getOrders() {
 
         let {acl} = state.contract
 
-        let accessConsentEvent = acl.AccessConsentRequested({_consumer: account.name})
-        accessConsentEvent.get(getEventsClosure(processOrdersEvents, getState, dispatch))
+        let accessConsentEvent = acl.AccessConsentRequested({_consumer: account.name}, {fromBlock: 0, toBlock: 'latest'})
+        accessConsentEvent.get(getEventsClosure(processOrdersEvents, getState, dispatch, account))
     }
 }
 

@@ -6,11 +6,15 @@ import JWT from 'jsonwebtoken'
 import EthEcies from '../cryptolibs/eth-ecies'
 
 
-export async function buildOrdersFromEvents(events, acl, market) {
+export async function buildOrdersFromEvents(events, acl, market, account) {
     console.log('events: ', events.length, events)
     async function getStatus(id) {return await acl.statusOfAccessRequest(id)}
     async function isPaid(id) {return await market.verifyPaymentReceived(id)}
-    return events.map((event) => ({
+    let _events = events.filter(obj => {
+        return (obj.args._consumer === account.name)
+    })
+
+    return _events.map((event) => ({
         id: event.args._id,
         consumer: event.args._consumer,
         provider: event.args._provider,
