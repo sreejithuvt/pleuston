@@ -16,6 +16,10 @@
 
 ---
 
+**🐲🦑 THERE BE DRAGONS AND SQUIDS. This is in alpha state and you can expect running into problems. If you run into them, please open up [a new issue](https://github.com/oceanprotocol/pleuston/issues). 🦑🐲**
+
+---
+
 ## Table of Contents
 
   - [Features](#features)
@@ -32,15 +36,11 @@
 
 ## Features
 
-This repository houses Pleuston, the reference web app for consumers to explore, download, and publish data assets.
+This repository houses Pleuston, the reference web app for consumers to explore, download, and publish data assets within the Ocean Protocol network.
 
-- Publish data assets
-- Download data assets
-- ...
-
-_architecture overview: pleuston, keeper, provider, database_
-
-![output](https://user-images.githubusercontent.com/6178597/41625184-37cf5e4c-7418-11e8-81c2-f779e5f7ee8b.gif)
+- Connect to all required Ocean Protocol components: Keeper, Provider, and BigchainDB
+- Register and publish data assets
+- Explore, buy, and download data assets
 
 ## Quick Start
 
@@ -89,16 +89,19 @@ All required components to get `pleuston` running are pre-configured and started
 If you want to change and run `pleuston` against your own deployed components, head over to the [`src/config.js`](./src/config.js) file and modify the respective values.
 
 ### Keeper
+[`keeper-contracts`](https://github.com/oceanprotocol/keeper-contracts)
 
 After following the instructions outlined above, Pleuston will connect to the locally running RPC client under `http://localhost:8545` where all required smart contracts are deployed so you don't have to configure anything else.
 
 The Keeper Contracts ABI's are published as a [npm package](https://www.npmjs.com/package/@oceanprotocol/keeper-contracts) and imported in the project.
 
 ### Provider
+[`provider-backend`](https://github.com/oceanprotocol/provider-backend)
 
 The app connects to the locally running Ocean Protocol Provider backend, exposed under `http://localhost:5000`.
 
 ### Database
+[`bigchaindb`](https://github.com/bigchaindb/bigchaindb)
 
 Pleuston is currently using [BigchainDB](http://github.com/bigchaindb/bigchaindb) as a database backend and is configured to automatically connect to the locally running BigchainDB node, exposed under `http://localhost:9984`.
 
