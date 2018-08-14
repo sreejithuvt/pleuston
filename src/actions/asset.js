@@ -37,7 +37,7 @@ export async function publish(asset, marketContract, account, providers) {
     // Now register in oceandb and publish the metadata
     oceanAgent.publishDataAsset(
         {
-            assetId,
+            assetId: assetId,
             metadata: {
                 name: asset.name,
                 description: asset.description,
@@ -55,7 +55,7 @@ export async function publish(asset, marketContract, account, providers) {
 
 export async function list(contract, account, providers) {
     const { oceanAgent } = providers
-    var dbAssets = oceanAgent.getAssetsMetadata()
+    var dbAssets = await oceanAgent.getAssetsMetadata()
     console.log('assets: ', dbAssets)
 
     dbAssets = Object.values(dbAssets).filter(async (asset) => { return contract.checkAsset(asset.assetId) })
