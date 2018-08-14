@@ -18,8 +18,19 @@ export default class OceanAgent {
                 body: JSON.stringify(asset),
                 headers: { 'Content-type': 'application/json' }
             })
-        // .then(res => res.json())
-        // TODO: check if response.status == 2XX
-            .then(response => console.log('Success:', response))
+            .then(response => {
+                console.log('Success:', response)
+                if (response.ok) {
+                    console.log('Success:', response)
+                    return true
+                }
+                console.log('Failed: ', response.status, response.statusText)
+                return false
+                // throw new Error(response.statusText ? response.statusText : `publish asset failed with status ${response.status}`)
+            })
+            .catch(error => {
+                console.log(`Publish asset to ocean database could not be completed: ${error.message()}`)
+                return false
+            })
     }
 }

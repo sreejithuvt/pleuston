@@ -36,26 +36,27 @@ class AssetFull extends PureComponent {
         const {
             assetId,
             handlePurchase,
-            metadata : {
-                category,
-                classification,
-                date,
-                description,
-                format,
-                industry,
-                keywords,
-                labels,
-                license,
-                lifecycleStage,
-                links,
-                name,
-                note,
-                size,
-                token,
-                updateFrequency
-            },
+            metadata,
             publisherId
         } = this.props
+        const {
+            // category,
+            // classification,
+            // format,
+            // industry,
+            // keywords,
+            // lifecycleStage,
+            // note,
+            // size,
+            date,
+            description,
+            labels,
+            license,
+            links,
+            name,
+            token,
+            updateFrequency
+        } = metadata
 
         if (!assetId) return null
 
@@ -68,7 +69,7 @@ class AssetFull extends PureComponent {
                         </h1>
                         { links && links.length && (
                             <p>
-                                <AssetMedia url={links[0]}/>
+                                <AssetMedia url={links[0]} />
                             </p>
                         )}
 
@@ -105,7 +106,8 @@ class AssetFull extends PureComponent {
                         {links && links.length && (
                             <p className="asset__url">
                                 <span className="asset__label">Url</span>
-                                <a href={links[0]} rel="noopener noreferrer" target="_blank">{ links[0] || 'Please purchase' }</a>
+                                <a href={typeof links === 'string' ? links : links[0]}
+                                    rel="noopener noreferrer" target="_blank">{ (typeof links === 'string' ? links : links[0]) || 'Please purchase' }</a>
                             </p>
                         )}
 
@@ -145,7 +147,7 @@ AssetFull.propTypes = {
     assetId: PropTypes.string,
     handlePurchase: PropTypes.func,
     metadata: PropTypes.object,
-    publisherId: PropTypes.string,
+    publisherId: PropTypes.string
 }
 
 export default AssetFull

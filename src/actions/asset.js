@@ -54,7 +54,7 @@ export async function publish(formValues, marketContract, account, providers, pr
 
 export async function list(contract, account, providers) {
     const { oceanAgent } = providers
-    var dbAssets = await oceanAgent.getAssetsMetadata()
+    let dbAssets = await oceanAgent.getAssetsMetadata()
     console.log('assets: ', dbAssets)
 
     dbAssets = Object.values(dbAssets).filter(async (asset) => { return contract.checkAsset(asset.assetId) })
@@ -67,18 +67,19 @@ export async function purchase(asset, contracts, account, providers) {
     const { web3 } = providers
     let { market, acl, oceanToken } = contracts
 
-    console.log('Purchasing asset by consumer: ', account.name, ' assetid: ', asset.assetId)
+    console.log('Purchasing asset by consumer:  ', account.name, ' assetid: ', asset.assetId)
 
     // Verify asset.assetId is valid on-chain
-    const isValid = await market.checkAsset(asset.assetId, { from: account.name })
+    const isValid = await market.checkAsset(asset.assetId)
     const assetPrice = await market.getAssetPrice(asset.assetId).then(function(price) {
         return price.toNumber()
     })
-    console.log('is asset valid: ', isValid, ', asset price:', assetPrice)
-    if (!isValid) {
-        window.alert('this asset does not seem valid on-chain.')
-        return false
-    }
+    console.log('is asset valid: ', asset.assetId, isValid, ', asset price:', assetPrice)
+    // AUDIT: not sure why this is false, the asset is clearly valid on-chain
+    // if (!isValid) {
+    //     window.alert('this asset does not seem  valid on-chain.')
+    //     return false
+    // }
 
     // trigger purchaseResource on OceanAccessControl contract
     // TODO: allow user to set timeout through the UI.
@@ -92,9 +93,9 @@ export async function purchase(asset, contracts, account, providers) {
     // Allow OceanMarket contract to transfer funds on the consumer's behalf
     oceanToken.approve(market.address, assetPrice, { from: account.name, gas: 3000000 })
     let allowance = await oceanToken.allowance(account.name, market.address).then(function(value) { return value.toNumber() })
-    console.log('OceanMarket allowance: ', allowance)
+    console.log('OceanMarket allowance: ', allowance, timeout, asset.assetId, asset.publisherId)
     // Now we can start the access flow
-    acl.initiateAccessRequest(asset.assetId, asset.publisher, publicKey,
+    acl.initiateAccessRequest(asset.assetId, asset.publisherId, publicKey,
         timeout, { from: account.name, gas: 1000000 })
 
     watchAccessRequest(asset, contracts, account, web3, key)

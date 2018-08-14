@@ -70,8 +70,8 @@ export function watchAccessRequestCommitted(order, contracts, account, web3) {
                 let assetPrice = await market.getAssetPrice(asset.assetId).then(function(price) {
                     return price.toNumber()
                 })
-                console.log('sending payment:  ', result.args._id, asset.publisher, assetPrice, order.timeout)
-                market.sendPayment(result.args._id, asset.publisher, assetPrice, order.timeout, {
+                console.log('sending payment:  ', result.args._id, asset.publisherId, assetPrice, order.timeout)
+                market.sendPayment(result.args._id, asset.publisherId, assetPrice, order.timeout, {
                     from: account.name,
                     gas: 5000000
                 })
@@ -171,17 +171,29 @@ export function watchEncryptedTokenPublished(order, contracts, account, web3) {
             fixed_msg: fixedMsgSha,
             sigEncJWT: signature
         })
-        await fetch(`${accessToken.service_endpoint}/${accessToken.resource_id}`,
+        const consumeURL = await fetch(`${accessToken.service_endpoint}/${accessToken.resource_id}`,
             {
                 method: 'POST',
                 body: payload,
-                headers: {'Content-type': 'application/json'}
+                headers: { 'Content-type': 'application/json' }
             }
         )
-            .then(res => res.toString())
-            .catch(error => console.error('Error  :', error))
+            .then(response => {
+                if (response.ok) {
+                    return response.text()
+                }
+                console.log('Failed: ', response.status, response.statusText)
+                window.alert(`Sorry, fetching the data asset consumption url failed: ${response.statusText}`)
+            })
             .then(consumptionUrl => {
                 console.log('Success accessing consume endpoint:', consumptionUrl)
+                return consumptionUrl
             })
+            .catch(error => {
+                console.error('Error fetching the data asset consumption url:', error)
+                window.alert(`Sorry, fetching the data asset consumption url failed: ${error.message}`)
+            })
+
+        console.log('consume url: ', consumeURL)
     })
 }
