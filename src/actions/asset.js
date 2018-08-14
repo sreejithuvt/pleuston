@@ -9,7 +9,7 @@ import Market from '@oceanprotocol/keeper-contracts/build/contracts/OceanMarket'
 import Auth from '@oceanprotocol/keeper-contracts/build/contracts/OceanAuth'
 import { watchAccessRequest } from './order'
 
-const DEFAULT_GAS = 300 * 1000
+const DEFAULT_GAS = 1000 * 1000
 
 export function getOceanBackendURL(providers) {
     const { ocnURL } = providers
@@ -64,7 +64,7 @@ export async function publish(asset, market_contract, account, provider) {
         metadata: {
             name: asset.name,
             description: asset.description,
-            links: asset.url,
+            links: asset.links,
             format: asset.format,
             size: asset.size,
             price: asset.price,

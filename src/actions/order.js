@@ -175,6 +175,9 @@ export function watchEncryptedTokenPublished(order, contracts, account, provider
         console.log(`access token published by provider: <${tokenNo0x.slice(0, 10)}..${tokenNo0x.slice(tokenLength - 10)}>`)
         console.log('***************************************************')
 
+        // stop watching
+        event.stopWatching()
+
         let accessTokenEncoded = EthEcies.Decrypt(Buffer.from(privateKey, 'hex'), encryptedTokenBuffer)
         let accessToken = JWT.decode(accessTokenEncoded) // Returns a json object
         console.log('access token: ', accessToken)
@@ -218,7 +221,6 @@ export function watchEncryptedTokenPublished(order, contracts, account, provider
             headers: { 'Content-type': 'application/json' }
 
         }
-        // TODO: this fails for some reason, need to debug and fix it.
         console.log('Consuming resource from: ', JSON.stringify(payload), '\n', provider_url)
         await fetch(provider_url, fetchParams).then(res => res.toString())
             .catch(error => console.error('Error  :', error))
@@ -226,8 +228,6 @@ export function watchEncryptedTokenPublished(order, contracts, account, provider
                 console.log('Success accessing consume endpoint:', consumption_url)
             })
 
-        // stop watching
-        event.stopWatching()
     }
 
     event.watch(callback)
