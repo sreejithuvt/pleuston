@@ -64,7 +64,7 @@ export async function publish(asset, market_contract, account, provider) {
         metadata: {
             name: asset.name,
             description: asset.description,
-            links: asset.links,
+            links: asset.url,
             format: asset.format,
             size: asset.size,
             price: asset.price,

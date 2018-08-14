@@ -3,6 +3,7 @@ import * as asset from './asset'
 import * as order from './order'
 
 import mockAssets from '../mock/assets'
+import {buildOrdersFromEvents} from "./order";
 
 export function setProviders() {
     return (dispatch) => {
@@ -39,7 +40,16 @@ export function setActiveAccount(accountId) {
 }
 
 export function getActiveAccount(state) {
-    const { activeAccount, accounts } = state.account
+    let { activeAccount, accounts } = state.account
+    if (accounts.length === 0) {
+        return null
+    }
+    console.log('active acc: ', activeAccount, !activeAccount, accounts)
+
+    if (activeAccount === null) {
+        activeAccount = 0
+        setActiveAccount(activeAccount)
+    }
     return accounts[activeAccount]
 }
 
@@ -199,24 +209,53 @@ export function setActiveOrder(orderId) {
     }
 }
 
+function getEventsClosure(callback, getState, dispatch) {
+    return async function getEvents(error, logs) {
+        if (!!error) {
+            callback(dispatch, getState, [], error)
+            return
+        }
+
+        console.log('got events: ', logs)
+        callback(dispatch, getState, logs,  null)
+    }
+}
+
+
+async function processOrdersEvents(dispatch, getState, events, error) {
+    if (!!error) {
+        return
+    }
+    const state = getState()
+    let orders = await buildOrdersFromEvents(events, state.contract.acl, state.contract.market)
+    console.log('ORDERS: ', orders)
+
+    // Object.values(orders).reduce((map, obj) => {
+    //     map[obj.id] = obj
+    //     return map
+    // }, {})
+    if (!orders) {
+        return
+    }
+
+    dispatch({
+        type: 'GET_ORDERS',
+        orders
+    })
+}
+
 export function getOrders() {
     return async (dispatch, getState) => {
         const state = getState()
-        const orders = (await order
-            .list(
-                state.contract,
-                getActiveAccount(state),
-                state.provider
-            ))
-            .reduce((map, obj) => {
-                map[obj.id] = obj
-                return map
-            }, {})
+        const account = getActiveAccount(state)
+        if (!account) {
+            return []
+        }
 
-        dispatch({
-            type: 'GET_ORDERS',
-            orders
-        })
+        let {acl} = state.contract
+
+        let accessConsentEvent = acl.AccessConsentRequested({_consumer: account.name})
+        accessConsentEvent.get(getEventsClosure(processOrdersEvents, getState, dispatch))
     }
 }
 
@@ -231,7 +270,7 @@ export function processKeeperEvents() {
         // else -> listen to event that matches the current status:
         //    if committed && not paid -> listen to committed event
         //    elif committed && paid -> listen to token published event
-
+        console.log('process keeper events: ', orders.length)
         const account = getActiveAccount(state)
         const curTime = new Date().getTime()
         Object.values(orders).forEach(o => {

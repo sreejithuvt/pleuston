@@ -5,28 +5,24 @@ import ethers from 'ethers'
 import JWT from 'jsonwebtoken'
 import EthEcies from '../cryptolibs/eth-ecies'
 
-export async function list(contracts, account, providers) {
-    let { market, acl } = contracts
-    // let eth_address = account.name
-    // let { web3, db, ocnURL } = providers
 
-    let accessConsentEvent = acl.AccessConsentRequested({ _consumer: account.name })
-    let orders = accessConsentEvent.get((events) => { return events })
-
-    return orders.map((event) => ({
-        id: event._id,
-        consumer: event._consumer,
-        provider: event._provider,
-        assetId: event._resourceId,
-        pubKey: event._pubKey,
+export async function buildOrdersFromEvents(events, acl, market) {
+    console.log('events: ', events.length, events)
+    async function getStatus(id) {return await acl.statusOfAccessRequest(id)}
+    async function isPaid(id) {return await market.verifyPaymentReceived(id)}
+    return events.map((event) => ({
+        id: event.args._id,
+        consumer: event.args._consumer,
+        provider: event.args._provider,
+        assetId: event.args._resourceId,
+        pubKey: event.args._pubKey,
         // committed, delivered, revoked
-        status: acl.statusOfAccessRequest(event._id),
-        timeout: event._timeout,
-        paid: market.verifyPaymentReceived(event._id),
+        status: getStatus(event.args._id),
+        timeout: event.args._timeout,
+        paid: isPaid(event.args._id),
         key: null
 
-    })
-    )
+    }))
 }
 
 export function watchAccessRequest(asset, contracts, account, providers, key) {
@@ -83,7 +79,7 @@ export function watchAccessRequestCommitted(order, contracts, account, providers
                 console.log('sending payment:  ', result.args._id, asset.publisher, assetPrice, order.timeout)
                 market.sendPayment(result.args._id, asset.publisher, assetPrice, order.timeout, {
                     from: account.name,
-                    gas: 3000000
+                    gas: 5000000
                 })
 
                 watchPaymentReceived(order, contracts, account, providers)
