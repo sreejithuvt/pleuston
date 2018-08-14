@@ -54,7 +54,7 @@ function boot() {
     store.dispatch(setProviders())
     store.dispatch(setContracts()).then(() => {
         store.dispatch(getAssets())
-        store.dispatch(getAccounts()).then( () => {
+        store.dispatch(getAccounts()).then(() => {
             store.dispatch(getOrders())
         })
     })
