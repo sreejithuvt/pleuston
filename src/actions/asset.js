@@ -5,8 +5,8 @@ import TruffleContract from 'truffle-contract'
 import ethjs_util from 'ethereumjs-util'
 import EthCrypto from '../lib/eth-crypto'
 
-import Market from '@oceanprotocol/keeper-contracts/build/contracts/OceanMarket'
-import Auth from '@oceanprotocol/keeper-contracts/build/contracts/OceanAuth'
+import Market from '@oceanprotocol/keeper-contracts/artifacts/OceanMarket.development'
+import Auth from '@oceanprotocol/keeper-contracts/artifacts/OceanAuth.development'
 import { watchAccessRequest } from './order'
 
 const DEFAULT_GAS = 1000 * 1000
@@ -102,7 +102,9 @@ export async function updateMetadata(asset, account, providers) {
 export async function list(contract, account, providers) {
     let ocean_get_resource_ids_url = getOceanBackendURL(providers) + '/metadata'
     // console.log('provider url: ', ocean_get_resource_ids_url)
-    var dbAssets = JSON.parse(await fetch(ocean_get_resource_ids_url, { method: 'GET' }).then(data => { return data.json() }))
+    var dbAssets = JSON.parse(await fetch(ocean_get_resource_ids_url, { method: 'GET' }).then(data => {
+        return data.json()
+    }))
     console.log('assets: ', dbAssets)
     dbAssets = Object.values(dbAssets)
 
@@ -145,7 +147,9 @@ export async function purchase(asset, contracts, account, providers) {
 
     // Verify assetId is valid on-chain
     let isValid = await market.checkAsset(assetId, { from: account.name })
-    let assetPrice = await market.getAssetPrice(assetId).then(function(price) { return price.toNumber() })
+    let assetPrice = await market.getAssetPrice(assetId).then(function(price) {
+        return price.toNumber()
+    })
     console.log('is asset valid: ', isValid, ', asset price:', assetPrice)
     if (!isValid) {
         window.alert('this asset does not seem valid on-chain.')
@@ -163,7 +167,9 @@ export async function purchase(asset, contracts, account, providers) {
 
     // Allow OceanMarket contract to transfer funds on the consumer's behalf
     oceanToken.approve(market.address, assetPrice, { from: account.name, gas: 3000000 })
-    let allowance = await oceanToken.allowance(account.name, market.address).then(function(value) { return value.toNumber() })
+    let allowance = await oceanToken.allowance(account.name, market.address).then(function(value) {
+        return value.toNumber()
+    })
     console.log('OceanMarket allowance: ', allowance)
     // Now we can start the access flow
     acl.initiateAccessRequest(assetId, asset.publisher, publicKey,
