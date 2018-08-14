@@ -3,7 +3,7 @@ import Orm from '../lib/bigchaindb-orm' // transpile workaround, use modified lo
 import bip39 from 'bip39'
 import TruffleContract from 'truffle-contract'
 
-import OceanToken from '@oceanprotocol/keeper-contracts/build/contracts/OceanToken'
+import OceanToken from '@oceanprotocol/keeper-contracts/artifacts/OceanToken.development'
 
 import {
     dbHeaders,
