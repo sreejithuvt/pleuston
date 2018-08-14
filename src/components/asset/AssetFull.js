@@ -34,41 +34,57 @@ class AssetFull extends PureComponent {
 
     render() {
         const {
-            date,
-            description,
+            assetId,
             handlePurchase,
-            id,
-            license,
-            publisher,
-            tags,
-            token,
-            url,
-            updateFrequency
+            metadata : {
+                category,
+                classification,
+                date,
+                description,
+                format,
+                industry,
+                keywords,
+                labels,
+                license,
+                lifecycleStage,
+                links,
+                name,
+                note,
+                size,
+                token,
+                updateFrequency
+            },
+            publisherId
         } = this.props
 
-        if (!id) return null
+        if (!assetId) return null
 
         return (
             <div className="asset-full">
                 <div className="asset-grid">
                     <div className="asset-grid__col">
-                        <p>
-                            <AssetMedia url={url} />
-                        </p>
+                        <h1>
+                            { name }
+                        </h1>
+                        { links && links.length && (
+                            <p>
+                                <AssetMedia url={links[0]}/>
+                            </p>
+                        )}
 
                         <div className="asset__actions">
                             <Button>View data structure</Button>
                         </div>
 
                         <p>
-                            <span className="asset__label">Publisher</span> { publisher }
+                            <span className="asset__label">Publisher</span> { publisherId }
                         </p>
 
                         <p>
                             <span className="asset__label">Published</span> { date }
                         </p>
                         <p>
-                            <span className="asset__label">ID</span> { id }
+                            <span className="asset__label">ID</span> { assetId }
                         </p>
 
                         {description && (
@@ -86,10 +102,10 @@ class AssetFull extends PureComponent {
                             </p>
                         )}
 
-                        {url && (
+                        {links && links.length && (
                             <p className="asset__url">
                                 <span className="asset__label">Url</span>
-                                <a href={url} rel="noopener noreferrer" target="_blank">{ url || 'Please purchase' }</a>
+                                <a href={links[0]} rel="noopener noreferrer" target="_blank">{ links[0] || 'Please purchase' }</a>
                             </p>
                         )}
 
@@ -97,9 +113,9 @@ class AssetFull extends PureComponent {
                             <span className="asset__label">Token</span> { token || 'Please purchase' }
                         </p>
 
-                        {tags && (
+                        {labels && (
                             <p className="asset__tags">
-                                <span className="asset__label">Tags</span> { tags.map(tag => (tag)) }
+                                <span className="asset__label">Labels</span> { labels.map(label => (label)) }
                             </p>
                         )}
 
@@ -116,7 +132,7 @@ class AssetFull extends PureComponent {
                         )}
 
                         <div className="asset__actions">
-                            <Button primary onClick={() => handlePurchase(id)}>Purchase</Button>
+                            <Button primary onClick={() => handlePurchase(assetId)}>Purchase</Button>
                         </div>
                     </div>
                 </div>
@@ -126,16 +142,10 @@ class AssetFull extends PureComponent {
 }
 
 AssetFull.propTypes = {
-    description: PropTypes.string,
-    date: PropTypes.string,
+    assetId: PropTypes.string,
     handlePurchase: PropTypes.func,
-    id: PropTypes.string,
-    tags: PropTypes.array,
-    license: PropTypes.string,
-    publisher: PropTypes.string,
-    token: PropTypes.string,
-    updateFrequency: PropTypes.string,
-    url: PropTypes.array
+    metadata: PropTypes.object,
+    publisherId: PropTypes.string,
 }
 
 export default AssetFull
