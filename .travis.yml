@@ -1,18 +1,17 @@
 language: node_js
 node_js:
-  - "8"
-
-# will run `npm install` automatically
+- "8"
 
 script:
-  - npm -g install truffle
-  - npm run build-css
-  - npm run test
-  - npm run build
+- npm -g install truffle npm
+- npm install
+- npm run build-css
+- npm run test
+- npm run build
 
 notifications:
     email: false
 
 cache:
-  directories:
+    directories:
     - node_modules
