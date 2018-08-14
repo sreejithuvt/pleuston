@@ -17,7 +17,7 @@ const AssetList = ({
                 {assets.map(asset => (
                     <div
                         className="assets__tile assets_count"
-                        key={asset.id}
+                        key={asset.assetId}
                         onClick={() => handleClick(asset)}
                         onKeyPress={() => handleClick(asset)}
                         role="link"

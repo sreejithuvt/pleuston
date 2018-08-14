@@ -1,4 +1,3 @@
-
 export default class OceanAgent {
 
     constructor(connectionUrl) {
@@ -6,22 +5,21 @@ export default class OceanAgent {
 
     }
 
-    async getAssetsMetadata() {
-        const assets = await fetch(this.assetsUrl + '/metadata',
-                { method: 'GET' })
-                .then( data => { return data.json() })
-        return JSON.parse(assets)
+    getAssetsMetadata() {
+        return fetch(this.assetsUrl + '/metadata', { method: 'GET' })
+            .then(res => res.json())
+            .then(data => JSON.parse(data))
     }
 
-    async publishDataAsset(asset) {
-        fetch(this.assetsUrl + '/metadata',
+    publishDataAsset(asset) {
+        return fetch(this.assetsUrl + '/metadata',
             {
                 method: 'POST',
                 body: JSON.stringify(asset),
                 headers: { 'Content-type': 'application/json' }
             })
-            // .then(res => res.json())
+        // .then(res => res.json())
+        // TODO: check if response.status == 2XX
             .then(response => console.log('Success:', response))
-
-        }
+    }
 }

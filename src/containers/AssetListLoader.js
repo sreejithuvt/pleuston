@@ -24,8 +24,8 @@ export default connect(
 
     dispatch => ({
         handleClick: asset => {
-            dispatch(setActiveAsset(asset.id))
-            dispatch(push(`/datasets/${asset.id}`))
+            dispatch(setActiveAsset(asset.assetId))
+            dispatch(push(`/datasets/${asset.assetId}`))
         }
     })
 )(AssetList)

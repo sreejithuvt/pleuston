@@ -2,8 +2,6 @@ import * as account from './account'
 import * as asset from './asset'
 import * as order from './order'
 
-import mockAssets from '../mock/assets'
-
 export function setProviders() {
     return (dispatch) => {
         dispatch({
@@ -79,14 +77,15 @@ export function makeItRain(amount) {
     }
 }
 
-export function putAsset(newAsset) {
+export function putAsset(formValues) {
     return async (dispatch, getState) => {
         const state = getState()
+        const account = getActiveAccount(state)
 
         await asset.publish(
-            Object.assign(mockAssets[0], newAsset),
+            formValues,
             state.contract.market,
-            getActiveAccount(state),
+            account,
             state.provider
         )
 
@@ -106,7 +105,7 @@ export function getAssets() {
                 state.provider
             ))
             .reduce((map, obj) => {
-                map[obj.id] = obj
+                map[obj.assetId] = obj
                 return map
             }, {})
 
@@ -210,7 +209,7 @@ export function getOrders() {
 
 function getEventsClosure(callback, getState, dispatch, account) {
     return async function getEvents(error, logs) {
-        if (!!error) {
+        if (error) {
             callback(dispatch, getState, [], error, account)
             return
         }
