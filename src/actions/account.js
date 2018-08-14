@@ -1,6 +1,5 @@
 import Web3 from 'web3'
-import OceanAgent from '../lib/oceanagent'
-import bip39 from 'bip39'
+import OceanAgent from '../drivers/oceanagent'
 import TruffleContract from 'truffle-contract'
 
 import OceanToken from '@oceanprotocol/keeper-contracts/build/contracts/OceanToken'
