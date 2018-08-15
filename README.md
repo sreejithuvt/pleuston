@@ -90,8 +90,6 @@ Then link them up with npm so pleuston will grab them instead the package from n
 npm link @oceanprotocol/keeper-contracts
 ```
 
-Note that you have to redo this `npm link` every time you do a `npm install` in pleuston.
-
 ## Quick Start
 
 After the pleuston Docker container from the above `docker-compose` step is shut down, you can start your local development version of `pleuston`:
@@ -101,8 +99,11 @@ git clone git@github.com:oceanprotocol/pleuston.git
 cd pleuston/
 
 npm i
+npm link @oceanprotocol/keeper-contracts
 npm start
 ````
+
+Note that you have to redo the keeper-contracts `npm link` every time you do a `npm install` in pleuston.
 
 This should output a message as follows:
 
