@@ -6,7 +6,7 @@ import { setAssetFilter } from '../actions'
 
 const mapStateToProps = state => ({
     publishers: [...new Set(Object.values(state.asset.assets)
-        .map(asset => asset.publisher))]
+        .map(asset => asset.publisherId))]
         .map(publisher => (
             {
                 label: `${publisher.slice(0, 10)}...`,

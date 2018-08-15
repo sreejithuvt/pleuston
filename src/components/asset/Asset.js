@@ -9,27 +9,19 @@ const Asset = ({
 }) => (
     <div className="asset">
         <header className="asset__header">
-            <div className="asset__id">{ asset.id }</div>
+            <div className="asset__id">{ asset.assetId }</div>
             <h1 className="asset__name">
-                { asset.name }
+                { asset.metadata.name }
             </h1>
         </header>
 
         <div className="asset__meta">
-            <h2 className="asset__caption">{ asset.description }</h2>
-            <div className="asset__date">Date: { new Date(asset.date).toLocaleDateString('en-US')}</div>
-            <div className="asset__publisher">By: {asset.publisher.slice(0, 25)}...</div>
+            <h2 className="asset__caption">{ asset.metadata.description }</h2>
+            <div className="asset__date">Date: { new Date(asset.metadata.date).toLocaleDateString('en-US')}</div>
+            <div className="asset__publisher">By: {asset.publisherId.slice(0, 25)}...</div>
             <div className="asset__price">Price: { asset.price }</div>
         </div>
-        <AssetMedia url={asset.url} />
-        <aside className="asset__ticker">
-            <div className="asset__symbol">XYZ</div>
-            <div className={asset.stats.change.includes('-')
-                ? 'asset__change negative'
-                : 'asset__change positive'}>
-                {asset.stats.change}
-            </div>
-        </aside>
+        { asset.url && <AssetMedia url={asset.url} /> }
     </div>
 )
 

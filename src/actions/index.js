@@ -2,8 +2,6 @@ import * as account from './account'
 import * as asset from './asset'
 import * as order from './order'
 
-import mockAssets from '../mock/assets'
-
 export function setProviders() {
     return (dispatch) => {
         dispatch({
@@ -43,12 +41,6 @@ export function getActiveAccount(state) {
     if (accounts.length === 0) {
         return null
     }
-    console.log('active acc: ', activeAccount, !activeAccount, accounts)
-
-    if (activeAccount === null) {
-        activeAccount = 0
-        setActiveAccount(activeAccount)
-    }
     return accounts[activeAccount]
 }
 
@@ -85,28 +77,16 @@ export function makeItRain(amount) {
     }
 }
 
-export function putAsset(newAsset) {
+export function putAsset(formValues) {
     return async (dispatch, getState) => {
         const state = getState()
+        const account = getActiveAccount(state)
 
         await asset.publish(
-            Object.assign(mockAssets[0], newAsset),
+            formValues,
             state.contract.market,
-            getActiveAccount(state),
+            account,
             state.provider
-        )
-
-        dispatch(getAssets())
-    }
-}
-
-export function updateAsset(updatedAsset) {
-    return async (dispatch, getState) => {
-        getState()
-
-        await asset.updateMetadata(
-            Object.assign(mockAssets[0], updatedAsset)
-            // ... TODO
         )
 
         dispatch(getAssets())
@@ -117,7 +97,7 @@ export function getAssets() {
     /* Get list of assets for the current selected account */
     return async (dispatch, getState) => {
         const state = getState()
-        console.log('market: ', state.contract.market)
+
         const assets = (await asset
             .list(
                 state.contract.market,
@@ -125,7 +105,7 @@ export function getAssets() {
                 state.provider
             ))
             .reduce((map, obj) => {
-                map[obj.id] = obj
+                map[obj.assetId] = obj
                 return map
             }, {})
 
@@ -135,6 +115,7 @@ export function getAssets() {
         })
     }
 }
+
 export function setActiveAsset(assetId) {
     return (dispatch) => {
         dispatch({
@@ -164,9 +145,9 @@ export function getActiveAsset(state) {
 export function purchaseAsset(assetId) {
     return async (dispatch, getState) => {
         const state = getState()
-
+        const activeAsset = getActiveAsset(state)
         const token = await asset.purchase(
-            getActiveAsset(state),
+            activeAsset,
             state.contract,
             getActiveAccount(state),
             state.provider
@@ -175,7 +156,7 @@ export function purchaseAsset(assetId) {
         dispatch({
             type: 'UPDATE_ASSET',
             assetId,
-            asset: Object.assign(getActiveAsset(state), { token })
+            asset: Object.assign(activeAsset, { token })
         })
     }
 }
@@ -205,6 +186,24 @@ export function setActiveOrder(orderId) {
             type: 'SET_ACTIVE_ORDER',
             activeOrder: orderId
         })
+    }
+}
+
+export function getOrders() {
+    return async (dispatch, getState) => {
+        const state = getState()
+        const account = getActiveAccount(state)
+        if (!account) {
+            return []
+        }
+
+        let { acl } = state.contract
+
+        let accessConsentEvent = acl.AccessConsentRequested({ _consumer: account.name }, {
+            fromBlock: 0,
+            toBlock: 'latest'
+        })
+        accessConsentEvent.get(getEventsClosure(processOrdersEvents, getState, dispatch, account))
     }
 }
 
@@ -243,21 +242,6 @@ async function processOrdersEvents(dispatch, getState, events, error, account) {
     })
 }
 
-export function getOrders() {
-    return async (dispatch, getState) => {
-        const state = getState()
-        const account = getActiveAccount(state)
-        if (!account) {
-            return []
-        }
-
-        let { acl } = state.contract
-
-        let accessConsentEvent = acl.AccessConsentRequested({ _consumer: account.name }, { fromBlock: 0, toBlock: 'latest' })
-        accessConsentEvent.get(getEventsClosure(processOrdersEvents, getState, dispatch, account))
-    }
-}
-
 export function processKeeperEvents() {
     // Depends on getOrders so orders are already set in the store
     return async (dispatch, getState) => {
@@ -270,18 +254,17 @@ export function processKeeperEvents() {
         //    if committed && not paid -> listen to committed event
         //    elif committed && paid -> listen to token published event
         console.log('process keeper events: ', orders.length)
-        const account = getActiveAccount(state)
+        // const account = getActiveAccount(state)
         const curTime = new Date().getTime()
         Object.values(orders).forEach(o => {
             if (o.status === 3 || o.status === 2 || (curTime > o.timeout && !o.paid)) {
                 console.log('Skip order not needing action: ', o.id, o.assetId, o.status)
             } else if (o.status === 0) {
                 console.log('Uncommitted order, process commitment event: ', o.id, o.assetId)
-                order.watchAccessRequestCommitted(o, state.contract, account.name, state.provider)
-                // watchAccessRequestRejected(o, state.contract, account.name)
+                // order.watchAccessRequestCommitted(o, state.contract, account.name, state.provider)
             } else if (o.paid) { // status must be 1, i.e. COMMITTED
                 console.log('Order committed and paid, process published jwt event: ', o.id, o.assetId)
-                order.watchPaymentReceived(o, state.contract, account.name, state.provider)
+                // order.watchPaymentReceived(o, state.contract, account.name, state.provider)
                 // watchEncryptedTokenPublished(o, state.contract, account.name, state.provider)
             }
         })
