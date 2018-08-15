@@ -23,6 +23,9 @@
 ## Table of Contents
 
   - [Features](#features)
+  - [Prerequisites](#prerequisites)
+     - [Ocean Protocol Components](#ocean-protocol-components)
+     - [Contracts](#contracts)
   - [Quick Start](#quick-start)
   - [Ocean Protocol Components](#ocean-protocol-components)
      - [Keeper](#keeper)
@@ -42,22 +45,61 @@ This repository houses Pleuston, the reference web app for consumers to explore,
 - Register and publish data assets
 - Explore, buy, and download data assets
 
-## Quick Start
-
 Pleuston is a single page React app, bootstrapped with [`create-react-app`](https://github.com/facebook/create-react-app).
 
-To start development, first clone this repository and start up all the other Ocean Protocol components with `docker-compose`:
+## Prerequisites
+
+To start development with pleuston you first have to get all the other Ocean Protocol components up and running.
+
+### Ocean Protocol Components
+
+The simplest way is to use our main `docker-compose` file from the docker-images repository:
+
+```bash
+git clone git@github.com:oceanprotocol/docker-images.git
+cd docker-images/
+
+docker-compose --project-name=ocean up
+```
+
+This will start up all required components, but also an instance of pleuston. To use your local pleuston version in the next step, you have to stop the pleuston Docker container from another Terminal window:
+
+```bash
+docker stop ocean_pleuston_1
+
+# or find the right container name
+docker ps
+```
+
+### Contracts
+
+Because of changing addresses during migration, you need to make sure the deployed contracts within the Docker containers from [keeper-contracts](https://github.com/oceanprotocol/keeper-contracts) match the ones used in your local pleuston development version.
+
+```bash
+git clone git@github.com:oceanprotocol/keeper-contracts.git
+cd keeper-contracts/
+
+npm i
+truffle compile
+truffle migrate --reset
+```
+
+Then link them up with npm so pleuston will grab them instead the package from npm.js:
+
+```bash
+npm link @oceanprotocol/keeper-contracts
+```
+
+Note that you have to redo this `npm link` every time you do a `npm install` in pleuston.
+
+## Quick Start
+
+After the pleuston Docker container from the above `docker-compose` step is shut down, you can start your local development version of `pleuston`:
 
 ```bash
 git clone git@github.com:oceanprotocol/pleuston.git
 cd pleuston/
 
-docker-compose up
-```
-
-Then move on to a new terminal window, install all dependencies, and start the development server of `pleuston`:
-
-```bash
 npm i
 npm start
 ````
