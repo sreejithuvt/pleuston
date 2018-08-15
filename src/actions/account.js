@@ -2,8 +2,6 @@ import Web3 from 'web3'
 import OceanAgent from '../drivers/ocean-agent'
 import TruffleContract from 'truffle-contract'
 
-import OceanToken from '@oceanprotocol/keeper-contracts/build/contracts/OceanToken'
-
 import {
     keeperHost,
     keeperPort,
@@ -12,6 +10,8 @@ import {
     oceanPort,
     oceanScheme
 } from '../config'
+
+const OceanToken = require('@oceanprotocol/keeper-contracts/artifacts/OceanToken.development')
 
 export function createProviders() {
     const web3URI = `${keeperScheme}://${keeperHost}:${keeperPort}`
@@ -29,7 +29,7 @@ export async function deployContracts(provider) {
     const oceanToken = TruffleContract(OceanToken)
     oceanToken.setProvider(provider)
     return {
-        oceanToken: await oceanToken.deployed()
+        oceanToken: await oceanToken.at(OceanToken.address)
     }
 }
 

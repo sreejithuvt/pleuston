@@ -1,22 +1,22 @@
 import TruffleContract from 'truffle-contract'
-
-import Market from '@oceanprotocol/keeper-contracts/build/contracts/OceanMarket'
-import Auth from '@oceanprotocol/keeper-contracts/build/contracts/OceanAuth'
 import AssetModel from '../models/asset'
 import PurchaseHandler from './purchase'
+
+const OceanMarket = require('@oceanprotocol/keeper-contracts/artifacts/OceanMarket.development')
+const OceanAuth = require('@oceanprotocol/keeper-contracts/artifacts/OceanAuth.development')
 
 const DEFAULT_GAS = 1000 * 1000
 
 export async function deployContracts(provider) {
-    const market = TruffleContract(Market)
-    const acl = TruffleContract(Auth)
+    const market = TruffleContract(OceanMarket)
+    const acl = TruffleContract(OceanAuth)
 
     market.setProvider(provider)
     acl.setProvider(provider)
 
     return {
-        market: await market.deployed(),
-        acl: await acl.deployed()
+        market: await market.at(OceanMarket.address),
+        acl: await acl.at(OceanAuth.address)
     }
 }
 
