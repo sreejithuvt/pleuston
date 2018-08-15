@@ -1,8 +1,8 @@
 import TruffleContract from 'truffle-contract'
+import fetchDownload from '../lib/fetch-download'
 import AssetModel from '../models/asset'
 import PurchaseHandler from './purchase'
 
-const fetchDownload = require('fetch-download')
 const OceanMarket = require('@oceanprotocol/keeper-contracts/artifacts/OceanMarket.development')
 const OceanAuth = require('@oceanprotocol/keeper-contracts/artifacts/OceanAuth.development')
 
