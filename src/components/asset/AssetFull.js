@@ -36,21 +36,21 @@ class AssetFull extends PureComponent {
         const {
             assetId,
             handlePurchase,
-            metadata : {
-                category,
-                classification,
+            metadata: {
+                // category,
+                // classification,
                 date,
                 description,
-                format,
-                industry,
-                keywords,
+                // format,
+                // industry,
+                // keywords,
                 labels,
                 license,
-                lifecycleStage,
+                // lifecycleStage,
                 links,
                 name,
-                note,
-                size,
+                // note,
+                // size,
                 token,
                 updateFrequency
             },
@@ -68,7 +68,7 @@ class AssetFull extends PureComponent {
                         </h1>
                         { links && links.length && (
                             <p>
-                                <AssetMedia url={links[0]}/>
+                                <AssetMedia url={links[0]} />
                             </p>
                         )}
 
@@ -145,7 +145,7 @@ AssetFull.propTypes = {
     assetId: PropTypes.string,
     handlePurchase: PropTypes.func,
     metadata: PropTypes.object,
-    publisherId: PropTypes.string,
+    publisherId: PropTypes.string
 }
 
 export default AssetFull
