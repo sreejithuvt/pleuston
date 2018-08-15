@@ -53,25 +53,25 @@ export default class PurchaseHandler {
         acl.initiateAccessRequest(asset.assetId, asset.publisherId, publicKey,
             timeout, { from: account.name, gas: 1000000 })
 
-        const resourceFilter = { _resourceId: asset.assetId }
+        const resourceFilter = { _resourceId: asset.assetId, _consumer: account.name }
         const initRequestEvent = acl.AccessConsentRequested(resourceFilter)
         this.listenOnce(
             initRequestEvent,
             'AccessConsentRequested',
             (result) => {
-                this.order = this.processAccessRequestEvent(result)
+                this.order = this.handleAccessRequestEvent(result)
                 const requestIdFilter = { _id: this.order.id }
-                const accessCommitted = acl.AccessRequestCommitted(requestIdFilter)
-                const tokenPublished = acl.EncryptedTokenPublished(requestIdFilter)
+                const accessCommittedEvent = acl.AccessRequestCommitted(requestIdFilter)
+                const tokenPublishedEvent = acl.EncryptedTokenPublished(requestIdFilter)
                 this.listenOnce(
-                    accessCommitted,
+                    accessCommittedEvent,
                     'AccessRequestCommitted',
                     (result) => {
-                        this.processAccessCommittedEvent(result)
+                        this.handleAccessCommittedEvent(result)
                     }
                 )
                 this.listenOnce(
-                    tokenPublished,
+                    tokenPublishedEvent,
                     'EncryptedTokenPublished',
                     (result) => {
                         this.finalizePurchase(result)
@@ -95,7 +95,7 @@ export default class PurchaseHandler {
         })
     }
 
-    processAccessRequestEvent(eventResult) {
+    handleAccessRequestEvent(eventResult) {
         const { asset, key } = this
         console.log('keeper AccessConsentRequested event received on asset: ', asset.assetId, '\nevent:', eventResult.args)
         const accessId = eventResult.args._id
@@ -110,7 +110,7 @@ export default class PurchaseHandler {
         }
     }
 
-    async processAccessCommittedEvent(eventResult) {
+    async handleAccessCommittedEvent(eventResult) {
         const { asset, market, acl, account } = this
         let { order } = this
         console.log('keeper AccessRequestCommitted event received: ', order.id, eventResult.args)
@@ -129,16 +129,16 @@ export default class PurchaseHandler {
                 from: account.name,
                 gas: 5000000
             })
-            return
+        } else {
+            acl.cancelAccessRequest(eventResult.args._id, { from: account.name })
+            this.reject('user cancelled purchase.')
         }
-        acl.cancelAccessRequest(eventResult.args._id, { from: account.name })
-        this.reject('user cancelled purchase.')
     }
 
     async finalizePurchase(eventResult) {
         const { acl, account, key, web3 } = this
         let { order } = this
-        console.log('keeper EncryptedTokenPublished event received: ', order.id, eventResult.args)
+        // console.log('keeper EncryptedTokenPublished event received: ', order.id, eventResult.args)
         let privateKey = key.privateKey.slice(2)
 
         // grab the access token from acl contract
@@ -148,7 +148,7 @@ export default class PurchaseHandler {
 
         let accessTokenEncoded = EthEcies.Decrypt(Buffer.from(privateKey, 'hex'), encryptedTokenBuffer)
         let accessToken = JWT.decode(accessTokenEncoded) // Returns a json object
-        console.log('access token: ', accessToken)
+        // console.log('access token: ', accessToken)
 
         // sign it
         let hexEncrToken = `0x${encryptedTokenBuffer.toString('hex')}`
@@ -190,7 +190,6 @@ export default class PurchaseHandler {
                 window.alert(`Sorry, fetching the data asset consumption url failed: ${error.message}`)
             })
         console.log('consume url: ', accessUrl)
-        // TODO: Download the dataset via the accessUrl
         order.accessUrl = accessUrl
         this.resolve(order)
     }
