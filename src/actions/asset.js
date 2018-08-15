@@ -2,6 +2,7 @@ import TruffleContract from 'truffle-contract'
 import AssetModel from '../models/asset'
 import PurchaseHandler from './purchase'
 
+const fetchDownload = require('fetch-download')
 const OceanMarket = require('@oceanprotocol/keeper-contracts/artifacts/OceanMarket.development')
 const OceanAuth = require('@oceanprotocol/keeper-contracts/artifacts/OceanAuth.development')
 
@@ -68,5 +69,11 @@ export async function purchase(asset, contracts, account, providers) {
 
     let purchaseHandler = new PurchaseHandler(asset, null, contracts, account, web3)
     let order = await purchaseHandler.doPurchase()
+    if (order.accessUrl) {
+        console.log('begin downloading asset data.')
+        await fetchDownload(order.accessUrl)
+            .then((result) => console.log('Asset data downloaded successfully: ', result))
+            .catch((error) => console.log('Asset download failed: ', error))
+    }
     console.log('purchase completed, new order is: ', order)
 }
