@@ -8,6 +8,7 @@ WORKDIR pleuston
 
 RUN npm install -g npm serve
 RUN npm install
+RUN chmod +x docker-entrypoint.sh
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
 
