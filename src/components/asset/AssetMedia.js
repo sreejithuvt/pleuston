@@ -9,11 +9,7 @@ const AssetMedia = ({
     <Fragment>
         {
             url.match(/\.(jpeg|jpg|gif|png)$/) &&
-            <div
-                className="asset__img"
-                style={{
-                    backgroundImage: `url(${url})`
-                }} />
+            <img className="asset__img" src={url} />
         }
     </Fragment>
 )

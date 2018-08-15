@@ -6,7 +6,6 @@
     outline: 0;
     border-radius: .1rem;
     border: 0;
-    margin-bottom: $spacer / 2;
     color: $brand-grey;
     font-size: $font-size-base;
     text-align: left;
@@ -34,6 +33,7 @@
     }
 
     &:active {
+        outline: 0;
         transition: none;
         background: $brand-black;
 
@@ -49,6 +49,7 @@
 
 .asset__title {
     margin: 0;
+    margin-bottom: $spacer / 8;
     font-size: $font-size-h5;
     color: $brand-purple;
 }
@@ -62,8 +63,10 @@
 }
 
 .asset__img {
-    width: 100%;
-    height: 200px;
+    display: block;
+    width: auto;
+    margin: auto;
+    max-height: 10rem;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
