@@ -42,7 +42,7 @@ export async function publish(formValues, marketContract, account, providers, pr
             description: formValues.description,
             labels: formValues.tags ? [formValues.tags] : [],
             license: formValues.license,
-            links: formValues.links ? [formValues.links] : [],
+            links: formValues.links,
             name: formValues.name,
             updateFrequency: formValues.updateFrequency
         }),
