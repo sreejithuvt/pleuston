@@ -19,7 +19,8 @@ import {
     getAccounts,
     getAssets,
     setProviders,
-    setContracts
+    setContracts,
+    getOrders
 } from './actions/index'
 
 import App from './App'
@@ -54,7 +55,7 @@ function boot() {
     store.dispatch(setContracts()).then(() => {
         store.dispatch(getAssets())
         store.dispatch(getAccounts()).then(() => {
-            // store.dispatch(getOrders())
+            store.dispatch(getOrders())
         })
     })
 }

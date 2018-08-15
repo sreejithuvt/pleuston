@@ -1,13 +1,13 @@
 
-export async function buildOrdersFromEvents(events, acl, market, account) {
+export async function buildOrdersFromEvents(events, contract, account) {
+    const { acl, market } = contract
     return events
-        .filter(obj => {
-            return (obj.args._consumer === account.name)
-        })
-        .map(async (event) => ({
+        .filter(obj => (obj.args._consumer === account.name))
+        .map((event) => ({
             ...event.args,
-            status: (await acl.statusOfAccessRequest(event.args._id)),
-            paid: (await market.verifyPaymentReceived(event.args._id)),
+            timeout: event.args._timeout.toNumber(),
+            status: acl.statusOfAccessRequest(event.args._id).then((status) => status.toNumber()),
+            paid: market.verifyPaymentReceived(event.args._id).then((received) => received),
             key: null
         }))
 }
