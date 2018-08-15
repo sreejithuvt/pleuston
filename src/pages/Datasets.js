@@ -6,7 +6,7 @@ import AssetListLoader from '../containers/AssetListLoader'
 
 const Datasets = () => (
     <Layout>
-        <ScreenHeader title="Data Sets" subtitle="See all your data sets" />
+        <ScreenHeader title="Data Sets" subtitle="Explore all data sets" />
         <AssetListLoader />
     </Layout>
 )

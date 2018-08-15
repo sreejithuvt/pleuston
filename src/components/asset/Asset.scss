@@ -1,46 +1,60 @@
 @import 'variables';
 
 .asset {
-    background: lighten($brand-grey-lighter, 8%);
-    border-radius: 2px;
-    border: 1px solid $brand-grey-lighter;
-    padding: $spacer;
+    padding: $spacer / 2;
+    background: $brand-white;
+    outline: 0;
+    border-radius: .1rem;
+    border: 0;
     color: $brand-grey;
-    height: 100%;
-    display: flex;
-    flex-wrap: wrap;
+    font-size: $font-size-base;
+    text-align: left;
+    position: relative;
+    cursor: pointer;
 
-    * {
-        width: 100%;
+    &:before {
+        content: '';
+        display: block;
+        background: $brand-grey-light;
+        position: absolute;
+        left: -.1rem;
+        right: -.1rem;
+        top: -.1rem;
+        bottom: -.1rem;
+        z-index: -1;
+        border-radius: .15rem;
     }
 
     &:hover,
     &:focus {
-        background: $brand-gradient;
-
-        * {
-            color: $brand-white !important; // stylelint-disable-line
+        &:before {
+            background: $brand-gradient;
         }
     }
 
-    &:hover {
-        cursor: pointer;
+    &:active {
+        outline: 0;
+        transition: none;
+        background: $brand-black;
+
+        * {
+            color: $brand-white;
+        }
     }
 }
 
-.asset__id,
-.asset__header,
-.asset__meta {
-    margin-bottom: 2px;
+.asset__header {
+    margin-bottom: $spacer / 2;
 }
 
-.asset__name {
+.asset__title {
     margin: 0;
+    margin-bottom: $spacer / 8;
     font-size: $font-size-h5;
     color: $brand-purple;
 }
 
-.asset__caption {
+.asset__description {
     margin: 0;
     margin-top: $spacer / 6;
     font-family: $font-family-base;
@@ -49,36 +63,25 @@
 }
 
 .asset__img {
-    width:  100%;
-    height: 200px;
+    display: block;
+    width: auto;
+    margin: auto;
+    max-height: 10rem;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    margin-bottom: $spacer / 2;
 }
 
 .asset__meta {
-    align-self: flex-end;
+    margin-top: $spacer / 2;
 }
 
 .asset__publisher,
 .asset__date,
 .asset__id {
     font-size: $font-size-small;
-}
-
-.asset__publisher,
-.asset__id {
     color: $brand-grey-light;
-}
-
-.asset__name,
-.asset__caption,
-.asset__publisher,
-.asset__date,
-.asset__id {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .asset__ticker {
@@ -95,8 +98,9 @@
     }
 }
 
-.asset__symbol {
+.asset__price {
     font-size: $font-size-h4;
+    margin-bottom: $spacer / 2;
 }
 
 .asset__change {
