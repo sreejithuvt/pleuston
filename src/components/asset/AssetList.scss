@@ -1,31 +1,30 @@
 @import 'variables';
 
 .assets {
-    @media (min-width: $break-point--small) {
+    @media (min-width: $break-point--medium) {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
+        margin-left: -($spacer);
+    }
+
+    @media (min-width: $break-point--large) {
+        display: flex;
+        flex-wrap: wrap;
     }
 }
 
 .assets__tile {
     margin-bottom: $spacer / 2;
+    height: 100%;
+    outline: 0;
 
     @media (min-width: $break-point--medium) {
-        width: calc(50% - #{$spacer});
+        flex: 1 1 calc(50% - #{$spacer * 2});
+        margin-left: $spacer;
+        max-width: 20rem;
     }
 
     @media (min-width: $break-point--large) {
-        width: calc(33.3333333% - #{$spacer});
-    }
-
-    a {
-        display: block;
-        height: 100%;
-    }
-
-    button {
-        width: 100%;
-        margin-top: $spacer / 2;
+        flex: 1 1 33%;
     }
 }

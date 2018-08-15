@@ -60,7 +60,7 @@ class AssetFull extends PureComponent {
         } = this.props
 
         return (
-            <div className="asset-full">
+            <div className="assetfull">
                 <h1>{name}</h1>
 
                 {links && links.length && (
@@ -69,24 +69,20 @@ class AssetFull extends PureComponent {
                     </p>
                 )}
 
-                <div className="asset__actions">
-                    <Button>View data structure</Button>
-                </div>
-
                 <p>
-                    <span className="asset__label">Publisher</span> { publisherId }
+                    <span className="assetfull__label">Publisher</span> { publisherId }
                 </p>
 
                 <p>
-                    <span className="asset__label">Published</span> { date }
+                    <span className="assetfull__label">Published</span> { date }
                 </p>
                 <p>
-                    <span className="asset__label">ID</span> { assetId }
+                    <span className="assetfull__label">ID</span> { assetId }
                 </p>
 
                 {description && (
-                    <p className="asset__description">
-                        <span className="asset__label">Description</span>
+                    <p className="assetfull__description">
+                        <span className="assetfull__label">Description</span>
                         {this.state.isWritable &&
                         <Editable
                             name="description"
@@ -100,36 +96,36 @@ class AssetFull extends PureComponent {
                 )}
 
                 {links && links.length && (
-                    <p className="asset__url">
-                        <span className="asset__label">Url</span>
+                    <p className="assetfull__url">
+                        <span className="assetfull__label">Url</span>
                         <a href={typeof links === 'string' ? links : links[0]}
                             rel="noopener noreferrer" target="_blank">{ (typeof links === 'string' ? links : links[0]) || 'Please purchase' }</a>
                     </p>
                 )}
 
-                <p className="asset__token">
-                    <span className="asset__label">Token</span> { token || 'Please purchase' }
+                <p className="assetfull__token">
+                    <span className="assetfull__label">Token</span> { token || 'Please purchase' }
                 </p>
 
                 {labels && (
-                    <p className="asset__tags">
-                        <span className="asset__label">Labels</span> { labels.map(label => (label)) }
+                    <p className="assetfull__tags">
+                        <span className="assetfull__label">Labels</span> { labels.map(label => (label)) }
                     </p>
                 )}
 
                 {license && (
-                    <p className="asset__license">
-                        <span className="asset__label">License</span> { license }
+                    <p className="assetfull__license">
+                        <span className="assetfull__label">License</span> { license }
                     </p>
                 )}
 
                 {updateFrequency && (
-                    <p className="asset__updateFrequency">
-                        <span className="asset__label">Update Frequency</span> { updateFrequency }
+                    <p className="assetfull__updateFrequency">
+                        <span className="assetfull__label">Update Frequency</span> { updateFrequency }
                     </p>
                 )}
 
-                <div className="asset__actions">
+                <div className="assetfull__actions">
                     <Button primary onClick={() => handlePurchase(assetId)}>Purchase</Button>
                 </div>
             </div>
