@@ -9,7 +9,7 @@ module.exports = {
 
     oceanScheme: 'http',
     oceanHost: 'localhost',
-    oceanPort: 5000,
+    oceanPort: 5000
 
     // -----
     // Setup using remote services
@@ -21,5 +21,4 @@ module.exports = {
     // oceanScheme: 'https',
     // oceanHost: '',
     // oceanPort: 3000,
-
 }
