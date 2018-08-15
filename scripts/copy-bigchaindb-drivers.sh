@@ -11,6 +11,7 @@ cp -R ./node_modules/decamelize/ ./src/lib/decamelize
 # more problematic deps
 cp -R ./node_modules/eth-crypto/dist/es/ ./src/lib/eth-crypto
 cp -R ./node_modules/eth-lib/ ./src/lib/eth-lib
+cp -R ./node_modules/fetch-download/ ./src/lib/fetch-download
 
 replaceStrings () {
     # remove 'use strict'; from all js files
