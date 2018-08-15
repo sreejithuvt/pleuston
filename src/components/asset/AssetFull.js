@@ -65,7 +65,7 @@ class AssetFull extends PureComponent {
 
                 {links && links.length && (
                     <p>
-                        <AssetMedia url={links[0]} />
+                        <AssetMedia title={name} url={links[0]} />
                     </p>
                 )}
 
