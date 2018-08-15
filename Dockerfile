@@ -9,7 +9,7 @@ WORKDIR pleuston
 RUN npm install -g npm serve
 RUN npm install
 
-ENTRYPOINT ["./docker-entrypoint.sh"]
+ENTRYPOINT ["./scripts/docker-entrypoint.sh"]
 
 # Expose listen port
 EXPOSE 3000
