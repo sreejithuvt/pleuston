@@ -1,11 +1,9 @@
 import TruffleContract from 'truffle-contract'
-import EthjsUtil from 'ethereumjs-util'
-import EthCrypto from '../lib/eth-crypto'
 
 import Market from '@oceanprotocol/keeper-contracts/build/contracts/OceanMarket'
 import Auth from '@oceanprotocol/keeper-contracts/build/contracts/OceanAuth'
 import AssetModel from '../models/asset'
-import { watchAccessRequest } from './order'
+import PurchaseHandler from './purchase'
 
 const DEFAULT_GAS = 1000 * 1000
 
@@ -54,7 +52,7 @@ export async function publish(formValues, marketContract, account, providers, pr
 
 export async function list(contract, account, providers) {
     const { oceanAgent } = providers
-    var dbAssets = await oceanAgent.getAssetsMetadata()
+    let dbAssets = await oceanAgent.getAssetsMetadata()
     console.log('assets: ', dbAssets)
 
     dbAssets = Object.values(dbAssets).filter(async (asset) => { return contract.checkAsset(asset.assetId) })
@@ -65,37 +63,10 @@ export async function list(contract, account, providers) {
 
 export async function purchase(asset, contracts, account, providers) {
     const { web3 } = providers
-    let { market, acl, oceanToken } = contracts
 
-    console.log('Purchasing asset by consumer: ', account.name, ' assetid: ', asset.assetId)
+    console.log('Purchasing asset by consumer:  ', account.name, ' assetid: ', asset.assetId)
 
-    // Verify asset.assetId is valid on-chain
-    const isValid = await market.checkAsset(asset.assetId, { from: account.name })
-    const assetPrice = await market.getAssetPrice(asset.assetId).then(function(price) {
-        return price.toNumber()
-    })
-    console.log('is asset valid: ', isValid, ', asset price:', assetPrice)
-    if (!isValid) {
-        window.alert('this asset does not seem valid on-chain.')
-        return false
-    }
-
-    // trigger purchaseResource on OceanAccessControl contract
-    // TODO: allow user to set timeout through the UI.
-    let timeout = (new Date().getTime() / 1000) + 3600 * 12 // 12 hours
-
-    // generate temp key pair
-    const key = EthCrypto.createIdentity()
-    let { privateKey, publicKey } = key
-    publicKey = EthjsUtil.privateToPublic(privateKey).toString('hex')
-
-    // Allow OceanMarket contract to transfer funds on the consumer's behalf
-    oceanToken.approve(market.address, assetPrice, { from: account.name, gas: 3000000 })
-    let allowance = await oceanToken.allowance(account.name, market.address).then(function(value) { return value.toNumber() })
-    console.log('OceanMarket allowance: ', allowance)
-    // Now we can start the access flow
-    acl.initiateAccessRequest(asset.assetId, asset.publisher, publicKey,
-        timeout, { from: account.name, gas: 1000000 })
-
-    watchAccessRequest(asset, contracts, account, web3, key)
+    let purchaseHandler = new PurchaseHandler(asset, null, contracts, account, web3)
+    let order = await purchaseHandler.doPurchase()
+    console.log('purchase completed, new order is: ', order)
 }

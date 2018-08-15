@@ -14,7 +14,7 @@ export default connect(
                     return Object
                         .values(state.asset.filter.publisher)
                         .map(filterValue => filterValue.value)
-                        .indexOf(obj.publisher) > -1
+                        .indexOf(obj.publisherId) > -1
                 } else {
                     return true
                 }

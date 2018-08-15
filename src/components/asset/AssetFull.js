@@ -105,7 +105,8 @@ class AssetFull extends PureComponent {
                         {links && links.length && (
                             <p className="asset__url">
                                 <span className="asset__label">Url</span>
-                                <a href={links[0]} rel="noopener noreferrer" target="_blank">{ links[0] || 'Please purchase' }</a>
+                                <a href={typeof links === 'string' ? links : links[0]}
+                                    rel="noopener noreferrer" target="_blank">{ (typeof links === 'string' ? links : links[0]) || 'Please purchase' }</a>
                             </p>
                         )}
 

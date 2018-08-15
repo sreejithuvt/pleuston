@@ -145,9 +145,9 @@ export function getActiveAsset(state) {
 export function purchaseAsset(assetId) {
     return async (dispatch, getState) => {
         const state = getState()
-
+        const activeAsset = getActiveAsset(state)
         const token = await asset.purchase(
-            getActiveAsset(state),
+            activeAsset,
             state.contract,
             getActiveAccount(state),
             state.provider
@@ -156,7 +156,7 @@ export function purchaseAsset(assetId) {
         dispatch({
             type: 'UPDATE_ASSET',
             assetId,
-            asset: Object.assign(getActiveAsset(state), { token })
+            asset: Object.assign(activeAsset, { token })
         })
     }
 }
@@ -254,18 +254,17 @@ export function processKeeperEvents() {
         //    if committed && not paid -> listen to committed event
         //    elif committed && paid -> listen to token published event
         console.log('process keeper events: ', orders.length)
-        const account = getActiveAccount(state)
+        // const account = getActiveAccount(state)
         const curTime = new Date().getTime()
         Object.values(orders).forEach(o => {
             if (o.status === 3 || o.status === 2 || (curTime > o.timeout && !o.paid)) {
                 console.log('Skip order not needing action: ', o.id, o.assetId, o.status)
             } else if (o.status === 0) {
                 console.log('Uncommitted order, process commitment event: ', o.id, o.assetId)
-                order.watchAccessRequestCommitted(o, state.contract, account.name, state.provider)
-                // watchAccessRequestRejected(o, state.contract, account.name)
+                // order.watchAccessRequestCommitted(o, state.contract, account.name, state.provider)
             } else if (o.paid) { // status must be 1, i.e. COMMITTED
                 console.log('Order committed and paid, process published jwt event: ', o.id, o.assetId)
-                order.watchPaymentReceived(o, state.contract, account.name, state.provider)
+                // order.watchPaymentReceived(o, state.contract, account.name, state.provider)
                 // watchEncryptedTokenPublished(o, state.contract, account.name, state.provider)
             }
         })

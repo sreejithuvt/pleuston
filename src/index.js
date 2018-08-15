@@ -18,7 +18,6 @@ import appReducer from './reducers'
 import {
     getAccounts,
     getAssets,
-    getOrders,
     setProviders,
     setContracts
 } from './actions/index'
