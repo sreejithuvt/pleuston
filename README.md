@@ -139,9 +139,9 @@ After following the instructions outlined above, Pleuston will connect to the lo
 The Keeper Contracts ABI's are published as a [npm package](https://www.npmjs.com/package/@oceanprotocol/keeper-contracts) and imported in the project.
 
 ### Provider
-[`provider-backend`](https://github.com/oceanprotocol/provider-backend)
+[`provider`](https://github.com/oceanprotocol/provider)
 
-The app connects to the locally running Ocean Protocol Provider backend, exposed under `http://localhost:5000`.
+The app connects to the locally running Ocean Protocol Provider, exposed under `http://localhost:5000`.
 
 ### Database
 [`bigchaindb`](https://github.com/bigchaindb/bigchaindb)
