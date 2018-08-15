@@ -25,7 +25,7 @@ $breakpoint-small: 50rem;
     &:before {
         content: '';
         display: block;
-        background: $brand-gradient;
+        background: $brand-grey-light;
         position: absolute;
         left: -.1rem;
         right: -.1rem;
@@ -37,16 +37,18 @@ $breakpoint-small: 50rem;
 
     &:hover,
     &:focus {
-        background: $brand-grey-light;
-
-        * {
-            color: $brand-white;
+        &:before {
+            background: $brand-gradient;
         }
     }
 
     &:active {
         transition: none;
         background: $brand-black;
+
+        * {
+            color: $brand-white;
+        }
     }
 }
 
