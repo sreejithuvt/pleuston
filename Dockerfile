@@ -9,8 +9,7 @@ WORKDIR pleuston
 RUN npm install -g npm serve
 RUN npm install
 
-ENTRYPOINT ["npm", "run", "build"]
-ENTRYPOINT ["serve", "-s", "-l 3000", "./build"]
+ENTRYPOINT ["npm", "start"]
 
 # Expose listen port
 EXPOSE 3000
