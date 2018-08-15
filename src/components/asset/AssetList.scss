@@ -1,17 +1,10 @@
 @import 'variables';
 
 .assets {
-    counter-reset: assets;
-
     @media (min-width: $break-point--small) {
-        max-width: 1000px;
         display: flex;
-        flex-direction: row;
         flex-wrap: wrap;
-        flex-grow: 1;
-        flex-basis: 0;
-        justify-content: center;
-        margin-left: -($spacer / 2);
+        justify-content: space-between;
     }
 }
 
@@ -19,12 +12,11 @@
     margin-bottom: $spacer / 2;
 
     @media (min-width: $break-point--medium) {
-        flex: 0 0 calc(50% - #{$spacer});
-        margin-left: $spacer / 2;
+        width: calc(50% - #{$spacer});
     }
 
     @media (min-width: $break-point--large) {
-        flex-basis: calc(33.3333333% - #{$spacer});
+        width: calc(33.3333333% - #{$spacer});
     }
 
     a {
