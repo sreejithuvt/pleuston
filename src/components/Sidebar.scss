@@ -12,13 +12,9 @@
 
     a {
         display: inline-block;
-        padding: $spacer / 4;
+        padding: $spacer / 4 $spacer;
         font-family: $font-family-button;
         color: $brand-grey;
-
-        @media (min-width: $break-point--small) {
-            display: block;
-        }
 
         &:hover,
         &:focus {
