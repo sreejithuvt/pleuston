@@ -38,15 +38,6 @@ const store = createStore(
     )
 )
 
-ReactDOM.render(
-    <Provider store={store}>
-        <Router history={history}>
-            <App />
-        </Router>
-    </Provider>,
-    document.getElementById('root')
-)
-
 registerServiceWorker()
 
 function boot() {
@@ -59,4 +50,14 @@ function boot() {
         })
     })
 }
+
 /* Das */boot()
+
+ReactDOM.render(
+    <Provider store={store}>
+        <Router history={history}>
+            <App />
+        </Router>
+    </Provider>,
+    document.getElementById('root')
+)

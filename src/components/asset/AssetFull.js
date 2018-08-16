@@ -33,6 +33,8 @@ class AssetFull extends PureComponent {
     }
 
     render() {
+        if (!this.props.assetId) return null
+
         const {
             assetId,
             handlePurchase,
@@ -56,8 +58,6 @@ class AssetFull extends PureComponent {
             },
             publisherId
         } = this.props
-
-        if (!assetId) return null
 
         return (
             <div className="assetfull">
