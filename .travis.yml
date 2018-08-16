@@ -2,6 +2,9 @@ language: node_js
 node_js:
 - "8"
 
+services:
+- docker
+
 install:
 - npm -g install npm
 - npm install
@@ -10,6 +13,7 @@ script:
 - npm run build-css
 - npm run test
 - npm run build
+- docker build -t oceanprotocol/keeper-contracts .
 
 notifications:
     email: false
