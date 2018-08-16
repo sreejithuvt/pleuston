@@ -126,7 +126,7 @@ class AssetFull extends PureComponent {
                 )}
 
                 <div className="assetfull__actions">
-                    <Button primary onClick={() => handlePurchase(assetId)}>Purchase</Button>
+                    <Button primary="true" onClick={() => handlePurchase(assetId)}>Purchase</Button>
                 </div>
             </div>
         )
