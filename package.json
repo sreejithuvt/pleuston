@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@oceanprotocol/art": "^1.0.2",
-    "@oceanprotocol/keeper-contracts": "^0.0.24",
+    "@oceanprotocol/keeper-contracts": "^0.1.0",
     "bigchaindb-orm": "^2.0.0",
     "bip39": "^2.5.0",
     "classnames": "^2.2.5",
@@ -30,7 +30,7 @@
     "ethers": "^3.0.26",
     "fetch-download": "^1.1.1",
     "history": "^4.7.2",
-    "js-sha3": "^0.7.0",
+    "js-sha3": "^0.8.0",
     "jsonwebtoken": "^8.3.0",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
@@ -53,8 +53,8 @@
     "truffle-contract": "^3.0.5",
     "util.promisify": "^1.0.0",
     "uuid": "^3.3.2",
-    "web3": "0.20.6",
-    "webpack": "^3.12.0"
+    "web3": "0.20.7",
+    "webpack": "3.12.0"
   },
   "devDependencies": {
     "eslint": "^5.2.0",
