@@ -54,7 +54,7 @@
     "util.promisify": "^1.0.0",
     "uuid": "^3.3.2",
     "web3": "0.20.7",
-    "webpack": "^4.16.5"
+    "webpack": "3.12.0"
   },
   "devDependencies": {
     "eslint": "^5.2.0",
