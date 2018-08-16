@@ -13,7 +13,7 @@ script:
 - npm run build-css
 - npm run test
 - npm run build
-- docker build -t oceanprotocol/keeper-contracts .
+- docker build -t oceanprotocol/pleuston .
 
 notifications:
     email: false
