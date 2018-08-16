@@ -16,6 +16,7 @@ $breakpoint-small: 50rem;
     text-align: left;
     transition: background .2s ease-out;
     position: relative;
+    outline: 0;
 
     @media (min-width: $break-point--small) {
         flex: 1 1 45%;
@@ -27,10 +28,10 @@ $breakpoint-small: 50rem;
         display: block;
         background: $brand-grey-light;
         position: absolute;
-        left: -.1rem;
-        right: -.1rem;
-        top: -.1rem;
-        bottom: -.1rem;
+        left: -2px;
+        right: -2px;
+        top: -2px;
+        bottom: -2px;
         z-index: -1;
         border-radius: .15rem;
     }
@@ -43,6 +44,7 @@ $breakpoint-small: 50rem;
     }
 
     &:active {
+        outline: 0;
         transition: none;
         background: $brand-black;
 
