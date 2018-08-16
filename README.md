@@ -18,6 +18,10 @@
 
 **🐲🦑 THERE BE DRAGONS AND SQUIDS. This is in alpha state and you can expect running into problems. If you run into them, please open up [a new issue](https://github.com/oceanprotocol/pleuston/issues). 🦑🐲**
 
+Main issues right now:
+- assets can only be purchased if they're hosted in Azure storage account
+- orders screen is not fully working
+
 ---
 
 ## Table of Contents
