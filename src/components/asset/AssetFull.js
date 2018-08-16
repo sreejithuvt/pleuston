@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import Truncate from 'react-truncate'
 
 import AssetMedia from './AssetMedia'
 
@@ -61,7 +62,7 @@ class AssetFull extends PureComponent {
 
         return (
             <div className="assetfull">
-                <h1>{name}</h1>
+                <h1 className="assetfull__title">{name}</h1>
 
                 {links && links.length && (
                     <p>
@@ -70,14 +71,14 @@ class AssetFull extends PureComponent {
                 )}
 
                 <p>
-                    <span className="assetfull__label">Publisher</span> { publisherId }
+                    <span className="assetfull__label">Publisher</span> <Truncate>{publisherId}</Truncate>
                 </p>
 
                 <p>
                     <span className="assetfull__label">Published</span> { date }
                 </p>
                 <p>
-                    <span className="assetfull__label">ID</span> { assetId }
+                    <span className="assetfull__label">ID</span> <Truncate>{assetId}</Truncate>
                 </p>
 
                 {description && (
