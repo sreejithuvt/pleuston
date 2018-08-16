@@ -225,8 +225,16 @@ export function getOrders() {
         }
         const events = await getEvents().then((events) => events)
         let orders = await order.buildOrdersFromEvents(events, state.contract, account).then((result) => result)
-        console.log('ORDERS: ', orders)
+        console.log('ORDERS: ', orders, Object.values(state.asset.assets))
+        let assets = null
+        if (Object.values(state.asset.assets).length !== 0) {
+            assets = Object.values(state.asset.assets).reduce((map, obj) => {
+                map[obj.assetId] = obj
+                return map
+            })
+        }
         orders = orders.reduce((map, obj) => {
+            if (assets) obj.asset = assets[obj._resourceId]
             map[obj._id] = obj
             return map
         }, {})
