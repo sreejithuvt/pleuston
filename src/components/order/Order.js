@@ -11,6 +11,7 @@ const Order = ({
         <header className="asset__header order__header">
             <div className="asset__id order__id">
                 <Truncate>{order._id}</Truncate>
+                {order.assetName}
             </div>
         </header>
     </div>
