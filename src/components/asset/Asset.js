@@ -16,7 +16,7 @@ const Asset = ({
             </div>
         </header>
 
-        {asset.metadata.links && <AssetMedia title={asset.metadata.name} url={asset.metadata.links[0]} />}
+        {asset.metadata.links && <AssetMedia title={asset.metadata.name} url={asset.metadata.links} />}
 
         <div className="asset__description">
             <Truncate lines={2}>{asset.metadata.description}</Truncate>
