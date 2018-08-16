@@ -233,10 +233,14 @@ export function getOrders() {
                 return map
             })
         }
-        orders = orders.reduce((map, obj) => {
-            if (assets) {
-                obj.assetName = assets[obj._resourceId].metadata.name
+        if (assets !== null && Object.values(assets).length !== 0) {
+            for (let order of orders) {
+                if (order._resourceId && assets[order._resourceId]) {
+                    order.assetName = assets[order._resourceId].metadata.name
+                }
             }
+        }
+        orders = orders.reduce((map, obj) => {
             map[obj._id] = obj
             return map
         }, {})
