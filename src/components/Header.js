@@ -14,7 +14,7 @@ const Header = ({
         <div className="header__content">
             <div className="header__logo" onClick={handleClickLogo}>
                 <img alt="logo" className="header__logo__image" src={logo} />
-                <h1 className="header__title">Meme market</h1>
+                <h1 className="header__title">Data Sets</h1>
             </div>
             <nav className="header__menu" onClick={handleClickAccount}>
                 {
