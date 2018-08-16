@@ -1,8 +1,7 @@
 @import 'variables';
 
 .screen__header {
-    margin: 0 auto;
-    margin-bottom: $spacer * 2;
+    margin-bottom: $spacer;
 
     @media (min-width: $break-point--small) {
         max-width: 35rem;
@@ -10,23 +9,13 @@
 }
 
 .screen__title {
+    margin-top: 0;
+    margin-bottom: $spacer / 4;
     font-size: $font-size-h3;
-    text-align: center;
-    margin: 0;
-    color: $brand-grey-light;
-
-    @media (min-width: $break-point--small) {
-        font-size: $font-size-h2;
-    }
 }
 
 .screen__subtitle {
-    font-size: $font-size-h5;
-    text-align: center;
+    font-size: $font-size-large;
+    color: $brand-grey-light;
     margin: 0;
-    margin-top: $spacer / 3;
-
-    @media (min-width: $break-point--small) {
-        font-size: $font-size-h4;
-    }
 }

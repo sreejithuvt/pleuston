@@ -1,18 +1,13 @@
-import React, { Fragment } from 'react'
-
-import HeaderLoader from '../containers/HeaderLoader'
-import AccountListLoader from '../containers/AccountListLoader'
+import React from 'react'
+import Layout from '../components/Layout'
 import ScreenHeader from '../components/ScreenHeader'
+import AccountListLoader from '../containers/AccountListLoader'
 
 const Home = () => (
-    <Fragment>
-        <HeaderLoader />
-        <main className="screen screen--home">
-            <ScreenHeader
-                title="Select your account" />
-            <AccountListLoader />
-        </main>
-    </Fragment>
+    <Layout>
+        <ScreenHeader title="Accounts" subtitle="Choose an account" />
+        <AccountListLoader />
+    </Layout>
 )
 
 export default Home

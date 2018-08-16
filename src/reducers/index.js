@@ -5,13 +5,15 @@ import account from './account'
 import asset from './asset'
 import contract from './contract'
 import provider from './provider'
+import order from './order'
 
 const appReducer = combineReducers({
     form: formReducer,
     account,
     asset,
     contract,
-    provider
+    provider,
+    order
 })
 
 export default appReducer

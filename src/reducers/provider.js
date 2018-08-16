@@ -1,6 +1,6 @@
 const initialState = {
     web3: null,
-    db: null
+    oceanAgent: ''
 }
 
 const provider = (state = initialState, action) => {
@@ -8,7 +8,7 @@ const provider = (state = initialState, action) => {
         case 'SET_PROVIDERS':
             return Object.assign({}, state, {
                 web3: action.web3,
-                db: action.db
+                oceanAgent: action.oceanAgent
             })
         default:
             return state

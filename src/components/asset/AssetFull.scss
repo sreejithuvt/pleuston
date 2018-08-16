@@ -1,62 +1,27 @@
 @import 'variables';
 
-.asset-grid {
-    @media (min-width: $break-point--small) {
-        display: flex;
-        justify-content: space-between;
-        margin-left: -$spacer * 2;
+.assetfull {
+    margin: auto;
+    max-width: $break-point--small;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+
+    .asset__img {
+        max-height: none;
     }
 }
 
-.asset-grid__col {
-    margin-bottom: $spacer * 2;
-
-    @media (min-width: $break-point--small) {
-        flex: 1;
-        margin-left: $spacer * 2;
-        margin-bottom: 0;
-    }
+.assetfull__title {
+    font-size: $font-size-h3;
 }
 
-.asset__label,
-.asset__graph__description {
+.assetfull__label {
     display: block;
     font-family: $font-family-button;
     text-transform: uppercase;
     color: $brand-grey-light;
-}
-
-.asset__actions {
     margin-top: $spacer;
-    margin-bottom: $spacer;
-}
-
-.asset__graph {
-    margin-bottom: $spacer;
-}
-
-.asset__graph__label {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: $spacer / 4;
-}
-
-.asset__graph__description {
-    font-size: $font-size-small;
-}
-
-.asset-full {
-    .asset__symbol,
-    .asset__change {
-        font-size: $font-size-h4;
-    }
-
-    .asset__change {
-        text-align: left;
-    }
-
-    .asset__img {
-        height: 400px;
-    }
 }

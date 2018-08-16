@@ -16,14 +16,21 @@
 
 ---
 
+**🐲🦑 THERE BE DRAGONS AND SQUIDS. This is in alpha state and you can expect running into problems. If you run into them, please open up [a new issue](https://github.com/oceanprotocol/pleuston/issues). 🦑🐲**
+
+---
+
 ## Table of Contents
 
   - [Features](#features)
+  - [Prerequisites](#prerequisites)
+     - [Ocean Protocol Components](#ocean-protocol-components)
+     - [Contracts](#contracts)
   - [Quick Start](#quick-start)
-  - [Keeper](#keeper)
-     - [Run locally](#run-locally)
-  - [Database](#database)
-     - [Run locally](#run-locally)
+  - [Ocean Protocol Components](#ocean-protocol-components)
+     - [Keeper](#keeper)
+     - [Provider](#provider)
+     - [Database](#database)
   - [Code style](#code-style)
   - [Testing](#testing)
   - [License](#license)
@@ -32,27 +39,72 @@
 
 ## Features
 
-This repository houses Pleuston, the reference web app for consumers to explore, download, and publish data assets.
+This repository houses Pleuston, the reference web app for consumers to explore, download, and publish data assets within the Ocean Protocol network.
 
-- Publish data assets
-- Download data assets
-- ...
-
-![output](https://user-images.githubusercontent.com/6178597/41625184-37cf5e4c-7418-11e8-81c2-f779e5f7ee8b.gif)
-
-## Quick Start
+- Connect to all required Ocean Protocol components: Keeper, Provider, and BigchainDB
+- Register and publish data assets
+- Explore, buy, and download data assets
 
 Pleuston is a single page React app, bootstrapped with [`create-react-app`](https://github.com/facebook/create-react-app).
 
-To start development, clone this repository, install all dependencies, and start the development server:
+## Prerequisites
+
+To start development with pleuston you first have to get all the other Ocean Protocol components up and running.
+
+### Ocean Protocol Components
+
+The simplest way is to use our main `docker-compose` file from the docker-images repository:
+
+```bash
+git clone git@github.com:oceanprotocol/docker-images.git
+cd docker-images/
+
+docker-compose --project-name=ocean up
+```
+
+This will start up all required components, but also an instance of pleuston. To use your local pleuston version in the next step, you have to stop the pleuston Docker container from another Terminal window:
+
+```bash
+docker stop ocean_pleuston_1
+
+# or find the right container name
+docker ps
+```
+
+### Contracts
+
+Because of changing addresses during migration, you need to make sure the deployed contracts within the Docker containers from [keeper-contracts](https://github.com/oceanprotocol/keeper-contracts) match the ones used in your local pleuston development version.
+
+```bash
+git clone git@github.com:oceanprotocol/keeper-contracts.git
+cd keeper-contracts/
+
+npm i
+truffle compile
+truffle migrate --reset
+```
+
+Then link them up with npm so pleuston will grab them instead the package from npm.js:
+
+```bash
+npm link @oceanprotocol/keeper-contracts
+```
+
+## Quick Start
+
+After the pleuston Docker container from the above `docker-compose` step is shut down, you can start your local development version of `pleuston`:
 
 ```bash
 git clone git@github.com:oceanprotocol/pleuston.git
 cd pleuston/
 
 npm i
+npm link @oceanprotocol/keeper-contracts
 npm start
-```
+````
+
+Note that you have to redo the keeper-contracts `npm link` every time you do a `npm install` in pleuston.
+
 This should output a message as follows:
 
 ```bash
@@ -73,69 +125,28 @@ serve -s build/
 # go to http://localhost:5000
 ```
 
-> Oops - that didn't work - see [https://github.com/bigchaindb/js-driver-orm/issues/56](https://github.com/bigchaindb/js-driver-orm/issues/56)
+## Ocean Protocol Components
 
-## Keeper
+All required components to get `pleuston` running are pre-configured and started with the above `docker-compose` command, and the web app is configured to connect to them.
 
-After following the instructions outlined above, Pleuston will connect to the Ocean Protocol test network where all required smart contracts are deployed so you don't have to configure anything else.
+If you want to change and run `pleuston` against your own deployed components, head over to the [`src/config.js`](./src/config.js) file and modify the respective values.
+
+### Keeper
+[`keeper-contracts`](https://github.com/oceanprotocol/keeper-contracts)
+
+After following the instructions outlined above, Pleuston will connect to the locally running RPC client under `http://localhost:8545` where all required smart contracts are deployed so you don't have to configure anything else.
 
 The Keeper Contracts ABI's are published as a [npm package](https://www.npmjs.com/package/@oceanprotocol/keeper-contracts) and imported in the project.
 
-### Run locally
+### Provider
+[`provider`](https://github.com/oceanprotocol/provider)
 
-If you want to run the app against a local Ethereum RPC client you need to make sure to deploy all required contracts to it first. Head over to [keeper-contracts](https://github.com/oceanprotocol/keeper-contracts) and follow the instructions to get this up and running.
+The app connects to the locally running Ocean Protocol Provider, exposed under `http://localhost:5000`.
 
-After the RPC client is running on your machine, modify the respective config values in [`./src/config.js`](./src/config.js):
+### Database
+[`bigchaindb`](https://github.com/bigchaindb/bigchaindb)
 
-```js
-module.exports = {
-    ...
-    keeperHost: 'localhost',
-    keeperPort: 8545,
-    ...
-}
-```
-
-## Database
-
-Pleuston is currently using [BigchainDB](http://github.com/bigchaindb/bigchaindb) as a database backend and is configured to automatically connect to an account on the [BigchainDB Test Network](https://testnet.bigchaindb.com/).
-
-Optionally, you can create your own account under [testnet.bigchaindb.com](https://testnet.bigchaindb.com/) and use your own `app_id` & `app_key` in [`./src/config.js`](./src/config.js):
-
-```js
-module.exports = {
-    ...
-    dbHeaders: {
-        app_id: 'dehwi323',
-        app_key: 'hfjewib3h2i3h2jen2jk2nj3k2njk3'
-    },
-    ...
-}
-```
-
-### Run locally
-
-If you want to have the web app connect to a locally running instance of BigchainDB, you can do so with Docker:
-
-```bash
-cd db/bigchaindb/
-
-# will use db/bigchaindb/Dockerfile-dev
-docker-compose up
-```
-
-After BigchainDB is running on your machine, modify the respective config values in [`./src/config.js`](./src/config.js):
-
-```js
-module.exports = {
-    ...
-    dbScheme: 'http',
-    dbHost: 'localhost',
-    dbHeaders: {},
-    dbPort: 9984,
-    ...
-}
-```
+Pleuston is currently using [BigchainDB](http://github.com/bigchaindb/bigchaindb) as a database backend and is configured to automatically connect to the locally running BigchainDB node, exposed under `http://localhost:9984`.
 
 ## Code style
 

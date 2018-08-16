@@ -1,7 +1,6 @@
-import * as account from './account' // eslint-disable-line
-import * as asset from './asset' // eslint-disable-line
-
-import mockAssets from '../mock/assets'
+import * as account from './account'
+import * as asset from './asset'
+import * as order from './order'
 
 export function setProviders() {
     return (dispatch) => {
@@ -17,13 +16,13 @@ export function getAccounts() {
         const {
             provider,
             contract: {
-                ocean
+                oceanToken
             }
         } = getState()
 
         dispatch({
             type: 'GET_ACCOUNTS',
-            accounts: await account.list(ocean, provider)
+            accounts: await account.list(oceanToken, provider)
         })
     }
 }
@@ -38,7 +37,10 @@ export function setActiveAccount(accountId) {
 }
 
 export function getActiveAccount(state) {
-    const { activeAccount, accounts } = state.account
+    let { activeAccount, accounts } = state.account
+    if (accounts.length === 0) {
+        return null
+    }
     return accounts[activeAccount]
 }
 
@@ -75,14 +77,15 @@ export function makeItRain(amount) {
     }
 }
 
-export function putAsset(newAsset) {
+export function putAsset(formValues) {
     return async (dispatch, getState) => {
         const state = getState()
+        const account = getActiveAccount(state)
 
         await asset.publish(
-            Object.assign(mockAssets[0], newAsset),
+            formValues,
             state.contract.market,
-            getActiveAccount(state),
+            account,
             state.provider
         )
 
@@ -91,6 +94,7 @@ export function putAsset(newAsset) {
 }
 
 export function getAssets() {
+    /* Get list of assets for the current selected account */
     return async (dispatch, getState) => {
         const state = getState()
 
@@ -101,7 +105,7 @@ export function getAssets() {
                 state.provider
             ))
             .reduce((map, obj) => {
-                map[obj.id] = obj
+                map[obj.assetId] = obj
                 return map
             }, {})
 
@@ -141,10 +145,10 @@ export function getActiveAsset(state) {
 export function purchaseAsset(assetId) {
     return async (dispatch, getState) => {
         const state = getState()
-
+        const activeAsset = getActiveAsset(state)
         const token = await asset.purchase(
-            getActiveAsset(state).web3Id,
-            state.contract.market,
+            activeAsset,
+            state.contract,
             getActiveAccount(state),
             state.provider
         )
@@ -152,7 +156,7 @@ export function purchaseAsset(assetId) {
         dispatch({
             type: 'UPDATE_ASSET',
             assetId,
-            asset: Object.assign(getActiveAsset(state), { token })
+            asset: Object.assign(activeAsset, { token })
         })
     }
 }
@@ -162,6 +166,75 @@ export function setAssetFilter(filter) {
         dispatch({
             type: 'SET_ASSET_FILTER',
             filter
+        })
+    }
+}
+
+export function getActiveOrder(state) {
+    const { activeOrder, orders } = state.order
+
+    if (activeOrder) {
+        return orders[activeOrder]
+    }
+
+    return {}
+}
+
+export function setActiveOrder(orderId) {
+    return (dispatch) => {
+        dispatch({
+            type: 'SET_ACTIVE_ORDER',
+            activeOrder: orderId
+        })
+    }
+}
+
+export function getOrders() {
+    return async (dispatch, getState) => {
+        const state = getState()
+        const account = getActiveAccount(state)
+        if (!account) {
+            console.log('active account is not set.')
+            return []
+        }
+
+        let { acl } = state.contract
+
+        let accessConsentEvent = acl.AccessConsentRequested({ _consumer: account.name }, {
+            fromBlock: 0,
+            toBlock: 'latest'
+        })
+
+        let _resolve = null
+        let _reject = null
+        const promise = new Promise((resolve, reject) => {
+            _resolve = resolve
+            _reject = reject
+        })
+
+        const getEvents = () => {
+            accessConsentEvent.get((error, logs) => {
+                if (error) {
+                    _reject(error)
+                    throw new Error(error)
+                } else {
+                    _resolve(logs)
+                }
+            })
+            return promise
+        }
+        const events = await getEvents().then((events) => events)
+        let orders = await order.buildOrdersFromEvents(events, state.contract, account).then((result) => result)
+        console.log('ORDERS: ', orders)
+        orders = orders.reduce((map, obj) => {
+            map[obj._id] = obj
+            return map
+        }, {})
+        console.log('ORDERS mapped: ', orders)
+
+        dispatch({
+            type: 'GET_ORDERS',
+            orders
         })
     }
 }

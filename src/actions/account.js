@@ -1,20 +1,17 @@
 import Web3 from 'web3'
-import Orm from '../lib/bigchaindb-orm' // transpile workaround, use modified local version
-import bip39 from 'bip39'
+import OceanAgent from '../drivers/ocean-agent'
 import TruffleContract from 'truffle-contract'
 
-import OceanToken from '@oceanprotocol/keeper-contracts/build/contracts/OceanToken'
-
 import {
-    dbHeaders,
-    dbHost,
-    dbNamespace,
-    dbPort,
-    dbScheme,
     keeperHost,
     keeperPort,
-    keeperScheme
+    keeperScheme,
+    oceanHost,
+    oceanPort,
+    oceanScheme
 } from '../config'
+
+const OceanToken = require('@oceanprotocol/keeper-contracts/artifacts/OceanToken.development')
 
 export function createProviders() {
     const web3URI = `${keeperScheme}://${keeperHost}:${keeperPort}`
@@ -22,39 +19,29 @@ export function createProviders() {
     const web3Provider = new Web3.providers.HttpProvider(web3URI)
     const web3 = new Web3(web3Provider)
 
-    // bdb
-    const bdbURI = `${dbScheme}://${dbHost}:${dbPort}/api/v1/`
-    const headers = dbHeaders
-
-    const db = new Orm(
-        bdbURI,
-        headers
-    )
-    db.define('ocean', dbNamespace)
-    return { web3, db }
+    // ocean agent
+    const ocnURL = `${oceanScheme}://${oceanHost}:${oceanPort}/api/v1/provider`
+    const oceanAgent = new OceanAgent(ocnURL)
+    return { web3, oceanAgent }
 }
 
 export async function deployContracts(provider) {
-    const ocean = TruffleContract(OceanToken)
-    ocean.setProvider(provider)
+    const oceanToken = TruffleContract(OceanToken)
+    oceanToken.setProvider(provider)
     return {
-        ocean: await ocean.deployed()
+        oceanToken: await oceanToken.at(OceanToken.address)
     }
 }
 
 export async function list(contract, providers) {
-    const { web3, db } = providers
+    const { web3 } = providers
 
     return Promise.all(web3.eth.accounts.map(async (account) => {
-        const secret = account // bip39.generateMnemonic()
-        const seed = bip39.mnemonicToSeed(secret).slice(0, 32)
-
         const balance = await getBalance(account, contract, providers)
 
         return {
             name: account,
-            balance,
-            db: new db.driver.Ed25519Keypair(seed)
+            balance
         }
     }))
 }

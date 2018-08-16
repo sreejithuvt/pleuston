@@ -8,6 +8,7 @@ const Footer = () => (
         <nav className="footer__links">
             <a href="https://blog.oceanprotocol.com">Blog</a>
             <a href="https://twitter.com/oceanprotocol">Twitter</a>
+            <a href="https://github.com/oceanprotocol">GitHub</a>
         </nav>
     </footer>
 )

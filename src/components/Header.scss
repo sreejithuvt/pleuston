@@ -2,12 +2,17 @@
 
 .header {
     background: $brand-black;
+    width: 100%;
+    padding: $spacer / 2;
+}
+
+.header__content {
+    max-width: $break-point--huge;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: $spacer;
-    width: 100%;
-    padding: $spacer / 2;
 }
 
 .header__logo {
@@ -22,10 +27,14 @@
 }
 
 .header__title {
-    display: inline-block;
     font-size: $font-size-h4;
     color: $brand-white;
     margin-left: $spacer;
+    display: none;
+
+    @media (min-width: $break-point--small) {
+        display: inline-block;
+    }
 }
 
 .header__menu {
@@ -61,6 +70,10 @@
     }
 }
 
-.header__menu__balance {
-    margin-left: $spacer / 4;
+.header__menu__user {
+    display: none;
+
+    @media screen and (min-width: $break-point--small) {
+        display: inline-block;
+    }
 }

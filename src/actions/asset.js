@@ -1,93 +1,79 @@
 import TruffleContract from 'truffle-contract'
+import fetchDownload from '../lib/fetch-download'
+import AssetModel from '../models/asset'
+import PurchaseHandler from './purchase'
 
-import Market from '@oceanprotocol/keeper-contracts/build/contracts/Market'
-import { dbNamespace } from '../config'
+const OceanMarket = require('@oceanprotocol/keeper-contracts/artifacts/OceanMarket.development')
+const OceanAuth = require('@oceanprotocol/keeper-contracts/artifacts/OceanAuth.development')
+
+const DEFAULT_GAS = 1000 * 1000
 
 export async function deployContracts(provider) {
-    const market = TruffleContract(Market)
+    const market = TruffleContract(OceanMarket)
+    const acl = TruffleContract(OceanAuth)
+
     market.setProvider(provider)
+    acl.setProvider(provider)
+
     return {
-        market: await market.deployed()
+        market: await market.at(OceanMarket.address),
+        acl: await acl.at(OceanAuth.address)
     }
 }
 
-export async function publish(asset, contract, account, providers) {
-    const { web3, db } = providers
+export async function publish(formValues, marketContract, account, providers, price) {
+    const { oceanAgent } = providers
+    // First, register on the keeper (on-chain)
+    await marketContract.requestTokens(2000, { from: account.name })
 
-    let assetId = -1
+    const assetId = await marketContract.generateId(formValues.name + formValues.description)
 
-    try {
-        assetId = await contract.getListAssetsSize()
+    await marketContract.register(
+        assetId,
+        formValues.price, // price is zero for now.
+        { from: account.name, gas: DEFAULT_GAS }
+    )
 
-        await contract.register(
-            assetId,
-            { from: account.name, gas: 300000 }
-        )
-    } catch (e) {
-        console.error(e)
+    // Now register in oceandb and publish the metadata
+    const newAsset = {
+        assetId,
+        metadata: Object.assign(AssetModel.metadata, {
+            date: (new Date()).toString(),
+            description: formValues.description,
+            labels: formValues.tags ? [formValues.tags] : [],
+            license: formValues.license,
+            links: formValues.links,
+            name: formValues.name,
+            updateFrequency: formValues.updateFrequency
+        }),
+        publisherId: account.name
     }
-
-    const dbAsset = await db.models.ocean
-        .create({
-            keypair: account.db,
-            data: {
-                web3: {
-                    account: account.name,
-                    id: assetId
-                },
-                value: {
-                    ...asset,
-                    date: Math.round((new Date()).getTime())
-                }
-            }
-        })
-
-    try {
-        await contract.publish(
-            assetId,
-            web3.fromAscii(asset.url),
-            web3.fromAscii(dbAsset.id),
-            { from: account.name, gas: 300000 }
-        )
-    } catch (e) {
-        console.error(e)
-    }
+    await oceanAgent.publishDataAsset(newAsset)
 }
 
 export async function list(contract, account, providers) {
-    const { db } = providers
+    const { oceanAgent } = providers
+    let dbAssets = await oceanAgent.getAssetsMetadata()
+    console.log('assets: ', dbAssets)
 
-    let web3AssetIds = []
-    try {
-        web3AssetIds = (await contract.getListAssets())
-            .filter(id => id > 0)
-            .map(id => id.toString())
-    } catch (e) {
-        console.error(e)
-    }
+    dbAssets = Object.values(dbAssets).filter(async (asset) => { return contract.checkAsset(asset.assetId) })
+    console.log('assets (published on-chain): ', dbAssets)
 
-    const dbAssets = await db.models.ocean.retrieve(dbNamespace)
-
-    return dbAssets.map(dbAsset => ({
-        ...dbAsset.data.value,
-        id: dbAsset.id,
-        publisher: dbAsset.data.web3.account,
-        published: web3AssetIds.indexOf(dbAsset.data.web3.id) > -1,
-        web3Id: dbAsset.data.web3.id,
-        date: (new Date(dbAsset.data.value.date)).toLocaleDateString('en-US')
-    }))
+    return dbAssets
 }
 
-export async function purchase(assetId, contract, account, providers) {
+export async function purchase(asset, contracts, account, providers) {
     const { web3 } = providers
 
-    await contract.purchase(
-        assetId,
-        { from: account.name, gas: 200000 }
-    )
+    console.log('Purchasing asset by consumer:  ', account.name, ' assetid: ', asset.assetId)
 
-    const token = web3.toAscii(await contract.getAssetToken(assetId))
-
-    // const dbAssetRetrieved = await db.models.ocean.retrieve(token)[0]
-    return token
+    let purchaseHandler = new PurchaseHandler(asset, null, contracts, account, web3)
+    let order = await purchaseHandler.doPurchase()
+    if (order.accessUrl) {
+        console.log('begin downloading asset data.')
+        await fetchDownload(order.accessUrl)
+            .then((result) => console.log('Asset data downloaded successfully: ', result))
+            .catch((error) => console.log('Asset download failed: ', error))
+    }
+    console.log('purchase completed, new order is: ', order)
 }

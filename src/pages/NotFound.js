@@ -1,17 +1,14 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 
-import Header from '../components/Header'
+import Layout from '../components/Layout'
 import ScreenHeader from '../components/ScreenHeader'
 
 const NotFound = () => (
-    <Fragment>
-        <Header />
-        <main className="screen screen--404">
-            <ScreenHeader
-                subtitle="Shenanigans, page not found."
-                title="404" />
-        </main>
-    </Fragment>
+    <Layout>
+        <ScreenHeader
+            subtitle="Shenanigans, page not found."
+            title="404" />
+    </Layout>
 )
 
 export default NotFound

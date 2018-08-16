@@ -14,7 +14,7 @@ export default connect(
                     return Object
                         .values(state.asset.filter.publisher)
                         .map(filterValue => filterValue.value)
-                        .indexOf(obj.publisher) > -1
+                        .indexOf(obj.publisherId) > -1
                 } else {
                     return true
                 }
@@ -24,8 +24,8 @@ export default connect(
 
     dispatch => ({
         handleClick: asset => {
-            dispatch(setActiveAsset(asset.id))
-            dispatch(push(`/datasets/${asset.id}`))
+            dispatch(setActiveAsset(asset.assetId))
+            dispatch(push(`/datasets/${asset.assetId}`))
         }
     })
 )(AssetList)

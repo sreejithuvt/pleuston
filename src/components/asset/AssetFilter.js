@@ -24,12 +24,12 @@ const AssetFilter = ({
 AssetFilter.propTypes = {
     activeFilter: PropTypes.object,
     handlePublisherChange: PropTypes.func,
-    publishers: PropTypes.object
+    publishers: PropTypes.array
 }
 
 AssetFilter.defaultProps = {
     publishers: [],
-    activeFilter: [],
+    activeFilter: null,
     handlePublisherChange: null
 }
 

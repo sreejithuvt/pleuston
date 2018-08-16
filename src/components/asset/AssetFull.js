@@ -1,136 +1,144 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import Truncate from 'react-truncate'
 
 import AssetMedia from './AssetMedia'
 
 import Button from '../atoms/Button'
-import { Chart, Chart2 } from '../Chart'
 import './AssetFull.css'
 
-const AssetFull = ({
-    abstract,
-    datePeriod,
-    handlePurchase,
-    id,
-    stats,
-    date,
-    publisher,
-    token,
-    tools,
-    url
-}) => {
-    if (!id) return null
+const Editable = ({ name, value, onFieldChange, onValueChange }) => (
+    <input name={name} type="text" value={value} onChange={onValueChange} />
+)
 
-    const changeClasses = stats.change.includes('-') ? 'asset__change negative' : 'asset__change positive'
+Editable.propTypes = {
+    name: PropTypes.string,
+    value: PropTypes.string,
+    onFieldChange: PropTypes.func,
+    onValueChange: PropTypes.func
+}
 
-    return (
-        <div className="asset-full">
-            <div className="asset-grid">
-                <div className="asset-grid__col">
+class AssetFull extends PureComponent {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            isWritable: false
+        }
+    }
+
+    onEdit(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
+    render() {
+        if (!this.props.assetId) return null
+
+        const {
+            assetId,
+            handlePurchase,
+            metadata: {
+                // category,
+                // classification,
+                date,
+                description,
+                // format,
+                // industry,
+                // keywords,
+                labels,
+                license,
+                // lifecycleStage,
+                links,
+                name,
+                // note,
+                // size,
+                token,
+                updateFrequency
+            },
+            publisherId
+        } = this.props
+
+        return (
+            <div className="assetfull">
+                <h1 className="assetfull__title">{name}</h1>
+
+                {links && links.length && (
                     <p>
-                        <AssetMedia url={url} />
+                        <AssetMedia title={name} url={links} />
                     </p>
+                )}
 
-                    <div className="asset__stats">
-                        <p><strong>{stats.accepted}</strong> of curators accepted</p>
-                        <p><strong>{stats.rejected}</strong> of curators rejected</p>
-                        <p><strong>{stats.challenged}</strong> times challenged</p>
-                        <p><strong>{stats.purchased}</strong> times purchased</p>
-                    </div>
+                <p>
+                    <span className="assetfull__label">Publisher</span> <Truncate>{publisherId}</Truncate>
+                </p>
 
-                    <div className="asset__actions">
-                        <Button>View data structure</Button>
-                    </div>
+                <p>
+                    <span className="assetfull__label">Published</span> { date }
+                </p>
+                <p>
+                    <span className="assetfull__label">ID</span> <Truncate>{assetId}</Truncate>
+                </p>
 
-                    <p>
-                        <span className="asset__label">Publisher</span> { publisher }
+                {description && (
+                    <p className="assetfull__description">
+                        <span className="assetfull__label">Description</span>
+                        {/* {this.state.isWritable &&
+                        <Editable
+                            name="description"
+                            value={description}
+                            onFieldChange={this.onEdit}
+                            onValueChange={this.onEdit}
+                        />}
+                        {!this.state.isWritable && description }
+                        <button onClick={() => this.setState({ isWritable: !this.state.isWritable })}>Edit</button> */}
                     </p>
+                )}
 
-                    <p>
-                        <span className="asset__label">Published</span> { date }
+                {links && links.length && (
+                    <p className="assetfull__url">
+                        <span className="assetfull__label">Url</span>
+                        <a href={typeof links === 'string' ? links : links[0]}
+                            rel="noopener noreferrer" target="_blank">{ (typeof links === 'string' ? links : links[0]) || 'Please purchase' }</a>
                     </p>
-                    <p>
-                        <span className="asset__label">ID</span> { id }
+                )}
+
+                <p className="assetfull__token">
+                    <span className="assetfull__label">Token</span> { token || 'Please purchase' }
+                </p>
+
+                {labels && (
+                    <p className="assetfull__tags">
+                        <span className="assetfull__label">Labels</span> { labels.map(label => (label)) }
                     </p>
+                )}
 
-                    {abstract && (
-                        <p className="asset__abstract">
-                            <span className="asset__label">Abstract</span> { abstract }
-                        </p>
-                    )}
-
-                    {tools && (
-                        <p className="asset__tools">
-                            <span className="asset__label">Methods or Tools</span> { tools }
-                        </p>
-                    )}
-
-                    {datePeriod && (
-                        <p className="asset__date_period">
-                            <span className="asset__label">Period of data gathering</span> { datePeriod }
-                        </p>
-                    )}
-
-                    {url && (
-                        <p className="asset__url">
-                            <span className="asset__label">Url</span>
-                            <a href={url} rel="noopener noreferrer" target="_blank">{ url || 'Please purchase' }</a>
-                        </p>
-                    )}
-
-                    <p className="asset__url">
-                        <span className="asset__label">Token</span> { token || 'Please purchase' }
+                {license && (
+                    <p className="assetfull__license">
+                        <span className="assetfull__label">License</span> { license }
                     </p>
+                )}
 
-                    <div className="asset__actions">
-                        <Button primary onClick={() => handlePurchase(id)}>Purchase</Button>
-                        <Button primary>Curate</Button>
-                    </div>
-                </div>
-                <div className="asset-grid__col">
-                    <div className="asset__graph__label">
-                        <div className="asset__symbol">XYZ</div>
-                        <div className="asset__graph__description">Supply & cost</div>
-                    </div>
+                {updateFrequency && (
+                    <p className="assetfull__updateFrequency">
+                        <span className="assetfull__label">Update Frequency</span> { updateFrequency }
+                    </p>
+                )}
 
-                    <div className="asset__graph"><Chart2 /></div>
-
-                    <div className="asset__graph__label">
-                        <div className={changeClasses}>{stats.change}</div>
-                        <div className="asset__graph__description">Exchange rate history</div>
-                    </div>
-
-                    <div className="asset__graph"><Chart /></div>
+                <div className="assetfull__actions">
+                    <Button primary="true" onClick={() => handlePurchase(assetId)}>Purchase</Button>
                 </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
 
 AssetFull.propTypes = {
-    abstract: PropTypes.string,
-    date: PropTypes.string,
-    datePeriod: PropTypes.string,
+    assetId: PropTypes.string,
     handlePurchase: PropTypes.func,
-    id: PropTypes.string,
-    publisher: PropTypes.string,
-    stats: PropTypes.object,
-    token: PropTypes.string,
-    tools: PropTypes.string,
-    url: PropTypes.string
-}
-
-AssetFull.defaultProps = {
-    abstract: null,
-    date: null,
-    datePeriod: null,
-    handlePurchase: null,
-    id: null,
-    publisher: null,
-    stats: null,
-    token: null,
-    tools: null,
-    url: null
+    metadata: PropTypes.object,
+    publisherId: PropTypes.string
 }
 
 export default AssetFull

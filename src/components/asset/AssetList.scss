@@ -1,35 +1,30 @@
 @import 'variables';
 
 .assets {
-    counter-reset: assets;
-
-    @media (min-width: $break-point--small) {
-        max-width: 1000px;
+    @media (min-width: $break-point--medium) {
         display: flex;
-        flex-direction: row;
         flex-wrap: wrap;
-        flex-grow: 1;
-        flex-basis: 0;
-        justify-content: center;
-        margin-left: -($spacer / 2);
+        margin-left: -($spacer);
+    }
+
+    @media (min-width: $break-point--large) {
+        display: flex;
+        flex-wrap: wrap;
     }
 }
 
 .assets__tile {
-    width: 30%;
     margin-bottom: $spacer / 2;
-
-    @media (min-width: $break-point--small) {
-        flex: 0 0 calc(50% - #{$spacer});
-        margin-left: $spacer / 2;
-    }
+    height: 100%;
+    outline: 0;
 
     @media (min-width: $break-point--medium) {
-        flex-basis: calc(33.3333333% - #{$spacer});
+        flex: 1 1 calc(50% - #{$spacer * 2});
+        margin-left: $spacer;
+        max-width: 20rem;
     }
 
-    a {
-        display: block;
-        height: 100%;
+    @media (min-width: $break-point--large) {
+        flex: 1 1 33%;
     }
 }
