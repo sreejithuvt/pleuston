@@ -83,7 +83,7 @@ class AssetFull extends PureComponent {
                 {description && (
                     <p className="assetfull__description">
                         <span className="assetfull__label">Description</span>
-                        {this.state.isWritable &&
+                        {/* {this.state.isWritable &&
                         <Editable
                             name="description"
                             value={description}
@@ -91,7 +91,7 @@ class AssetFull extends PureComponent {
                             onValueChange={this.onEdit}
                         />}
                         {!this.state.isWritable && description }
-                        <button onClick={() => this.setState({ isWritable: !this.state.isWritable })}>Edit</button>
+                        <button onClick={() => this.setState({ isWritable: !this.state.isWritable })}>Edit</button> */}
                     </p>
                 )}
 
