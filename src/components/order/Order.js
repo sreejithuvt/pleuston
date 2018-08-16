@@ -9,9 +9,9 @@ const Order = ({
 }) => (
     <div className="order asset">
         <header className="asset__header order__header">
-            <div className="asset__id order__id">
+            <h1 className="asset__title">{order.assetName}</h1>
+            <div className="asset__id">
                 <Truncate>{order._id}</Truncate>
-                {order.assetName}
             </div>
         </header>
     </div>
