@@ -15,7 +15,7 @@ const OrderList = ({
                 {orders.map(order => (
                     <div
                         className="orders__tile assets_count"
-                        key={order.id}
+                        key={order._id}
                         onClick={() => handleClick(order)}
                         onKeyPress={() => handleClick(order)}
                         role="link"

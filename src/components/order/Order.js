@@ -8,7 +8,7 @@ const Order = ({
 }) => (
     <div className="order">
         <header className="order__header">
-            <div className="order__id">{ order.id }</div>
+            <div className="order__id">{ order._id }</div>
         </header>
 
     </div>
