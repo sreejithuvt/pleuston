@@ -1,7 +1,7 @@
 {
     "presets": [
         "react",
-        ["env", { "useBuiltIns": true  }]
-    ],
-    "plugins": ["transform-object-rest-spread"]
+        ["env", { "useBuiltIns": true  }],
+        "stage-2"
+    ]
 }
