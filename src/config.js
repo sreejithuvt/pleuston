@@ -6,6 +6,7 @@ module.exports = {
     keeperScheme: 'http',
     keeperHost: 'localhost',
     keeperPort: 8545,
+    keeperNetwork: 'development',
 
     oceanScheme: 'http',
     oceanHost: 'localhost',
