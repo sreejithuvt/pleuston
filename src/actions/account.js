@@ -14,11 +14,10 @@ import {
 } from '../config'
 
 export function createProviders() {
-
     const web3URI = `${keeperScheme}://${keeperHost}:${keeperPort}`
 
     const web3Provider = new Web3.providers.HttpProvider(web3URI)
-    const web3 = web3 ? web3.currentProvider : new Web3(web3Provider)
+    const web3 = new Web3(web3Provider)
 
     // ocean agent
     const ocnURL = `${oceanScheme}://${oceanHost}:${oceanPort}/api/v1/provider`
@@ -27,7 +26,7 @@ export function createProviders() {
 }
 
 export async function deployContracts(provider) {
-    const OceanToken = ContractLoader.load("OceanToken", keeperNetwork)
+    const OceanToken = ContractLoader.load('OceanToken', keeperNetwork)
     const oceanToken = TruffleContract(OceanToken)
     oceanToken.setProvider(provider)
     return {
