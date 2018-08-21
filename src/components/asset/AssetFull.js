@@ -84,15 +84,7 @@ class AssetFull extends PureComponent {
                 {description && (
                     <p className="assetfull__description">
                         <span className="assetfull__label">Description</span>
-                        {/* {this.state.isWritable &&
-                        <Editable
-                            name="description"
-                            value={description}
-                            onFieldChange={this.onEdit}
-                            onValueChange={this.onEdit}
-                        />}
-                        {!this.state.isWritable && description }
-                        <button onClick={() => this.setState({ isWritable: !this.state.isWritable })}>Edit</button> */}
+                        <Truncate lines={10}>{description}</Truncate>
                     </p>
                 )}
 
