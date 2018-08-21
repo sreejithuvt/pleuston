@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import TruffleContract from 'truffle-contract'
 import fetchDownload from 'fetch-download'
 import AssetModel from '../models/asset'

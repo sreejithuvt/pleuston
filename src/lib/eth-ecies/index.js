@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 /**
  * ECIES encrypt/decrypt with Ethereum keys
  * Modified from https://github.com/vhpoet/simple-ecies/blob/master/index.js
