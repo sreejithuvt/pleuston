@@ -1,11 +1,9 @@
 [![banner](https://raw.githubusercontent.com/oceanprotocol/art/master/github/repo-banner%402x.png)](https://oceanprotocol.com)
 
 
-<h1 align="center">Pleuston</h1>
+# Pleuston
 
-<p align="center">
-  <img width="400" src="https://user-images.githubusercontent.com/90316/43195950-cc01fd90-9006-11e8-8d5e-cb802c6502b3.gif" />
-</p>
+![banner](https://user-images.githubusercontent.com/90316/43195950-cc01fd90-9006-11e8-8d5e-cb802c6502b3.gif "Big Banner")
 
 > 🦑 🦄 Web app for consumers to explore, download, and publish data assets.
 
