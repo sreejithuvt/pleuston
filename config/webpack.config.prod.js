@@ -8,8 +8,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
-const eslintFormatter = require('react-dev-utils/eslintFormatter')
-// const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+
 const paths = require('./paths')
 const getClientEnvironment = require('./env')
 
@@ -58,7 +58,7 @@ module.exports = {
     // In production, we only want to load the polyfills and the app code.
     entry: [require.resolve('./polyfills'), paths.appIndexJs],
     output: {
-    // The build folder.
+        // The build folder.
         path: paths.appBuild,
         // Generated JS file names (with nested folders).
         // There will be one main bundle, and one file per asynchronous chunk.
@@ -74,29 +74,12 @@ module.exports = {
                 .replace(/\\/g, '/')
     },
     resolve: {
-    // This allows you to set a fallback for where Webpack should look for modules.
-    // We placed these paths second because we want `node_modules` to "win"
-    // if there are any conflicts. This matches Node resolution mechanism.
-    // https://github.com/facebookincubator/create-react-app/issues/253
-        modules: ['node_modules', paths.appNodeModules].concat(
-            // It is guaranteed to exist because we tweak it in `env.js`
-            process.env.NODE_PATH.split(path.delimiter).filter(Boolean)
-        ),
-        // These are the reasonable defaults supported by the Node ecosystem.
-        // We also include JSX as a common component filename extension to support
-        // some tools, although we do not recommend using it, see:
-        // https://github.com/facebookincubator/create-react-app/issues/290
-        // `web` extension prefixes have been added for better support
-        // for React Native Web.
-        extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
-        plugins: [
-            // Prevents users from importing files from outside of src/ (or node_modules/).
-            // This often causes confusion because we only process files within src/ with babel.
-            // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
-            // please link the files into your node_modules/ and let module-resolution kick in.
-            // Make sure your source files are compiled, as they will not be processed in any way.
-            // new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson])
-        ]
+        modules: [
+            'node_modules',
+            path.resolve(__dirname, 'src')
+        ],
+        extensions: ['.js', '.json', '.jsx', '.css'],
+        plugins: []
     },
     module: {
         strictExportPresence: true,
@@ -104,19 +87,11 @@ module.exports = {
             // First, run the linter.
             // It's important to do this before Babel processes the JS.
             {
-                test: /\.(js|jsx|mjs)$/,
                 enforce: 'pre',
-                use: [
-                    {
-                        options: {
-                            formatter: eslintFormatter,
-                            eslintPath: require.resolve('eslint')
-
-                        },
-                        loader: require.resolve('eslint-loader')
-                    }
-                ],
-                include: paths.appSrc
+                test: /\.(js|jsx)$/,
+                include: paths.appSrc,
+                exclude: [/[/\\\\]node_modules[/\\\\]/],
+                use: 'eslint-loader'
             },
             {
                 // "oneOf" will traverse all following loaders until one will
@@ -137,6 +112,7 @@ module.exports = {
                     {
                         test: /\.(js|jsx|mjs)$/,
                         include: paths.appSrc,
+                        exclude: [/[/\\\\]node_modules[/\\\\]/],
                         loader: require.resolve('babel-loader'),
                         options: {
                             compact: true
@@ -223,11 +199,11 @@ module.exports = {
         ]
     },
     plugins: [
-    // Makes some environment variables available in index.html.
-    // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
-    // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    // In production, it will be an empty string unless you specify "homepage"
-    // in `package.json`, in which case it will be the pathname of that URL.
+        // Makes some environment variables available in index.html.
+        // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
+        // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+        // In production, it will be an empty string unless you specify "homepage"
+        // in `package.json`, in which case it will be the pathname of that URL.
         new InterpolateHtmlPlugin(env.raw),
         // Generates an `index.html` file with the <script> injected.
         new HtmlWebpackPlugin({
@@ -251,26 +227,10 @@ module.exports = {
         // It is absolutely essential that NODE_ENV was set to production here.
         // Otherwise React will be compiled in the very slow development mode.
         new webpack.DefinePlugin(env.stringified),
-        // Minify the code.
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false,
-                // Disabled because of an issue with Uglify breaking seemingly valid code:
-                // https://github.com/facebookincubator/create-react-app/issues/2376
-                // Pending further investigation:
-                // https://github.com/mishoo/UglifyJS2/issues/2011
-                comparisons: false
-            },
-            mangle: {
-                safari10: true
-            },
-            output: {
-                comments: false,
-                // Turned on because emoji and regex is not minified properly using default
-                // https://github.com/facebookincubator/create-react-app/issues/2488
-                ascii_only: true
-            },
-            sourceMap: shouldUseSourceMap
+        // Minify the code with https://github.com/webpack-contrib/uglifyjs-webpack-plugin
+        new UglifyJsPlugin({
+            sourceMap: shouldUseSourceMap,
+            parallel: true
         }),
         // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
         new ExtractTextPlugin({
@@ -311,13 +271,7 @@ module.exports = {
             navigateFallbackWhitelist: [/^(?!\/__).*/],
             // Don't precache sourcemaps (they're large) and build asset manifest:
             staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/]
-        }),
-        // Moment.js is an extremely popular library that bundles large locale files
-        // by default due to how Webpack interprets its code. This is a practical
-        // solution that requires the user to opt into importing specific locales.
-        // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
-        // You can remove this if you don't use Moment.js:
-        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+        })
     ],
     // Some libraries import Node modules but don't use them in the browser.
     // Tell Webpack to provide empty mocks for them so importing them works.
