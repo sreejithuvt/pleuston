@@ -30,7 +30,7 @@ ENV OCEAN_HOST='localhost'
 ENV OCEAN_PORT='5000'
 # scripts/docker-entrypoint.sh
 ENV LISTEN_ADDRESS='0.0.0.0'
-ENV LISTEN_PORT='0.0.0.0'
+ENV LISTEN_PORT='3000'
 
 ENTRYPOINT ["/pleuston/scripts/docker-entrypoint.sh"]
 
