@@ -135,7 +135,7 @@ serve -s build/
 
 All required components to get `pleuston` running are pre-configured and started with the above `docker-compose` command, and the web app is configured to connect to them.
 
-If you want to change and run `pleuston` against your own deployed components, head over to the [`src/config.js`](./src/config.js) file and modify the respective values.
+If you want to change and run `pleuston` against your own deployed components, head over to the [`config/ocean.js`](./config/ocean.js) file and modify the respective values.
 
 ### Keeper
 [`keeper-contracts`](https://github.com/oceanprotocol/keeper-contracts)
