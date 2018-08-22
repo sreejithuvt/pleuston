@@ -51,15 +51,17 @@ This repository houses Pleuston, the reference web app for consumers to explore,
 - Register and publish data assets
 - Explore, buy, and download data assets
 
-Pleuston is a single page React app, bootstrapped with [`create-react-app`](https://github.com/facebook/create-react-app).
+Pleuston is a single page React app, initially bootstrapped with [`create-react-app`](https://github.com/facebook/create-react-app), but ejected from it.
 
 ## Prerequisites
 
-To start development with pleuston you first have to get all the other Ocean Protocol components up and running.
+- Node.js <=v8 (otherwise `ursa` won't compile on `npm install`)
+- npm
+- Ocean Protocol components
 
 ### Ocean Protocol Components
 
-The simplest way is to use our main `docker-compose` file from the docker-images repository:
+To start development with pleuston you first have to get all the other Ocean Protocol components up and running. The simplest way is to use our main `docker-compose` file from the docker-images repository:
 
 ```bash
 git clone git@github.com:oceanprotocol/docker-images.git
