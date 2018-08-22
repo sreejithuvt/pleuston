@@ -17,7 +17,7 @@ export function createProviders() {
     const web3URI = `${keeperScheme}://${keeperHost}:${keeperPort}`
 
     const web3Provider = new Web3.providers.HttpProvider(web3URI)
-    const web3 = new Web3(web3Provider)
+    const web3 = global.web3 || new Web3(web3Provider)
 
     // ocean agent
     const ocnURL = `${oceanScheme}://${oceanHost}:${oceanPort}/api/v1/provider`
@@ -47,10 +47,21 @@ export async function list(contract, providers) {
     }))
 }
 
-export async function getBalance(account, contract, providers) {
-    const { web3 } = providers
+function getEthBalane(web3, account) {
+    return new Promise((resolve, reject) => {
+        console.log('getting balance for', account)
+        web3.eth.getBalance(account, 'latest', (err, balance) => {
 
-    const eth = web3.eth.getBalance(account)
+            console.log('balance', balance)
+            resolve(balance)
+        })
+    })
+}
+
+export async function getBalance(account, contract, providers) {
+
+    const { web3 } = providers
+    const eth = await getEthBalane(web3, account)
 
     let ocn = NaN
     try {
