@@ -1,6 +1,6 @@
 /* global fetch */
 
-import EthEcies from '../cryptolibs/eth-ecies'
+import EthEcies from '../lib/eth-ecies'
 import JWT from 'jsonwebtoken'
 import EthCrypto from 'eth-crypto'
 import EthjsUtil from 'ethereumjs-util'
