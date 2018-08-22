@@ -51,7 +51,7 @@ function getEthBalane(web3, account) {
     return new Promise((resolve, reject) => {
         console.log('getting balance for', account)
         web3.eth.getBalance(account, 'latest', (err, balance) => {
-
+            if (err) return reject(err)
             console.log('balance', balance)
             resolve(balance)
         })
@@ -59,12 +59,12 @@ function getEthBalane(web3, account) {
 }
 
 export async function getBalance(account, contract, providers) {
-
     const { web3 } = providers
-    const eth = await getEthBalane(web3, account)
 
+    let eth = NaN
     let ocn = NaN
     try {
+        eth = await getEthBalane(web3, account)
         ocn = await contract.balanceOf.call(account)
     } catch (e) {
         console.error(e)
