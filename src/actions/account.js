@@ -11,7 +11,7 @@ import {
     oceanHost,
     oceanPort,
     oceanScheme
-} from '../config'
+} from '../../config/ocean'
 
 export function createProviders() {
     const web3URI = `${keeperScheme}://${keeperHost}:${keeperPort}`
