@@ -83,8 +83,7 @@ class AssetFull extends PureComponent {
 
                 {description && (
                     <p className="assetfull__description">
-                        <span className="assetfull__label">Description</span>
-                        <Truncate lines={10}>{description}</Truncate>
+                        <span className="assetfull__label">Description</span> {description}
                     </p>
                 )}
 
