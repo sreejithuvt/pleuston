@@ -9,7 +9,7 @@ import {
     oceanHost,
     oceanPort,
     oceanScheme
-} from '../config'
+} from '../../config/ocean'
 
 const OceanToken = require('@oceanprotocol/keeper-contracts/artifacts/OceanToken.development')
 

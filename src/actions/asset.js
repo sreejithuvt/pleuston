@@ -1,5 +1,5 @@
 import TruffleContract from 'truffle-contract'
-import fetchDownload from '../lib/fetch-download'
+import fetchDownload from 'fetch-download'
 import AssetModel from '../models/asset'
 import PurchaseHandler from './purchase'
 
