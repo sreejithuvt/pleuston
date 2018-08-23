@@ -55,7 +55,7 @@
     "truffle-contract": "^3.0.6",
     "util.promisify": "^1.0.0",
     "uuid": "^3.3.2",
-    "web3": "0.20.7",
+    "web3": "0.20.6",
     "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {
