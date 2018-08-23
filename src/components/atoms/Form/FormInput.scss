@@ -7,6 +7,10 @@
     width: 100%;
     padding: 2px;
     display: flex;
+
+    &.is-focused {
+        background: $brand-black;
+    }
 }
 
 .input {

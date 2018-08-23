@@ -1,3 +1,4 @@
 {
-    "extends": ["oceanprotocol", "oceanprotocol/react"]
+    "extends": ["oceanprotocol", "oceanprotocol/react"],
+    "parser": "babel-eslint"
 }
