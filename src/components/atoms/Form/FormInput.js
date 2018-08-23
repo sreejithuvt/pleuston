@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { Fragment, PureComponent } from 'react'
 import { Field } from 'redux-form'
 import './FormInput.css'
 
@@ -9,23 +9,28 @@ class FormInput extends PureComponent {
         this.state = { isFocused: false }
     }
 
-    handleFocus = () => {
-        this.setState({ isFocused: true })
-    }
-
-    handleBlur = () => {
-        this.setState({ isFocused: false })
-    }
-
     render() {
+        const { name, label, required } = this.props
+
         return (
-            <div className={this.state.isFocused ? 'input-wrap is-focused' : 'input-wrap'}>
-                <Field
-                    className="input"
-                    onFocus={this.handleFocus}
-                    onBlur={this.handleBlur}
-                    {...this.props} />
-            </div>
+            <Fragment>
+                <label
+                    htmlFor={name}
+                    className={required ? 'form__label is-required' : 'form__label'}
+                    title={required ? 'Required' : null}
+                >
+                    {label}
+                </label>
+                <div className={this.state.isFocused ? 'input-wrap is-focused' : 'input-wrap'}>
+                    <Field
+                        className="input"
+                        id={name}
+                        {...this.props}
+                        onFocus={() => this.setState({ isFocused: true })}
+                        onBlur={() => this.setState({ isFocused: false })}
+                    />
+                </div>
+            </Fragment>
         )
     }
 }

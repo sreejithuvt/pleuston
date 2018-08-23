@@ -66,3 +66,22 @@ select.input {
     height: 43px;
     font-family: $font-family-base;
 }
+
+.form__label {
+    color: $brand-grey;
+    font-size: $font-size-base;
+    font-family: $font-family-title;
+    line-height: 1.2;
+    display: block;
+    margin-bottom: $spacer / 4;
+
+    &.is-required {
+        &:after {
+            content: '*';
+            font-size: $font-size-base;
+            color: $brand-grey-light;
+            display: inline-block;
+            margin-left: .1rem;
+        }
+    }
+}
