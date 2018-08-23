@@ -19,7 +19,6 @@ import {
     getAccounts,
     getAssets,
     setProviders,
-    setContracts,
     getOrders
 } from './actions/index'
 
@@ -42,8 +41,7 @@ registerServiceWorker()
 
 function boot() {
     console.log('booting up plankton') // eslint-disable-line no-console
-    store.dispatch(setProviders())
-    store.dispatch(setContracts()).then(() => {
+    store.dispatch(setProviders()).then(() => {
         store.dispatch(getAssets())
         store.dispatch(getAccounts()).then(() => {
             store.dispatch(getOrders())

@@ -3,26 +3,20 @@ import * as asset from './asset'
 import * as order from './order'
 
 export function setProviders() {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch({
             type: 'SET_PROVIDERS',
-            ...account.createProviders()
+            ...(await account.createProviders())
         })
     }
 }
 
 export function getAccounts() {
     return async (dispatch, getState) => {
-        const {
-            provider,
-            contract: {
-                oceanToken
-            }
-        } = getState()
-
+        const { provider } = getState()
         dispatch({
             type: 'GET_ACCOUNTS',
-            accounts: await account.list(oceanToken, provider)
+            accounts: await account.list(provider)
         })
     }
 }
@@ -42,23 +36,6 @@ export function getActiveAccount(state) {
         return null
     }
     return accounts[activeAccount]
-}
-
-export function setContracts() {
-    return async (dispatch, getState) => {
-        const { currentProvider } = getState().provider.web3
-        try {
-            dispatch({
-                type: 'SET_CONTRACTS',
-                contracts: {
-                    ...(await account.deployContracts(currentProvider)),
-                    ...(await asset.deployContracts(currentProvider))
-                }
-            })
-        } catch (e) {
-            console.error(e)
-        }
-    }
 }
 
 export function makeItRain(amount) {
@@ -84,7 +61,6 @@ export function putAsset(formValues) {
 
         await asset.publish(
             formValues,
-            state.contract.market,
             account,
             state.provider
         )

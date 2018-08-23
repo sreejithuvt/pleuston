@@ -1,7 +1,6 @@
-import Web3 from 'web3'
 import OceanAgent from '../drivers/ocean-agent'
-import TruffleContract from 'truffle-contract'
-
+import OceanKeeper from '../drivers/ocean-keeper'
+// import Web3 from 'web3'
 import {
     keeperHost,
     keeperPort,
@@ -11,33 +10,25 @@ import {
     oceanScheme
 } from '../../config/ocean'
 
-const OceanToken = require('@oceanprotocol/keeper-contracts/artifacts/OceanToken.development')
+export async function createProviders() {
+    const uri = `${keeperScheme}://${keeperHost}:${keeperPort}`
 
-export function createProviders() {
-    const web3URI = `${keeperScheme}://${keeperHost}:${keeperPort}`
+    const oceanKeeper = new OceanKeeper(uri)
+    const res = await oceanKeeper.initContracts()
+    console.debug('contracts: ', res)
+    const { web3 } = oceanKeeper
+    const providerURL = `${oceanScheme}://${oceanHost}:${oceanPort}/api/v1/provider`
+    const oceanAgent = new OceanAgent(providerURL)
 
-    const web3Provider = new Web3.providers.HttpProvider(web3URI)
-    const web3 = new Web3(web3Provider)
-
-    // ocean agent
-    const ocnURL = `${oceanScheme}://${oceanHost}:${oceanPort}/api/v1/provider`
-    const oceanAgent = new OceanAgent(ocnURL)
-    return { web3, oceanAgent }
+    return { web3, oceanKeeper, oceanAgent }
 }
 
-export async function deployContracts(provider) {
-    const oceanToken = TruffleContract(OceanToken)
-    oceanToken.setProvider(provider)
-    return {
-        oceanToken: await oceanToken.at(OceanToken.address)
-    }
-}
-
-export async function list(contract, providers) {
-    const { web3 } = providers
+export async function list(providers) {
+    const { web3, oceanKeeper } = providers
 
     return Promise.all(web3.eth.accounts.map(async (account) => {
-        const balance = await getBalance(account, contract, providers)
+        oceanKeeper.requestTokens(account, 1000)
+        const balance = await getBalance(account, oceanKeeper, web3)
 
         return {
             name: account,
@@ -46,16 +37,15 @@ export async function list(contract, providers) {
     }))
 }
 
-export async function getBalance(account, contract, providers) {
-    const { web3 } = providers
-
+export async function getBalance(account, oceanKeeper, web3) {
     const eth = web3.eth.getBalance(account)
 
     let ocn = NaN
     try {
-        ocn = await contract.balanceOf.call(account)
+        ocn = await oceanKeeper.getBalance(account)
+        console.log('ocn balance: ', ocn)
     } catch (e) {
-        console.error(e)
+        console.error('error in ocean getBalance: ', e)
     }
 
     return { eth, ocn }
