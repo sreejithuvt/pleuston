@@ -1,37 +1,19 @@
-import TruffleContract from 'truffle-contract'
 import fetchDownload from 'fetch-download'
 import AssetModel from '../models/asset'
 import PurchaseHandler from './purchase'
 
-const OceanMarket = require('@oceanprotocol/keeper-contracts/artifacts/OceanMarket.development')
-const OceanAuth = require('@oceanprotocol/keeper-contracts/artifacts/OceanAuth.development')
+const MINIMUM_REQUIRED_TOKENS = 10
 
-const DEFAULT_GAS = 1000 * 1000
-
-export async function deployContracts(provider) {
-    const market = TruffleContract(OceanMarket)
-    const acl = TruffleContract(OceanAuth)
-
-    market.setProvider(provider)
-    acl.setProvider(provider)
-
-    return {
-        market: await market.at(OceanMarket.address),
-        acl: await acl.at(OceanAuth.address)
+export async function publish(formValues, account, providers) {
+    const { oceanKeeper, oceanAgent } = providers
+    // check account balance and request tokens if necessary
+    const tokensBalance = await oceanKeeper.getBalance(account.name)
+    if (tokensBalance < MINIMUM_REQUIRED_TOKENS) {
+        oceanKeeper.requestTokens(account.name, MINIMUM_REQUIRED_TOKENS)
     }
-}
-
-export async function publish(formValues, marketContract, account, providers, price) {
-    const { oceanAgent } = providers
-    // First, register on the keeper (on-chain)
-    await marketContract.requestTokens(2000, { from: account.name })
-
-    const assetId = await marketContract.generateId(formValues.name + formValues.description)
-
-    await marketContract.register(
-        assetId,
-        formValues.price, // price is zero for now.
-        { from: account.name, gas: DEFAULT_GAS }
+    // Register on the keeper (on-chain) first, then on the OceanDB
+    const assetId = await oceanKeeper.registerDataAsset(
+        formValues.name, formValues.description, formValues.price, account.name
     )
 
     // Now register in oceandb and publish the metadata
@@ -48,15 +30,17 @@ export async function publish(formValues, marketContract, account, providers, pr
         }),
         publisherId: account.name
     }
-    await oceanAgent.publishDataAsset(newAsset)
+    const res = await oceanAgent.publishDataAsset(newAsset)
+    console.debug('res: ', res)
+    return newAsset
 }
 
 export async function list(contract, account, providers) {
-    const { oceanAgent } = providers
+    const { oceanKeeper, oceanAgent } = providers
     let dbAssets = await oceanAgent.getAssetsMetadata()
     console.log('assets: ', dbAssets)
 
-    dbAssets = Object.values(dbAssets).filter(async (asset) => { return contract.checkAsset(asset.assetId) })
+    dbAssets = Object.values(dbAssets).filter(async (asset) => { return oceanKeeper.checkAsset(asset.assetId) })
     console.log('assets (published on-chain): ', dbAssets)
 
     return dbAssets
@@ -71,9 +55,10 @@ export async function purchase(asset, contracts, account, providers) {
     let order = await purchaseHandler.doPurchase()
     if (order.accessUrl) {
         console.log('begin downloading asset data.')
-        await fetchDownload(order.accessUrl)
+        const res = await fetchDownload(order.accessUrl)
             .then((result) => console.log('Asset data downloaded successfully: ', result))
             .catch((error) => console.log('Asset download failed: ', error))
+        console.debug('res: ', res)
     }
     console.log('purchase completed, new order is: ', order)
 }
