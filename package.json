@@ -13,7 +13,7 @@
     "start": "npm-run-all -p watch-css start-js",
     "build-js": "node scripts/build.js",
     "build": "npm-run-all build-css build-js",
-    "test": "npm run lint && node scripts/test.js --env=jsdom --coverage"
+    "test": "npm run lint && node scripts/test.js --env=jsdom --coverage && cat ./coverage/lcov.info | codacy-coverage"
   },
   "dependencies": {
     "@oceanprotocol/art": "^1.0.2",
@@ -71,6 +71,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "babel-runtime": "^6.26.0",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
+    "codacy-coverage": "^3.0.0",
     "css-loader": "^0.28.11",
     "eslint": "^5.4.0",
     "eslint-config-oceanprotocol": "^1.0.7",
