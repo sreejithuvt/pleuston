@@ -38,14 +38,23 @@ export default class PurchaseHandler {
         // generate temp key pair
         const { privateKey } = key
         const publicKey = EthjsUtil.privateToPublic(privateKey).toString('hex')
-        this.order = await oceanKeeper.orchestrateResourcePurchase(
+        oceanKeeper.orchestrateResourcePurchase(
             asset.assetId, asset.publisherId, assetPrice, privateKey, publicKey, timeout, account.name,
             this.handleAccessRequestEvent, this.handleAccessCommittedEvent, this.finalizePurchase)
 
         return this.orderPromise
     }
 
-    handleAccessRequestEvent(eventResult) {
+    handleError(error) {
+        this.reject(error)
+        throw new Error(`Error encountered while processing this purchase request: ${error}`)
+
+    }
+
+    handleAccessRequestEvent(eventResult, error) {
+        if (error) {
+            this.handleError(error)
+        }
         const { asset, key } = this
         console.log('keeper AccessConsentRequested event received on asset: ', asset.assetId, '\nevent:', eventResult.args)
         const accessId = eventResult.args._id
@@ -60,7 +69,10 @@ export default class PurchaseHandler {
         }
     }
 
-    async handleAccessCommittedEvent(eventResult, order) {
+    async handleAccessCommittedEvent(eventResult, order, error) {
+        if (error) {
+            this.handleError(error)
+        }
         const { asset, oceanKeeper, account } = this
         console.log('keeper AccessRequestCommitted event received: ', order.id, eventResult.args)
         // id, expire, discovery, permissions, accessAgreementRef
@@ -80,7 +92,10 @@ export default class PurchaseHandler {
         }
     }
 
-    async finalizePurchase(eventResult, order) {
+    async finalizePurchase(eventResult, order, error) {
+        if (error) {
+            this.handleError(error)
+        }
         const { oceanKeeper, account, key } = this
         // console.log('keeper EncryptedTokenPublished event received: ', order.id, eventResult.args)
         const privateKey = key.privateKey.slice(2)

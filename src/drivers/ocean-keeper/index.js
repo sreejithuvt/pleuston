@@ -32,44 +32,46 @@ export default class OceanKeeper {
         }
     }
 
-    getBalance(accountAddress) {
-        return this.oceanToken.balanceOf.call(accountAddress)
-    }
-
-    requestTokens(accountAddress, numTokens) {
-        return this.oceanMarket.requestTokens(numTokens, { from: accountAddress })
-    }
-
-    checkAsset(assetId) {
-        return this.oceanMarket.checkAsset(assetId)
-    }
-
-    getAssetPrice(assetId) {
-        return this.oceanMarket.getAssetPrice(assetId).then((price) => price.toNumber())
-    }
-
-    async registerDataAsset(name, description, price, accountAddress) {
-        const assetId = await this.oceanMarket.generateId(name + description)
-        const result = await this.oceanMarket.register(
-            assetId,
-            price,
-            { from: accountAddress, gas: this.defaultGas }
-        )
-        console.log('registered: ', result)
-        return assetId
-    }
-
-    signMessage(accountAddress, message) {
+    // web3 wrappers
+    sign(accountAddress, message) {
         return this.web3.eth.sign(accountAddress, message)
-
     }
 
     getMessageHash(message) {
         return this.web3.sha3(`\x19Ethereum Signed Message:\n${message.length}${message}`)
     }
 
+    // call functions (costs no gas)
+    checkAsset(assetId) {
+        return this.oceanMarket.checkAsset(assetId)
+    }
+
+    getBalance(accountAddress) {
+        return this.oceanToken.balanceOf.call(accountAddress)
+    }
+
+    getAssetPrice(assetId) {
+        return this.oceanMarket.getAssetPrice(assetId).then((price) => price.toNumber())
+    }
+
     getEncryptedAccessToken(orderId, senderAddress) {
         this.oceanAuth.getEncryptedAccessToken(orderId, { from: senderAddress })
+    }
+
+    // Transactions with gas cost
+    requestTokens(senderAddress, numTokens) {
+        return this.oceanMarket.requestTokens(numTokens, { from: senderAddress })
+    }
+
+    async registerDataAsset(name, description, price, publisherAddress) {
+        const assetId = await this.oceanMarket.generateId(name + description)
+        const result = await this.oceanMarket.register(
+            assetId,
+            price,
+            { from: publisherAddress, gas: this.defaultGas }
+        )
+        console.log('registered: ', result)
+        return assetId
     }
 
     async sendPayment(assetId, order, publisherAddress, senderAddress) {
@@ -84,56 +86,55 @@ export default class OceanKeeper {
         return this.oceanAuth.cancelAccessRequest(orderId, {from: senderAddress})
     }
 
-    async orchestrateResourcePurchase(
-        assetId, publisherId, price, privateKey, publicKey, timeout, accountAddress,
+    orchestrateResourcePurchase(
+        assetId, publisherId, price, privateKey, publicKey, timeout, senderAddress,
         initialRequestEventHandler, accessCommittedEventHandler, tokenPublishedEventHandler) {
+        const { oceanToken, oceanMarket, oceanAuth } = this
         // Allow OceanMarket contract to transfer funds on the consumer's behalf
-        this.oceanToken.approve(this.oceanMarket.address, price, { from: accountAddress, gas: 3000000 })
+        oceanToken.approve(oceanMarket.address, price, { from: senderAddress, gas: 3000000 })
         // Submit the access request
-        this.oceanAuth.initiateAccessRequest(
+        oceanAuth.initiateAccessRequest(
             assetId, publisherId, publicKey,
-            timeout, { from: accountAddress, gas: 1000000 }
+            timeout, { from: senderAddress, gas: 1000000 }
         )
 
-        const resourceFilter = { _resourceId: assetId, _consumer: accountAddress }
-        const initRequestEvent = this.oceanAuth.AccessConsentRequested(resourceFilter)
+        const resourceFilter = { _resourceId: assetId, _consumer: senderAddress }
+        const initRequestEvent = oceanAuth.AccessConsentRequested(resourceFilter)
         let order = {}
         this._listenOnce(
             initRequestEvent,
             'AccessConsentRequested',
-            (result) => {
-                order = initialRequestEventHandler(result)
+            (result, error) => {
+                order = initialRequestEventHandler(result, error)
                 const requestIdFilter = { _id: order.id }
-                const accessCommittedEvent = this.oceanAuth.AccessRequestCommitted(requestIdFilter)
-                const tokenPublishedEvent = this.oceanAuth.EncryptedTokenPublished(requestIdFilter)
+                const accessCommittedEvent = oceanAuth.AccessRequestCommitted(requestIdFilter)
+                const tokenPublishedEvent = oceanAuth.EncryptedTokenPublished(requestIdFilter)
                 this._listenOnce(
                     accessCommittedEvent,
                     'AccessRequestCommitted',
-                    (result) => {
-                        accessCommittedEventHandler(result, order)
+                    (result, error) => {
+                        accessCommittedEventHandler(result, order, error)
                     }
                 )
                 this._listenOnce(
                     tokenPublishedEvent,
                     'EncryptedTokenPublished',
-                    (result) => {
-                        tokenPublishedEventHandler(result, order)
+                    (result, error) => {
+                        tokenPublishedEventHandler(result, order, error)
                     }
                 )
             })
         return order
     }
 
-    _listenOnce(event, eventName, callback) {
+    // Helper functions (private)
+    static _listenOnce(event, eventName, callback) {
         event.watch((error, result) => {
             event.stopWatching()
             if (error) {
-                console.log(`Error in keeper ${eventName} event for order ${this.order}: `, error)
-                this.reject(error)
-                throw new Error(`Error encountered while processing this purchase request: ${error}`)
-            } else {
-                callback(result)
+                console.log(`Error in keeper ${eventName} event: `, error)
             }
+            callback(result, error)
         })
     }
 
