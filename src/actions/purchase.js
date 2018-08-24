@@ -1,4 +1,5 @@
 /* global fetch */
+/* eslint-disable no-console */
 
 import EthEcies from '../lib/eth-ecies'
 import JWT from 'jsonwebtoken'
