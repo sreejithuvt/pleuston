@@ -3,7 +3,7 @@ const contracts = []
 export default class ContractLoader {
     static _doLoad(what, where) {
         // console.log("Loading", what, "from", where)
-        contracts[what] = require(`@oceanprotocol/keeper-contracts/artifacts/${what}.${where}`)
+        contracts[what] = require(`@oceanprotocol/keeper-contracts/artifacts/${what}.${where}`) // eslint-disable-line security/detect-non-literal-require
         return contracts[what]
     }
 
