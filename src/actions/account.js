@@ -14,8 +14,7 @@ export async function createProviders() {
     const uri = `${keeperScheme}://${keeperHost}:${keeperPort}`
 
     const oceanKeeper = new OceanKeeper(uri)
-    const res = await oceanKeeper.initContracts()
-    console.debug('contracts: ', res)
+    await oceanKeeper.initContracts()
     const { web3 } = oceanKeeper
     const providerURL = `${oceanScheme}://${oceanHost}:${oceanPort}/api/v1/provider`
     const oceanAgent = new OceanAgent(providerURL)
@@ -43,7 +42,6 @@ export async function getBalance(account, oceanKeeper, web3) {
     let ocn = NaN
     try {
         ocn = await oceanKeeper.getBalance(account)
-        console.log('ocn balance: ', ocn)
     } catch (e) {
         console.error('error in ocean getBalance: ', e)
     }

@@ -46,12 +46,12 @@ export async function list(contract, account, providers) {
     return dbAssets
 }
 
-export async function purchase(asset, contracts, account, providers) {
-    const { web3 } = providers
+export async function purchase(asset, account, providers) {
+    const { oceanKeeper } = providers
 
     console.log('Purchasing asset by consumer:  ', account.name, ' assetid: ', asset.assetId)
 
-    let purchaseHandler = new PurchaseHandler(asset, null, contracts, account, web3)
+    let purchaseHandler = new PurchaseHandler(asset, account, oceanKeeper)
     let order = await purchaseHandler.doPurchase()
     if (order.accessUrl) {
         console.log('begin downloading asset data.')

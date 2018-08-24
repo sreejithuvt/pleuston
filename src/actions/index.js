@@ -124,7 +124,6 @@ export function purchaseAsset(assetId) {
         const activeAsset = getActiveAsset(state)
         const token = await asset.purchase(
             activeAsset,
-            state.contract,
             getActiveAccount(state),
             state.provider
         )
