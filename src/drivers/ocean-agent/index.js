@@ -1,4 +1,5 @@
 /* global fetch */
+/* eslint-disable no-console */
 
 export default class OceanAgent {
     constructor(connectionUrl) {

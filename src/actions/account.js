@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import Web3 from 'web3'
 import OceanAgent from '../drivers/ocean-agent'
 import TruffleContract from 'truffle-contract'
