@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import * as account from './account'
 import * as asset from './asset'
 import * as order from './order'
