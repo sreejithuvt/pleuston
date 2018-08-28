@@ -5,7 +5,7 @@ import SidebarLoader from '../containers/SidebarLoader'
 
 import Spinner from './atoms/Spinner'
 
-import './Layout.scss'
+import styles from './Layout.module.scss'
 
 class Layout extends PureComponent {
     constructor(props) {
@@ -35,13 +35,11 @@ class Layout extends PureComponent {
             <Fragment>
                 <HeaderLoader />
 
-                <main className="layout" {...this.props}>
-                    <nav className="layout__sidebar">
+                <main className={styles.layout} {...this.props}>
+                    <nav className={styles.layoutSidebar}>
                         <SidebarLoader />
                     </nav>
-                    <div className="layout__content">
-                        {loading ? <Spinner /> : this.props.children}
-                    </div>
+                    {loading ? <Spinner /> : this.props.children}
                 </main>
             </Fragment>
         )

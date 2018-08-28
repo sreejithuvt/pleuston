@@ -1,6 +1,7 @@
 {
   "extends": [
-    "stylelint-config-bigchaindb"
+    "stylelint-config-bigchaindb",
+    "stylelint-config-css-modules"
   ],
   "syntax": "scss",
   "rules": {

@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './ScreenHeader.scss'
+import styles from './ScreenHeader.module.scss'
 
 const ScreenHeader = ({ title, subtitle }) => (
-    <header className="screen__header">
-        <h1 className="screen__title">{title}</h1>
-        {subtitle && <h2 className="screen__subtitle">{subtitle}</h2>}
+    <header className={styles.screenHeader}>
+        <h1 className={styles.screenTitle}>{title}</h1>
+        {subtitle && <h2 className={styles.screenSubtitle}>{subtitle}</h2>}
     </header>
 )
 
