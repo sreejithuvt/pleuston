@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import logo from '@oceanprotocol/art/logo/logo-white.svg'
-import './Header.css'
+import './Header.scss'
 import AccountBalance from './account/AccountBalance'
 
 const Header = ({

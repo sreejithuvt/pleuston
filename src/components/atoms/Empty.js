@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './Empty.css'
+import './Empty.scss'
 
 const Empty = ({ title, text, ...props }) => (
     <div className="empty" {...props}>

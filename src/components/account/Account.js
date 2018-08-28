@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Blockies from 'react-blockies'
 import Truncate from 'react-truncate'
 
-import './Account.css'
+import './Account.scss'
 import AccountBalance from './AccountBalance'
 
 const Account = ({

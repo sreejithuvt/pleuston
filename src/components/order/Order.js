@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Truncate from 'react-truncate'
 
-import './Order.css'
+import './Order.scss'
 
 const Order = ({
     order

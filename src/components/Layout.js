@@ -5,7 +5,7 @@ import SidebarLoader from '../containers/SidebarLoader'
 
 import Spinner from './atoms/Spinner'
 
-import './Layout.css'
+import './Layout.scss'
 
 class Layout extends PureComponent {
     constructor(props) {

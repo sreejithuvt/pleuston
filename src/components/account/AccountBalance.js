@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import './AccountBalance.css'
+import './AccountBalance.scss'
 
 const AccountBalance = ({
     eth,

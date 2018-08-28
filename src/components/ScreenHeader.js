@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './ScreenHeader.css'
+import './ScreenHeader.scss'
 
 const ScreenHeader = ({ title, subtitle }) => (
     <header className="screen__header">

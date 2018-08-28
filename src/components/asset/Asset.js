@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Truncate from 'react-truncate'
 
 import AssetMedia from './AssetMedia'
-import './Asset.css'
+import './Asset.scss'
 
 const Asset = ({
     asset

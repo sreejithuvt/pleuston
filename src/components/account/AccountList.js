@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Account from './Account'
 import Empty from '../atoms/Empty'
 
-import './AccountList.css'
+import './AccountList.scss'
 
 const AccountList = ({
     accounts,

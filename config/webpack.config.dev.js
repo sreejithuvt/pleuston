@@ -52,7 +52,10 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
         }
     ]
     if (preProcessor) {
-        loaders.push(require.resolve(preProcessor))
+        loaders.push({
+            loader: require.resolve(preProcessor),
+            options: cssOptions
+        })
     }
     return loaders
 }
@@ -170,21 +173,6 @@ module.exports = {
                             {
                                 loader: require.resolve('babel-loader'),
                                 options: {
-                                    // plugins: [
-                                    //     [
-                                    //         require.resolve('babel-plugin-named-asset-import'),
-                                    //         {
-                                    //             loaderMap: {
-                                    //                 svg: {
-                                    //                     ReactComponent: 'svgr/webpack![path]'
-                                    //                 }
-                                    //             }
-                                    //         }
-                                    //     ]
-                                    // ],
-                                    // This is a feature of `babel-loader` for webpack (not Babel itself).
-                                    // It enables caching results in ./node_modules/.cache/babel-loader/
-                                    // directory for faster rebuilds.
                                     cacheDirectory: true,
                                     highlightCode: true
                                 }
@@ -237,7 +225,13 @@ module.exports = {
                     {
                         test: sassRegex,
                         exclude: sassModuleRegex,
-                        use: getStyleLoaders({ importLoaders: 2 }, 'sass-loader')
+                        use: getStyleLoaders(
+                            {
+                                importLoaders: 2,
+                                includePaths: ['src/assets/stylesheets/']
+                            },
+                            'sass-loader'
+                        )
                     },
                     // Adds support for CSS Modules, but using SASS
                     // using the extension .module.scss or .module.sass
@@ -247,7 +241,8 @@ module.exports = {
                             {
                                 importLoaders: 2,
                                 modules: true,
-                                getLocalIdent: getCSSModuleLocalIdent
+                                getLocalIdent: getCSSModuleLocalIdent,
+                                includePaths: ['src/assets/stylesheets/']
                             },
                             'sass-loader'
                         )
