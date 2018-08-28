@@ -14,11 +14,7 @@
   "dependencies": {
     "@oceanprotocol/art": "^1.0.2",
     "@oceanprotocol/keeper-contracts": "^0.1.0",
-    "bip39": "^2.5.0",
-    "classnames": "^2.2.6",
     "connected-react-router": "^4.4.1",
-    "dotenv": "^6.0.0",
-    "dotenv-expand": "^4.2.0",
     "elliptic": "^6.4.1",
     "eth-crypto": "^1.2.3",
     "ethereumjs-util": "^5.2.0",
@@ -48,7 +44,6 @@
     "resolve": "^1.8.1",
     "secp256k1": "^3.5.2",
     "truffle-contract": "^3.0.6",
-    "uuid": "^3.3.2",
     "web3": "0.20.6",
     "whatwg-fetch": "^2.0.4"
   },
@@ -66,6 +61,8 @@
     "chalk": "^2.4.1",
     "codacy-coverage": "^3.0.0",
     "css-loader": "^1.0.0",
+    "dotenv": "^6.0.0",
+    "dotenv-expand": "^4.2.0",
     "eslint": "^5.4.0",
     "eslint-config-oceanprotocol": "^1.1.1",
     "eslint-config-standard": "^11.0.0",
