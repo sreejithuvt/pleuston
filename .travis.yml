@@ -7,7 +7,6 @@ install:
 - npm install
 
 script:
-- npm run build-css
 - npm run test
 - npm run build
 
