@@ -11,10 +11,10 @@ const OrderList = ({
 }) => (
     orders.length ? (
         <Fragment>
-            <div className="orders">
+            <div className="orders assets">
                 {orders.map(order => (
                     <div
-                        className="orders__tile assets_count"
+                        className="orders__tile assets__tile assets_count"
                         key={order._id}
                         onClick={() => handleClick(order)}
                         onKeyPress={() => handleClick(order)}
