@@ -1,6 +1,5 @@
 import * as account from './account'
 import * as asset from './asset'
-import * as order from './order'
 
 export function setProviders() {
     return async (dispatch) => {
@@ -173,33 +172,8 @@ export function getOrders() {
             return []
         }
 
-        let { acl } = state.contract
-
-        let accessConsentEvent = acl.AccessConsentRequested({ _consumer: account.name }, {
-            fromBlock: 0,
-            toBlock: 'latest'
-        })
-
-        let _resolve = null
-        let _reject = null
-        const promise = new Promise((resolve, reject) => {
-            _resolve = resolve
-            _reject = reject
-        })
-
-        const getEvents = () => {
-            accessConsentEvent.get((error, logs) => {
-                if (error) {
-                    _reject(error)
-                    throw new Error(error)
-                } else {
-                    _resolve(logs)
-                }
-            })
-            return promise
-        }
-        const events = await getEvents().then((events) => events)
-        let orders = await order.buildOrdersFromEvents(events, state.contract, account).then((result) => result)
+        let { oceanKeeper } = state.provider
+        let orders = oceanKeeper.getConsumerOrders(account.name)
         console.log('ORDERS: ', orders, Object.values(state.asset.assets))
         let assets = null
         if (Object.values(state.asset.assets).length !== 0) {
@@ -215,6 +189,7 @@ export function getOrders() {
                 }
             }
         }
+        // map orders by order id
         orders = orders.reduce((map, obj) => {
             map[obj._id] = obj
             return map

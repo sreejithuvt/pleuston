@@ -54,8 +54,55 @@ export default class OceanKeeper {
         return this.oceanMarket.getAssetPrice(assetId).then((price) => price.toNumber())
     }
 
+    getOrderStatus(orderId) {
+        return this.oceanAuth.statusOfAccessRequest(orderId)
+    }
+
+    verifyOrderPayment(orderId) {
+        return this.oceanMarket.verifyPaymentReceived(orderId)
+    }
+
     getEncryptedAccessToken(orderId, senderAddress) {
-        this.oceanAuth.getEncryptedAccessToken(orderId, { from: senderAddress })
+        return this.oceanAuth.getEncryptedAccessToken(orderId, { from: senderAddress })
+    }
+
+    async getConsumerOrders(consumerAddress) {
+        let accessConsentEvent = this.oceanAuth.AccessConsentRequested({ _consumer: consumerAddress }, {
+            fromBlock: 0,
+            toBlock: 'latest'
+        })
+
+        let _resolve = null
+        let _reject = null
+        const promise = new Promise((resolve, reject) => {
+            _resolve = resolve
+            _reject = reject
+        })
+
+        const getEvents = () => {
+            accessConsentEvent.get((error, logs) => {
+                if (error) {
+                    _reject(error)
+                    throw new Error(error)
+                } else {
+                    _resolve(logs)
+                }
+            })
+            return promise
+        }
+        const events = await getEvents().then((events) => events)
+        // let orders = await this.buildOrdersFromEvents(events, consumerAddress).then((result) => result)
+        let orders = events
+            .filter(obj => (obj.args._consumer === consumerAddress))
+            .map(async (event) => ({
+                ...event.args,
+                timeout: event.args._timeout.toNumber(),
+                status: await this.getOrderStatus(event.args._id).then((status) => status.toNumber()),
+                paid: await this.verifyOrderPayment(event.args._id).then((received) => received),
+                key: null
+            }))
+        console.debug('got orders: ', orders)
+        return orders
     }
 
     // Transactions with gas cost
@@ -78,12 +125,12 @@ export default class OceanKeeper {
         let assetPrice = await this.oceanMarket.getAssetPrice(assetId).then((price) => price.toNumber())
         this.oceanMarket.sendPayment(order.id, publisherAddress, assetPrice, order.timeout, {
             from: senderAddress,
-            gas: 5000000
+            gas: 2000000
         })
     }
 
     cancelAccessRequest(orderId, senderAddress) {
-        return this.oceanAuth.cancelAccessRequest(orderId, {from: senderAddress})
+        return this.oceanAuth.cancelAccessRequest(orderId, { from: senderAddress })
     }
 
     orchestrateResourcePurchase(
@@ -91,7 +138,7 @@ export default class OceanKeeper {
         initialRequestEventHandler, accessCommittedEventHandler, tokenPublishedEventHandler) {
         const { oceanToken, oceanMarket, oceanAuth } = this
         // Allow OceanMarket contract to transfer funds on the consumer's behalf
-        oceanToken.approve(oceanMarket.address, price, { from: senderAddress, gas: 3000000 })
+        oceanToken.approve(oceanMarket.address, price, { from: senderAddress, gas: 2000000 })
         // Submit the access request
         oceanAuth.initiateAccessRequest(
             assetId, publisherId, publicKey,
@@ -128,7 +175,7 @@ export default class OceanKeeper {
     }
 
     // Helper functions (private)
-    static _listenOnce(event, eventName, callback) {
+    _listenOnce(event, eventName, callback) {
         event.watch((error, result) => {
             event.stopWatching()
             if (error) {
@@ -137,5 +184,4 @@ export default class OceanKeeper {
             callback(result, error)
         })
     }
-
 }

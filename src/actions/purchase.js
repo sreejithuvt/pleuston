@@ -40,7 +40,7 @@ export default class PurchaseHandler {
         const publicKey = EthjsUtil.privateToPublic(privateKey).toString('hex')
         oceanKeeper.orchestrateResourcePurchase(
             asset.assetId, asset.publisherId, assetPrice, privateKey, publicKey, timeout, account.name,
-            this.handleAccessRequestEvent, this.handleAccessCommittedEvent, this.finalizePurchase)
+            this.handleAccessRequestEvent.bind(this), this.handleAccessCommittedEvent.bind(this), this.finalizePurchase.bind(this))
 
         return this.orderPromise
     }
@@ -48,7 +48,6 @@ export default class PurchaseHandler {
     handleError(error) {
         this.reject(error)
         throw new Error(`Error encountered while processing this purchase request: ${error}`)
-
     }
 
     handleAccessRequestEvent(eventResult, error) {
