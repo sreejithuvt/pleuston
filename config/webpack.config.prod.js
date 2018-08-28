@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const autoprefixer = require('autoprefixer')
 const path = require('path')
 const webpack = require('webpack')
@@ -211,6 +213,9 @@ module.exports = {
                         include: paths.srcPaths,
                         exclude: [/[/\\\\]node_modules[/\\\\]/],
                         use: [
+                            // This loader parallelizes code compilation, it is optional but
+                            // improves compile time on larger projects
+                            require.resolve('thread-loader'),
                             {
                                 loader: require.resolve('babel-loader'),
                                 options: {
@@ -237,6 +242,9 @@ module.exports = {
                     {
                         test: /\.js$/,
                         use: [
+                            // This loader parallelizes code compilation, it is optional but
+                            // improves compile time on larger projects
+                            require.resolve('thread-loader'),
                             {
                                 loader: require.resolve('babel-loader'),
                                 options: {
