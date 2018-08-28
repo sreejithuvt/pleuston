@@ -152,9 +152,9 @@ module.exports = {
                 // match the requirements. When no loader matches it will fall
                 // back to the "file" loader at the end of the loader list.
                 oneOf: [
-                // "url" loader works like "file" loader except that it embeds assets
-                // smaller than specified limit in bytes as data URLs to avoid requests.
-                // A missing `test` is equivalent to a match.
+                    // "url" loader works like "file" loader except that it embeds assets
+                    // smaller than specified limit in bytes as data URLs to avoid requests.
+                    // A missing `test` is equivalent to a match.
                     {
                         test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
                         loader: require.resolve('url-loader'),
