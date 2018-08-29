@@ -75,7 +75,7 @@
     "css-loader": "^0.28.11",
     "eslint": "^5.4.0",
     "eslint-config-oceanprotocol": "^1.1.1",
-    "eslint-config-standard": "^11.0.0",
+    "eslint-config-standard": "^12.0.0",
     "eslint-config-standard-react": "^6.0.0",
     "eslint-loader": "^2.1.0",
     "eslint-plugin-import": "^2.14.0",
