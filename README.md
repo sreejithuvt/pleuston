@@ -1,5 +1,6 @@
 [![banner](https://raw.githubusercontent.com/oceanprotocol/art/master/github/repo-banner%402x.png)](https://oceanprotocol.com)
 
+
 <h1 align="center">Pleuston</h1>
 
 <p align="center">
@@ -9,14 +10,19 @@
 > 🦑 🦄 Web app for consumers to explore, download, and publish data assets.
 
 [![Build Status](https://travis-ci.com/oceanprotocol/pleuston.svg?token=3psqw6c8KMDqfdGQ2x6d&branch=master)](https://travis-ci.com/oceanprotocol/pleuston)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d4ebd79e33054bf98d8e55b0dde5452b)](https://app.codacy.com/app/ocean-protocol/pleuston?utm_source=github.com&utm_medium=referral&utm_content=oceanprotocol/pleuston&utm_campaign=badger)
 [![js oceanprotocol](https://img.shields.io/badge/js-oceanprotocol-7b1173.svg)](https://github.com/oceanprotocol/eslint-config-oceanprotocol)
-[![css bigchaindb](https://img.shields.io/badge/css-bigchaindb-39BA91.svg)](https://github.com/bigchaindb/stylelint-config-bigchaindb) [![Greenkeeper badge](https://badges.greenkeeper.io/oceanprotocol/pleuston.svg)](https://greenkeeper.io/)
+[![css bigchaindb](https://img.shields.io/badge/css-bigchaindb-39BA91.svg)](https://github.com/bigchaindb/stylelint-config-bigchaindb)
 
 > _Pleuston [`ˈplustən`]: organisms that live in the thin surface layer existing at the air-water interface of a body of water as their habitat_
 
 ---
 
 **🐲🦑 THERE BE DRAGONS AND SQUIDS. This is in alpha state and you can expect running into problems. If you run into them, please open up [a new issue](https://github.com/oceanprotocol/pleuston/issues). 🦑🐲**
+
+Main issues right now:
+- assets can only be purchased if they're hosted in Azure storage account
+- orders screen is not fully working
 
 ---
 
@@ -45,15 +51,17 @@ This repository houses Pleuston, the reference web app for consumers to explore,
 - Register and publish data assets
 - Explore, buy, and download data assets
 
-Pleuston is a single page React app, bootstrapped with [`create-react-app`](https://github.com/facebook/create-react-app).
+Pleuston is a single page React app, initially bootstrapped with [`create-react-app`](https://github.com/facebook/create-react-app), but ejected from it.
 
 ## Prerequisites
 
-To start development with pleuston you first have to get all the other Ocean Protocol components up and running.
+- Node.js <=v8 (otherwise `ursa` won't compile on `npm install`)
+- npm
+- Ocean Protocol components
 
 ### Ocean Protocol Components
 
-The simplest way is to use our main `docker-compose` file from the docker-images repository:
+To start development with pleuston you first have to get all the other Ocean Protocol components up and running. The simplest way is to use our main `docker-compose` file from the docker-images repository:
 
 ```bash
 git clone git@github.com:oceanprotocol/docker-images.git
@@ -129,7 +137,7 @@ serve -s build/
 
 All required components to get `pleuston` running are pre-configured and started with the above `docker-compose` command, and the web app is configured to connect to them.
 
-If you want to change and run `pleuston` against your own deployed components, head over to the [`src/config.js`](./src/config.js) file and modify the respective values.
+If you want to change and run `pleuston` against your own deployed components, head over to the [`config/ocean.js`](./config/ocean.js) file and modify the respective values.
 
 ### Keeper
 [`keeper-contracts`](https://github.com/oceanprotocol/keeper-contracts)

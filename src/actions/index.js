@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import * as account from './account'
 import * as asset from './asset'
 import * as order from './order'
@@ -225,7 +227,21 @@ export function getOrders() {
         }
         const events = await getEvents().then((events) => events)
         let orders = await order.buildOrdersFromEvents(events, state.contract, account).then((result) => result)
-        console.log('ORDERS: ', orders)
+        console.log('ORDERS: ', orders, Object.values(state.asset.assets))
+        let assets = null
+        if (Object.values(state.asset.assets).length !== 0) {
+            assets = Object.values(state.asset.assets).reduce((map, obj) => {
+                map[obj.assetId] = obj
+                return map
+            })
+        }
+        if (assets !== null && Object.values(assets).length !== 0) {
+            for (let order of orders) {
+                if (order._resourceId && assets[order._resourceId]) {
+                    order.assetName = assets[order._resourceId].metadata.name
+                }
+            }
+        }
         orders = orders.reduce((map, obj) => {
             map[obj._id] = obj
             return map
