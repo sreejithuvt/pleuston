@@ -1,8 +1,9 @@
 /* global fetch */
+/* eslint-disable no-console */
 
-import EthEcies from '../cryptolibs/eth-ecies'
+import EthEcies from '../lib/eth-ecies'
 import JWT from 'jsonwebtoken'
-import EthCrypto from '../lib/eth-crypto'
+import EthCrypto from 'eth-crypto'
 import EthjsUtil from 'ethereumjs-util'
 
 export default class PurchaseHandler {
@@ -83,7 +84,7 @@ export default class PurchaseHandler {
     }
 
     listenOnce(event, eventName, callback) {
-        event.watch((error, result) => {
+        event.watch((error, result) => { // eslint-disable-line security/detect-non-literal-fs-filename
             event.stopWatching()
             if (error) {
                 console.log(`Error in keeper ${eventName} event for order ${this.order}: `, error)

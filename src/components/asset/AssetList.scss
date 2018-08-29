@@ -1,30 +1,19 @@
 @import 'variables';
 
 .assets {
-    @media (min-width: $break-point--medium) {
-        display: flex;
-        flex-wrap: wrap;
-        margin-left: -($spacer);
-    }
-
-    @media (min-width: $break-point--large) {
-        display: flex;
-        flex-wrap: wrap;
+    @media (min-width: $break-point--small) {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+        margin: -($spacer / 2);
     }
 }
 
 .assets__tile {
-    margin-bottom: $spacer / 2;
+    margin-bottom: $spacer;
     height: 100%;
     outline: 0;
 
-    @media (min-width: $break-point--medium) {
-        flex: 1 1 calc(50% - #{$spacer * 2});
-        margin-left: $spacer;
-        max-width: 20rem;
-    }
-
-    @media (min-width: $break-point--large) {
-        flex: 1 1 33%;
+    @media (min-width: $break-point--small) {
+        margin: $spacer / 2;
     }
 }
