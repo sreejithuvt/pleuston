@@ -2,25 +2,25 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import logo from '@oceanprotocol/art/logo/logo-white.svg'
-import './Header.scss'
 import AccountBalance from './account/AccountBalance'
+import styles from './Header.module.scss'
 
 const Header = ({
     activeAccount,
     handleClickAccount,
     handleClickLogo
 }) => (
-    <header className="header">
-        <div className="header__content">
-            <div className="header__logo" onClick={handleClickLogo}>
-                <img alt="logo" className="header__logo__image" src={logo} />
-                <h1 className="header__title">Data Sets</h1>
+    <header className={styles.header}>
+        <div className={styles.headerContent}>
+            <div className={styles.headerLogo} onClick={handleClickLogo}>
+                <img alt="logo" className={styles.headerLogoImage} src={logo} />
+                <h1 className={styles.headerTitle}>Data Sets</h1>
             </div>
-            <nav className="header__menu" onClick={handleClickAccount}>
+            <nav className={styles.headerMenu} onClick={handleClickAccount}>
                 {
                     activeAccount ? (
                         <Fragment>
-                            <span className="header__menu__user" title={activeAccount.name}>
+                            <span className={styles.headerMenuUser} title={activeAccount.name}>
                                 {activeAccount.name}
                             </span>
                             <AccountBalance {...activeAccount.balance} />

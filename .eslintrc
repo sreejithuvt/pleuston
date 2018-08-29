@@ -1,8 +1,6 @@
 {
     "extends": ["oceanprotocol", "oceanprotocol/react"],
-    "settings": {
-        "react": {
-            "version": "16.4"
-        }
+    "env": {
+        "jest": true
     }
 }
