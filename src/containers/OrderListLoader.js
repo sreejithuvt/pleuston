@@ -12,8 +12,8 @@ export default connect(
 
     dispatch => ({
         handleClick: order => {
-            dispatch(setActiveOrder(order.id))
-            dispatch(push(`/orders/${order.id}`))
+            dispatch(setActiveOrder(order._id))
+            dispatch(push(`/orders/${order._id}`))
         }
     })
 )(OrderList)

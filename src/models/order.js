@@ -1,12 +1,14 @@
 const AssetModel = {
-    'id': null,
+    '_id': null,
+    '_resourceId': null,
+    '_timeout': null,
+    '_pubKey': null,
+    '_consumer': null,
+    '_provider': null,
     'accessUrl': null,
-    'assetId': null,
-    '': null,
-    'key': null,
-    'timeout': null,
     'status': null,
-    'paidS': null
+    'paid': null,
+    'key': null
 }
 
 export default AssetModel
