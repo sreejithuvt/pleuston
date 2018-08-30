@@ -13,13 +13,17 @@
     "start": "npm-run-all -p watch-css start-js",
     "build-js": "node scripts/build.js",
     "build": "npm-run-all build-css build-js",
-    "test": "npm run lint && node scripts/test.js --env=jsdom --coverage && cat ./coverage/lcov.info | codacy-coverage"
+    "test": "npm run lint && node scripts/test.js --env=jsdom --coverage && cat ./coverage/lcov.info | codacy-coverage",
+    "requirements-check": "node ./scripts/check-node-version.js",
+    "preinstall": "npm run requirements-check"
+  },
+  "engines": {
+    "node": ">=8 <=9"
   },
   "dependencies": {
     "@oceanprotocol/art": "^1.0.2",
     "@oceanprotocol/keeper-contracts": "^0.1.0",
     "bip39": "^2.5.0",
-    "chalk": "^2.4.1",
     "classnames": "^2.2.6",
     "connected-react-router": "^4.4.1",
     "dotenv": "^6.0.0",
@@ -71,6 +75,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "babel-runtime": "^6.26.0",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
+    "chalk": "^2.4.1",
     "codacy-coverage": "^3.0.0",
     "css-loader": "^0.28.11",
     "eslint": "^5.4.0",
@@ -90,9 +95,11 @@
     "jest": "^23.5.0",
     "node-sass-chokidar": "^1.3.3",
     "npm-run-all": "^4.1.3",
+    "ora": "^3.0.0",
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-loader": "^3.0.0",
     "react-dev-utils": "^5.0.1",
+    "semver": "^5.5.1",
     "style-loader": "^0.22.1",
     "stylelint": "^9.5.0",
     "stylelint-config-bigchaindb": "^1.2.1",
