@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Button from '../atoms/Button'
 
-import './OceanRain.css'
+import './OceanRain.scss'
 
 const OceanRain = ({ handleClick }) => (
     <div className="ocean-rain">

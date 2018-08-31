@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Empty from '../atoms/Empty'
 import Order from './Order'
-import './OrderList.css'
+import './OrderList.scss'
 
 const OrderList = ({
     orders,

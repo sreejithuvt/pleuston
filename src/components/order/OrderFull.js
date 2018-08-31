@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-import './OrderFull.css'
+import './OrderFull.scss'
 
 const Editable = ({ name, value, onFieldChange, onValueChange }) => (
     <input name={name} type="text" value={value} onChange={onValueChange} />

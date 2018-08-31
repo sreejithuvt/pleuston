@@ -6,7 +6,7 @@
     padding: $spacer / 2;
 }
 
-.header__content {
+.headerContent {
     max-width: $break-point--huge;
     margin-left: auto;
     margin-right: auto;
@@ -15,18 +15,18 @@
     align-items: center;
 }
 
-.header__logo {
+.headerLogo {
     display: flex;
     align-items: center;
     width: 50%;
     cursor: pointer;
 }
 
-.header__logo__image {
+.headerLogoImage {
     height: 60px;
 }
 
-.header__title {
+.headerTitle {
     font-size: $font-size-h4;
     color: $brand-white;
     margin-left: $spacer;
@@ -37,7 +37,7 @@
     }
 }
 
-.header__menu {
+.headerMenu {
     text-align: right;
     color: $brand-grey-light;
     justify-self: flex-end;
@@ -70,7 +70,7 @@
     }
 }
 
-.header__menu__user {
+.headerMenuUser {
     display: none;
 
     @media screen and (min-width: $break-point--small) {

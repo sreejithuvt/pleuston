@@ -2,12 +2,15 @@ language: node_js
 node_js:
 - "8"
 
+before_install:
+# required for `canvas` npm package
+- sudo apt-get install libcairo2-dev libjpeg-dev libpango1.0-dev libgif-dev build-essential g++
+
 install:
 - npm -g install npm
 - npm install
 
 script:
-- npm run build-css
 - npm run test
 - npm run build
 
