@@ -173,7 +173,7 @@ export function getOrders() {
         }
 
         let { oceanKeeper } = state.provider
-        let orders = oceanKeeper.getConsumerOrders(account.name)
+        let orders = await oceanKeeper.getConsumerOrders(account.name)
         console.log('ORDERS: ', orders, Object.values(state.asset.assets))
         let assets = null
         if (Object.values(state.asset.assets).length !== 0) {
