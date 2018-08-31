@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Logger from './logger'
 
 import thunk from 'redux-thunk'
 
@@ -19,7 +20,6 @@ import {
     getAccounts,
     getAssets,
     setProviders,
-    setContracts,
     getOrders
 } from './actions/index'
 
@@ -41,9 +41,8 @@ const store = createStore(
 registerServiceWorker()
 
 function boot() {
-    console.log('booting up pleuston') // eslint-disable-line no-console
-    store.dispatch(setProviders())
-    store.dispatch(setContracts()).then(() => {
+    Logger.log('booting up pleuston') // eslint-disable-line no-console
+    store.dispatch(setProviders()).then(() => {
         store.dispatch(getAssets())
         store.dispatch(getAccounts()).then(() => {
             store.dispatch(getOrders())

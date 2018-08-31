@@ -1,7 +1,6 @@
-/* eslint-disable no-console */
-
 import * as account from './account'
 import * as asset from './asset'
+import Logger from '../logger'
 
 export function setProviders() {
     return async (dispatch) => {
@@ -50,7 +49,7 @@ export function makeItRain(amount) {
             )
             dispatch(getAccounts())
         } catch (e) {
-            console.error(e)
+            Logger.error(e)
         }
     }
 }
@@ -170,13 +169,13 @@ export function getOrders() {
         const state = getState()
         const account = getActiveAccount(state)
         if (!account) {
-            console.log('active account is not set.')
+            Logger.log('active account is not set.')
             return []
         }
 
         let { oceanKeeper } = state.provider
         let orders = await oceanKeeper.getConsumerOrders(account.name)
-        console.log('ORDERS: ', orders, Object.values(state.asset.assets))
+        Logger.log('ORDERS: ', orders, Object.values(state.asset.assets))
         let assets = null
         if (Object.values(state.asset.assets).length !== 0) {
             assets = Object.values(state.asset.assets).reduce((map, obj) => {
@@ -196,7 +195,7 @@ export function getOrders() {
             map[obj._id] = obj
             return map
         }, {})
-        console.log('ORDERS mapped: ', orders)
+        Logger.log('ORDERS mapped: ', orders)
 
         dispatch({
             type: 'GET_ORDERS',

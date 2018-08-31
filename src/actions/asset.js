@@ -1,9 +1,7 @@
 import fetchDownload from 'fetch-download'
 import AssetModel from '../models/asset'
 import PurchaseHandler from './purchase'
-import { keeperNetwork } from '../../config/ocean'
-
-const DEFAULT_GAS = 1000 * 1000
+import Logger from '../logger'
 
 const MINIMUM_REQUIRED_TOKENS = 10
 
@@ -34,17 +32,17 @@ export async function publish(formValues, account, providers) {
         publisherId: account.name
     }
     const res = await oceanAgent.publishDataAsset(newAsset)
-    console.debug('res: ', res)
+    Logger.debug('res: ', res)
     return newAsset
 }
 
 export async function list(contract, account, providers) {
     const { oceanKeeper, oceanAgent } = providers
     let dbAssets = await oceanAgent.getAssetsMetadata()
-    console.log('assets: ', dbAssets)
+    Logger.log('assets: ', dbAssets)
 
     dbAssets = Object.values(dbAssets).filter(async (asset) => { return oceanKeeper.checkAsset(asset.assetId) })
-    console.log('assets (published on-chain): ', dbAssets)
+    Logger.log('assets (published on-chain): ', dbAssets)
 
     return dbAssets
 }
@@ -52,16 +50,16 @@ export async function list(contract, account, providers) {
 export async function purchase(asset, account, providers) {
     const { oceanKeeper } = providers
 
-    console.log('Purchasing asset by consumer:  ', account.name, ' assetid: ', asset.assetId)
+    Logger.log('Purchasing asset by consumer:  ', account.name, ' assetid: ', asset.assetId)
 
     let purchaseHandler = new PurchaseHandler(asset, account, oceanKeeper)
     let order = await purchaseHandler.doPurchase()
     if (order.accessUrl) {
-        console.log('begin downloading asset data.')
+        Logger.log('begin downloading asset data.')
         const res = await fetchDownload(order.accessUrl)
-            .then((result) => console.log('Asset data downloaded successfully: ', result))
-            .catch((error) => console.log('Asset download failed: ', error))
-        console.debug('res: ', res)
+            .then((result) => Logger.log('Asset data downloaded successfully: ', result))
+            .catch((error) => Logger.log('Asset download failed: ', error))
+        Logger.debug('res: ', res)
     }
-    console.log('purchase completed, new order is: ', order)
+    Logger.log('purchase completed, new order is: ', order)
 }
