@@ -1,6 +1,8 @@
-import OceanAgent from '../drivers/ocean-agent'
-import OceanKeeper from '../drivers/ocean-keeper'
-// import Web3 from 'web3'
+import {
+    OceanKeeper,
+    OceanAgent
+} from '@oceanprotocol/keeper-js'
+
 import {
     keeperHost,
     keeperPort,
@@ -13,7 +15,7 @@ import {
 export async function createProviders() {
     const uri = `${keeperScheme}://${keeperHost}:${keeperPort}`
 
-    const oceanKeeper = new OceanKeeper(uri)
+    const oceanKeeper = new OceanKeeper(uri, 'development')
     await oceanKeeper.initContracts()
     const { web3 } = oceanKeeper
     const providerURL = `${oceanScheme}://${oceanHost}:${oceanPort}/api/v1/provider`
