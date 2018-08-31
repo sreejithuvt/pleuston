@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-
+import Web3Status from './Web3/Status'
 import logo from '@oceanprotocol/art/logo/logo-white.svg'
 import AccountBalance from './account/AccountBalance'
 import styles from './Header.module.scss'
@@ -16,6 +16,7 @@ const Header = ({
                 <img alt="logo" className={styles.headerLogoImage} src={logo} />
                 <h1 className={styles.headerTitle}>Data Sets</h1>
             </div>
+            <Web3Status />
             <nav className={styles.headerMenu} onClick={handleClickAccount}>
                 {
                     activeAccount ? (

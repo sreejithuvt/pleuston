@@ -14,6 +14,10 @@ import {
     routerMiddleware
 } from 'connected-react-router'
 
+import { Web3Provider } from 'react-web3'
+import Web3Unavailable from './components/Web3/Unavailable'
+import Web3AccountUnavailable from './components/Web3/AccountUnavailable'
+
 import appReducer from './reducers'
 import {
     getAccounts,
@@ -52,10 +56,16 @@ function boot() {
 /* Das */boot()
 
 ReactDOM.render(
-    <Provider store={store}>
-        <Router history={history}>
-            <App />
-        </Router>
-    </Provider>,
+    <Web3Provider
+        web3UnavailableScreen={() => <Web3Unavailable />}
+        accountUnavailableScreen={() => <Web3AccountUnavailable />}
+        // onChangeAccount={null}
+    >
+        <Provider store={store}>
+            <Router history={history}>
+                <App />
+            </Router>
+        </Provider>
+    </Web3Provider>,
     document.getElementById('root')
 )
