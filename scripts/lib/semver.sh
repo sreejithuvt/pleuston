@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# from https://gist.github.com/lxe/b167d3ec4e4f94d246ebdc4bcfdfb6ac
+# adapted from https://gist.github.com/lxe/b167d3ec4e4f94d246ebdc4bcfdfb6ac
 
 # set -x
 
@@ -38,7 +38,7 @@ SEMVER_RE_VERSION='[0-9x\.]+'
 #    >=1.2.3
 #    < 3
 semver_split_range () {
-  egrep -o "($SEMVER_RE_COMPARATOR\s*$SEMVER_RE_VERSION)"
+  grep -E -o "($SEMVER_RE_COMPARATOR\\s*$SEMVER_RE_VERSION)"
 }
 
 # Hacky way to make versions comparable
@@ -53,8 +53,8 @@ semver_to_number () {
 #    >= 000001000002000003
 #    <  000002000000000000
 semver_create_comparator () {
-  local COMPARATOR="$(egrep -o "^$SEMVER_RE_COMPARATOR" <<< "$1")"
-  local VERSION="$(egrep -o "$SEMVER_RE_VERSION$" <<< "$1")"
+  local COMPARATOR="$(grep -E -o "^$SEMVER_RE_COMPARATOR" <<< "$1")"
+  local VERSION="$(grep -E -o "$SEMVER_RE_VERSION$" <<< "$1")"
   local VP
 
   local ZERO_OR_X
@@ -67,7 +67,7 @@ semver_create_comparator () {
   # Append either 0's or x's to the version, depending on comparator presence
   #  4 => 4.x.x
   # ^4 => 4.0.0
-  while [[ "$(egrep -o "\." <<< "$VERSION" | wc -l)" -lt "2" ]]; do
+  while [[ "$(grep -E -o "\\." <<< "$VERSION" | wc -l)" -lt "2" ]]; do
     VERSION="$VERSION.$ZERO_OR_X"
   done
 
@@ -97,11 +97,11 @@ semver_create_comparator () {
     IFS="." read -ra VP <<< "$VERSION"
     if [[ "$COMPARATOR" == "~" ]]; then
       # Up the minor; 0 the patch
-      VP[1]=$(( ${VP[1]} + 1 ))
+      VP[1]=$(( VP[1] + 1 ))
       VP[2]=0
     else
       # Up the major; 0 the minor and patch
-      VP[0]=$(( ${VP[0]} + 1 ))
+      VP[0]=$(( VP[0] + 1 ))
       VP[1]=0
       VP[2]=0
     fi
@@ -117,7 +117,7 @@ semver_create_comparator () {
 semver_create_comparators () {
   local R
 
-  while read R; do
+  while read -r R; do
     semver_create_comparator "$R"
   done < <(semver_split_range <<< "$SEMVER_RANGE")
 }
@@ -127,7 +127,7 @@ semver_create_comparators () {
 semver_compare () {
   local C
 
-  while read C; do
+  while read -r C; do
     [[ "$MATCH" == "false" ]] && break
     if [[ "$(bc <<< "$1 $C")" == "0" ]]; then
       return 1
