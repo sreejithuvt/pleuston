@@ -1,6 +1,9 @@
 import fetchDownload from 'fetch-download'
 import AssetModel from '../models/asset'
 import PurchaseHandler from './purchase'
+import { keeperNetwork } from '../../config/ocean'
+
+const DEFAULT_GAS = 1000 * 1000
 
 const MINIMUM_REQUIRED_TOKENS = 10
 

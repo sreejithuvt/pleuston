@@ -55,7 +55,7 @@ Pleuston is a single page React app, initially bootstrapped with [`create-react-
 
 ## Prerequisites
 
-- Node.js <=v8 (otherwise `ursa` won't compile on `npm install`)
+- Node.js >=8 <v10 (`ursa` won't compile on `npm install` with newer versions, see https://github.com/JoshKaufman/ursa/issues/175)
 - npm
 - Ocean Protocol components
 

@@ -1,4 +1,5 @@
 /* global fetch */
+/* eslint-disable no-console */
 
 import EthEcies from '../lib/eth-ecies'
 import JWT from 'jsonwebtoken'
@@ -43,6 +44,19 @@ export default class PurchaseHandler {
             this.handleAccessRequestEvent.bind(this), this.handleAccessCommittedEvent.bind(this), this.finalizePurchase.bind(this))
 
         return this.orderPromise
+    }
+
+    listenOnce(event, eventName, callback) {
+        event.watch((error, result) => { // eslint-disable-line security/detect-non-literal-fs-filename
+            event.stopWatching()
+            if (error) {
+                console.log(`Error in keeper ${eventName} event for order ${this.order}: `, error)
+                this.reject(error)
+                throw new Error(`Error encountered while processing this purchase request: ${error}`)
+            } else {
+                callback(result)
+            }
+        })
     }
 
     handleError(error) {

@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './Empty.css'
+import styles from './Empty.module.scss'
 
 const Empty = ({ title, text, ...props }) => (
-    <div className="empty" {...props}>
-        <h4 className="empty__title">{title}</h4>
+    <div className={styles.empty} {...props}>
+        <h4 className={styles.emptyTitle}>{title}</h4>
         {text && <p className="empty__text">{text}</p>}
     </div>
 )
