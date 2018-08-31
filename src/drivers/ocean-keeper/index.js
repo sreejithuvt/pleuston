@@ -1,22 +1,22 @@
 import Web3 from 'web3'
 import TruffleContract from 'truffle-contract'
 
-const OceanToken = require('@oceanprotocol/keeper-contracts/artifacts/OceanToken.development')
-const OceanMarket = require('@oceanprotocol/keeper-contracts/artifacts/OceanMarket.development')
-const OceanAuth = require('@oceanprotocol/keeper-contracts/artifacts/OceanAuth.development')
-
 const DEFAULT_GAS = 300000
 
 export default class OceanKeeper {
-    constructor(uri) {
+    constructor(uri, network) {
         const web3Provider = new Web3.providers.HttpProvider(uri)
         this.web3 = new Web3(web3Provider)
         this.defaultGas = DEFAULT_GAS
+        this.network = network || 'development'
     }
 
     async initContracts() {
+        const OceanToken = require(`@oceanprotocol/keeper-contracts/artifacts/OceanToken.${this.network}`)
         const oceanToken = TruffleContract(OceanToken)
+        const OceanMarket = require(`@oceanprotocol/keeper-contracts/artifacts/OceanMarket.${this.network}`)
         const oceanMarket = TruffleContract(OceanMarket)
+        const OceanAuth = require(`@oceanprotocol/keeper-contracts/artifacts/OceanAuth.${this.network}`)
         const oceanAuth = TruffleContract(OceanAuth)
         oceanToken.setProvider(this.web3.currentProvider)
         oceanMarket.setProvider(this.web3.currentProvider)
