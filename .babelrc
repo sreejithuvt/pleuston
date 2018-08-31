@@ -1,7 +1,6 @@
 {
     "presets": [
-        "react",
-        ["env", { "useBuiltIns": true  }],
-        "stage-2"
+        "@babel/preset-react",
+        ["@babel/preset-env", { "useBuiltIns": "entry"  }]
     ]
 }

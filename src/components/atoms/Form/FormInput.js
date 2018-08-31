@@ -1,6 +1,6 @@
 import React, { Fragment, PureComponent } from 'react'
 import { Field } from 'redux-form'
-import './FormInput.css'
+import './FormInput.scss'
 
 class FormInput extends PureComponent {
     constructor(props) {

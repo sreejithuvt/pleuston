@@ -21,4 +21,4 @@ if (process.env.NODE_ENV === 'test') {
     require('raf').polyfill(global)
 }
 
-require('babel-polyfill')
+require('@babel/polyfill')
