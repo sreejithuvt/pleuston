@@ -41,6 +41,9 @@ if [[ -z "$CHECK" ]]; then
     echo "  Current Version: $CURRENT"
     echo "  Use nvm for easy switching between Node.js versions https://github.com/creationix/nvm"
     echo ""
+
+    # just stop here
+    return 1
 else
     echo ""
     echo "${green}✔ Required Node.js version is installed.${normal}"
