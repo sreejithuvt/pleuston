@@ -20,6 +20,8 @@
 
 **🐲🦑 THERE BE DRAGONS AND SQUIDS. This is in alpha state and you can expect running into problems. If you run into them, please open up [a new issue](https://github.com/oceanprotocol/pleuston/issues). 🦑🐲**
 
+We use the [Gitflow branching model](https://github.com/oceanprotocol/dev-ocean/blob/master/doc/development/branching-model.md) and use the `develop` branch with the latest changes as the default one, while the `master` branch holds the latest stable release.
+
 Main issues right now:
 - assets can only be purchased if they're hosted in Azure storage account
 - orders screen is not fully working
