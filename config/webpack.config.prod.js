@@ -188,7 +188,7 @@ module.exports = {
                         loader: require.resolve('eslint-loader')
                     }
                 ],
-                include: paths.srcPaths,
+                include: paths.appSrc,
                 exclude: [/[/\\\\]node_modules[/\\\\]/]
             },
             {
@@ -210,7 +210,7 @@ module.exports = {
                     // The preset includes JSX, Flow, and some ESnext features.
                     {
                         test: /\.(js|jsx|mjs)$/,
-                        include: paths.srcPaths,
+                        include: paths.appSrc,
                         exclude: [/[/\\\\]node_modules[/\\\\]/],
                         use: [
                             // This loader parallelizes code compilation, it is optional but
