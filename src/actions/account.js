@@ -43,7 +43,7 @@ export async function list(providers) {
 
 function getEthBalance(web3, account) {
     return new Promise((resolve, reject) => {
-        Logger.log('getting balance for', account, web3)
+        Logger.log('getting balance for', account)
         web3.eth.getBalance(account, 'latest', (err, balance) => {
             if (err) return reject(err)
             Logger.log('balance', balance)
@@ -53,7 +53,6 @@ function getEthBalance(web3, account) {
 }
 
 export async function getBalance(account, oceanKeeper) {
-
     let eth = NaN
     let ocn = NaN
 
