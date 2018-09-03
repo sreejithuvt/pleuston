@@ -43,7 +43,7 @@ export async function list(providers) {
 
 function getEthBalance(web3, account) {
     return new Promise((resolve, reject) => {
-        Logger.log('getting balance for', account)
+        Logger.log('getting balance for', account, web3)
         web3.eth.getBalance(account, 'latest', (err, balance) => {
             if (err) return reject(err)
             Logger.log('balance', balance)
@@ -52,15 +52,14 @@ function getEthBalance(web3, account) {
     })
 }
 
-export async function getBalance(account, oceanKeeper, providers) {
-    const { web3 } = providers
+export async function getBalance(account, oceanKeeper) {
 
     let eth = NaN
     let ocn = NaN
 
     try {
         ocn = await oceanKeeper.getBalance(account)
-        eth = await getEthBalance(web3, account)
+        eth = await getEthBalance(oceanKeeper.web3, account)
     } catch (e) {
         Logger.error('error in ocean getBalance: ', e)
     }
