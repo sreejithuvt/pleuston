@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@oceanprotocol/art": "^1.0.2",
-    "@oceanprotocol/keeper-contracts": "^0.1.0",
+    "@oceanprotocol/keeper-js": "^0.0.3",
     "connected-react-router": "^4.4.1",
     "elliptic": "^6.4.1",
     "eth-crypto": "^1.2.3",
@@ -48,8 +48,6 @@
     "redux-thunk": "^2.3.0",
     "resolve": "^1.8.1",
     "secp256k1": "^3.5.2",
-    "truffle-contract": "^3.0.6",
-    "web3": "0.20.6",
     "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {
