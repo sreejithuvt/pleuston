@@ -1,0 +1,24 @@
+module.exports = {
+
+    // -----
+    // Setup with local services
+    // -----
+    keeperScheme: '${KEEPER_SCHEME}',
+    keeperHost: '${KEEPER_HOST}',
+    keeperPort: ${KEEPER_PORT},
+
+    oceanScheme: '${OCEAN_SCHEME}',
+    oceanHost: '${OCEAN_HOST}',
+    oceanPort: ${OCEAN_PORT}
+
+    // -----
+    // Setup using remote services
+    // -----
+    // private ocean test net @40.115.16.244
+    // keeperScheme: 'https',
+    // keeperHost: '40.115.16.244',
+    // keeperPort: 8545,
+    // oceanScheme: 'https',
+    // oceanHost: '',
+    // oceanPort: 3000,
+}
