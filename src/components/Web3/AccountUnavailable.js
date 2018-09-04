@@ -4,8 +4,8 @@ import styles from './Unavailable.module.scss'
 const Web3AccountUnavailable = () => (
     <div className={styles.unavailable}>
         <div>
-            <h1>Web3 Account not selected</h1>
-            Please select or login to MetaMask.
+            <h1>No account selected</h1>
+            <p>Web3 is available but no account is selected. Please select or login to MetaMask.</p>
         </div>
     </div>
 )
