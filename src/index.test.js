@@ -16,8 +16,12 @@ import {
 
 import appReducer from './reducers'
 
+import { Web3Provider } from 'react-web3'
+
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
+import Web3Unavailable from './components/Web3/Unavailable'
+import Web3AccountUnavailable from './components/Web3/AccountUnavailable'
 
 const history = createBrowserHistory()
 
@@ -34,11 +38,17 @@ registerServiceWorker()
 it('index renders without crashing', () => {
     const div = document.createElement('div')
     ReactDOM.render(
-        <Provider store={store}>
-            <Router history={history}>
-                <App />
-            </Router>
-        </Provider>,
+        <Web3Provider
+            web3UnavailableScreen={() => <Web3Unavailable />}
+            accountUnavailableScreen={() => <Web3AccountUnavailable />}
+            // onChangeAccount={null}
+        >
+            <Provider store={store}>
+                <Router history={history}>
+                    <App />
+                </Router>
+            </Provider>
+        </Web3Provider>,
         div
     )
     ReactDOM.unmountComponentAtNode(div)
