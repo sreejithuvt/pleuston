@@ -1,6 +1,70 @@
 @import 'variables';
 
+$popoverWidth: 18rem;
+
 .web3Status {
     color: $brand-grey-light;
     font-size: $font-size-small;
+    position: relative;
+    padding: $spacer / 1.5 $spacer * 2;
+}
+
+.statusIndicator {
+    width: $font-size-small;
+    height: $font-size-small;
+    display: block;
+    border-radius: 50%;
+    background: $red;
+}
+
+.statusIndicatorCloseEnough {
+    composes: statusIndicator;
+    background: $yellow;
+}
+
+.statusIndicatorActive {
+    composes: statusIndicator;
+    background: $green;
+}
+
+.web3Popover {
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    margin-left: -($popoverWidth / 2);
+    width: $popoverWidth;
+    padding: $spacer / 2;
+    background: $brand-black;
+    border-radius: .1rem;
+    border: .1rem solid $brand-grey-light;
+    box-shadow: 0 6px 16px 0 rgba($brand-black, .3);
+
+    &:after {
+        bottom: 100%;
+        left: 50%;
+        border: solid transparent;
+        content: '';
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-color: transparent;
+        border-bottom-color: $brand-grey-light;
+        border-width: 10px;
+        margin-left: -10px;
+    }
+}
+
+.web3PopoverInfoline {
+    border-bottom: .05rem solid $brand-grey;
+    padding: $spacer / 4 0;
+
+    &:first-child {
+        padding-top: 0;
+    }
+
+    &:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
 }

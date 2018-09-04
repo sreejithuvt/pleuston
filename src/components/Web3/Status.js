@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import Truncate from 'react-truncate'
 
 import styles from './Status.module.scss'
 
@@ -8,8 +9,9 @@ class Web3Status extends PureComponent {
         super(props, context)
 
         this.state = {
-            network: '',
-            activeAccount: ''
+            network: null,
+            activeAccount: null,
+            popoverOpen: false
         }
     }
 
@@ -46,10 +48,42 @@ class Web3Status extends PureComponent {
         this.setState({ activeAccount: this.context.web3.selectedAccount })
     }
 
+    togglePopover() {
+        this.setState(prevState => ({
+            popoverOpen: !prevState.popoverOpen
+        }))
+    }
+
     render() {
+        const { activeAccount, network, popoverOpen } = this.state
+        let indicatorClasses
+
+        if (activeAccount && network === 'Kovan') {
+            indicatorClasses = styles.statusIndicatorActive
+        } else {
+            indicatorClasses = styles.statusIndicatorCloseEnough
+        }
+
         return (
-            <div className={styles.web3Status}>
-                {this.state.network} - {this.state.activeAccount}
+            <div className={styles.web3Status}
+                onMouseOver={() => this.togglePopover()}
+                onMouseOut={() => this.togglePopover()}
+                onTouchStart={() => this.togglePopover()}
+            >
+                <div className={indicatorClasses} />
+
+                {popoverOpen && (
+                    <div className={styles.web3Popover}>
+                        <div className={styles.web3PopoverInfoline}>
+                            {
+                                network === 'Kovan'
+                                    ? network
+                                    : `${network} (Please connect to Kovan)`
+                            }
+                        </div>
+                        <div className={styles.web3PopoverInfoline}><Truncate>{activeAccount}</Truncate></div>
+                    </div>
+                )}
             </div>
         )
     }
