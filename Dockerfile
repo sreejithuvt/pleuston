@@ -11,7 +11,7 @@ RUN apk add --no-cache --update\
     krb5-libs\
     krb5\
     make\
-    cairo\
+    libcairo2-dev\
     python
 
 COPY . /pleuston
