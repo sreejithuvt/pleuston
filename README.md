@@ -1,11 +1,9 @@
 [![banner](https://raw.githubusercontent.com/oceanprotocol/art/master/github/repo-banner%402x.png)](https://oceanprotocol.com)
 
 
-<h1 align="center">Pleuston</h1>
+# Pleuston
 
-<p align="center">
-  <img width="400" src="https://user-images.githubusercontent.com/90316/43195950-cc01fd90-9006-11e8-8d5e-cb802c6502b3.gif" />
-</p>
+![banner](https://user-images.githubusercontent.com/90316/43195950-cc01fd90-9006-11e8-8d5e-cb802c6502b3.gif "Big Banner")
 
 > 🦑 🦄 Web app for consumers to explore, download, and publish data assets.
 
@@ -19,6 +17,8 @@
 ---
 
 **🐲🦑 THERE BE DRAGONS AND SQUIDS. This is in alpha state and you can expect running into problems. If you run into them, please open up [a new issue](https://github.com/oceanprotocol/pleuston/issues). 🦑🐲**
+
+We use the [Gitflow branching model](https://github.com/oceanprotocol/dev-ocean/blob/master/doc/development/branching-model.md) and use the `develop` branch with the latest changes as the default one, while the `master` branch holds the latest stable release.
 
 Main issues right now:
 - assets can only be purchased if they're hosted in Azure storage account
