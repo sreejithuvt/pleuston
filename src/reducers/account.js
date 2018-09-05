@@ -13,6 +13,18 @@ const account = (state = initialState, action) => {
             return Object.assign({}, state, {
                 activeAccount: action.activeAccount
             })
+
+        // https://github.com/coopermaruyama/react-web3#redux-support
+        case 'web3/RECEIVE_ACCOUNT':
+            return {
+                ...state,
+                ethAddress: action.address
+            }
+        case 'web3/CHANGE_ACCOUNT':
+            return {
+                ...state,
+                ethAddress: action.address
+            }
         default:
             return state
     }
