@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Empty from '../atoms/Empty'
 import AssetFilterLoader from '../../containers/AssetFilterLoader'
 import Asset from './Asset'
-import './AssetList.css'
+import './AssetList.scss'
 
 const AssetList = ({
     assets,

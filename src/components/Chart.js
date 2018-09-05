@@ -2,7 +2,7 @@ import React from 'react'
 import { XYPlot, XAxis, YAxis, LineSeries, VerticalGridLines, HorizontalGridLines } from 'react-vis'
 
 import 'react-vis/dist/style.css'
-import './Chart.css'
+import './Chart.scss'
 
 const style = {
     stroke: '#7b1173',

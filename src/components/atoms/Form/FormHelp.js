@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import './FormHelp.css'
+import './FormHelp.scss'
 
 const FormHelp = ({ children }) => (
     <div className="form__help">

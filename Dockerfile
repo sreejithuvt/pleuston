@@ -1,16 +1,39 @@
 FROM node:8-alpine
-MAINTAINER Ocean Protocol <devops@oceanprotocol.com>
+LABEL maintainer="Ocean Protocol <devops@oceanprotocol.com>"
 
-RUN apk add --no-cache --update git python krb5 krb5-libs gcc make g++ krb5-dev bash
+RUN apk add --no-cache --update\
+    bash\
+    g++\
+    gcc\
+    gettext\
+    git\
+    krb5-dev\
+    krb5-libs\
+    krb5\
+    make\
+    cairo-dev\
+    python
 
-COPY . pleuston
-WORKDIR pleuston
+COPY . /pleuston
+WORKDIR /pleuston
 
 RUN npm install -g npm serve
 RUN npm install
-RUN chmod +x ./scripts/docker-entrypoint.sh
+RUN chmod +x /pleuston/scripts/docker-entrypoint.sh
 
-ENTRYPOINT ["./scripts/docker-entrypoint.sh"]
+# Default ENV values
+# src/config.js
+ENV KEEPER_SCHEME='http'
+ENV KEEPER_HOST='localhost'
+ENV KEEPER_PORT='8545'
+ENV OCEAN_SCHEME='http'
+ENV OCEAN_HOST='localhost'
+ENV OCEAN_PORT='5000'
+# scripts/docker-entrypoint.sh
+ENV LISTEN_ADDRESS='0.0.0.0'
+ENV LISTEN_PORT='3000'
+
+ENTRYPOINT ["/pleuston/scripts/docker-entrypoint.sh"]
 
 # Expose listen port
 EXPOSE 3000

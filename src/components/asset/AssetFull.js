@@ -5,7 +5,7 @@ import Truncate from 'react-truncate'
 import AssetMedia from './AssetMedia'
 
 import Button from '../atoms/Button'
-import './AssetFull.css'
+import './AssetFull.scss'
 
 const Editable = ({ name, value, onFieldChange, onValueChange }) => (
     <input name={name} type="text" value={value} onChange={onValueChange} />
@@ -83,16 +83,7 @@ class AssetFull extends PureComponent {
 
                 {description && (
                     <p className="assetfull__description">
-                        <span className="assetfull__label">Description</span>
-                        {/* {this.state.isWritable &&
-                        <Editable
-                            name="description"
-                            value={description}
-                            onFieldChange={this.onEdit}
-                            onValueChange={this.onEdit}
-                        />}
-                        {!this.state.isWritable && description }
-                        <button onClick={() => this.setState({ isWritable: !this.state.isWritable })}>Edit</button> */}
+                        <span className="assetfull__label">Description</span> {description}
                     </p>
                 )}
 

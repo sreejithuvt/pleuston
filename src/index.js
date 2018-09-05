@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Logger from './logger'
 
 import thunk from 'redux-thunk'
 
@@ -19,14 +20,11 @@ import {
     getAccounts,
     getAssets,
     setProviders,
-    setContracts,
     getOrders
 } from './actions/index'
 
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
-
-import './index.css'
 
 const history = createBrowserHistory()
 
@@ -41,9 +39,8 @@ const store = createStore(
 registerServiceWorker()
 
 function boot() {
-    console.log('booting up plankton') // eslint-disable-line no-console
-    store.dispatch(setProviders())
-    store.dispatch(setContracts()).then(() => {
+    Logger.log('booting up pleuston') // eslint-disable-line no-console
+    store.dispatch(setProviders()).then(() => {
         store.dispatch(getAssets())
         store.dispatch(getAccounts()).then(() => {
             store.dispatch(getOrders())

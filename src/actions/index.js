@@ -1,28 +1,22 @@
 import * as account from './account'
 import * as asset from './asset'
-import * as order from './order'
+import Logger from '../logger'
 
 export function setProviders() {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch({
             type: 'SET_PROVIDERS',
-            ...account.createProviders()
+            ...(await account.createProviders())
         })
     }
 }
 
 export function getAccounts() {
     return async (dispatch, getState) => {
-        const {
-            provider,
-            contract: {
-                oceanToken
-            }
-        } = getState()
-
+        const { provider } = getState()
         dispatch({
             type: 'GET_ACCOUNTS',
-            accounts: await account.list(oceanToken, provider)
+            accounts: await account.list(provider)
         })
     }
 }
@@ -44,23 +38,6 @@ export function getActiveAccount(state) {
     return accounts[activeAccount]
 }
 
-export function setContracts() {
-    return async (dispatch, getState) => {
-        const { currentProvider } = getState().provider.web3
-        try {
-            dispatch({
-                type: 'SET_CONTRACTS',
-                contracts: {
-                    ...(await account.deployContracts(currentProvider)),
-                    ...(await asset.deployContracts(currentProvider))
-                }
-            })
-        } catch (e) {
-            console.error(e)
-        }
-    }
-}
-
 export function makeItRain(amount) {
     return async (dispatch, getState) => {
         const state = getState()
@@ -72,7 +49,7 @@ export function makeItRain(amount) {
             )
             dispatch(getAccounts())
         } catch (e) {
-            console.error(e)
+            Logger.error(e)
         }
     }
 }
@@ -84,7 +61,6 @@ export function putAsset(formValues) {
 
         await asset.publish(
             formValues,
-            state.contract.market,
             account,
             state.provider
         )
@@ -148,7 +124,6 @@ export function purchaseAsset(assetId) {
         const activeAsset = getActiveAsset(state)
         const token = await asset.purchase(
             activeAsset,
-            state.contract,
             getActiveAccount(state),
             state.provider
         )
@@ -194,43 +169,33 @@ export function getOrders() {
         const state = getState()
         const account = getActiveAccount(state)
         if (!account) {
-            console.log('active account is not set.')
+            Logger.log('active account is not set.')
             return []
         }
 
-        let { acl } = state.contract
-
-        let accessConsentEvent = acl.AccessConsentRequested({ _consumer: account.name }, {
-            fromBlock: 0,
-            toBlock: 'latest'
-        })
-
-        let _resolve = null
-        let _reject = null
-        const promise = new Promise((resolve, reject) => {
-            _resolve = resolve
-            _reject = reject
-        })
-
-        const getEvents = () => {
-            accessConsentEvent.get((error, logs) => {
-                if (error) {
-                    _reject(error)
-                    throw new Error(error)
-                } else {
-                    _resolve(logs)
-                }
+        let { oceanKeeper } = state.provider
+        let orders = await oceanKeeper.getConsumerOrders(account.name)
+        Logger.log('ORDERS: ', orders, Object.values(state.asset.assets))
+        let assets = null
+        if (Object.values(state.asset.assets).length !== 0) {
+            assets = Object.values(state.asset.assets).reduce((map, obj) => {
+                map[obj.assetId] = obj
+                return map
             })
-            return promise
         }
-        const events = await getEvents().then((events) => events)
-        let orders = await order.buildOrdersFromEvents(events, state.contract, account).then((result) => result)
-        console.log('ORDERS: ', orders)
+        if (assets !== null && Object.values(assets).length !== 0) {
+            for (let order of orders) {
+                if (order._resourceId && assets[order._resourceId]) {
+                    order.assetName = assets[order._resourceId].metadata.name
+                }
+            }
+        }
+        // map orders by order id
         orders = orders.reduce((map, obj) => {
             map[obj._id] = obj
             return map
         }, {})
-        console.log('ORDERS mapped: ', orders)
+        Logger.log('ORDERS mapped: ', orders)
 
         dispatch({
             type: 'GET_ORDERS',

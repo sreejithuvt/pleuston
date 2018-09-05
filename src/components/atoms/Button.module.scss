@@ -42,7 +42,8 @@
     }
 }
 
-.button--primary {
+.buttonPrimary {
+    composes: button;
     background: $brand-gradient;
 
     &:hover,
