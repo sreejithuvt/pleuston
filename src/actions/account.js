@@ -1,7 +1,7 @@
 import {
     OceanKeeper,
     OceanAgent
-} from '@oceanprotocol/keeper-js'
+} from '@oceanprotocol/squid-js'
 
 import {
     keeperHost,
