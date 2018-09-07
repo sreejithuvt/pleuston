@@ -4,13 +4,13 @@ import Truncate from 'react-truncate'
 
 import styles from './Status.module.scss'
 
-class Web3Status extends PureComponent {
+export default class Web3Status extends PureComponent {
     constructor(props, context) {
         super(props, context)
 
         this.state = {
             network: null,
-            activeAccount: null,
+            selectedAccount: null,
             popoverOpen: false
         }
     }
@@ -21,9 +21,9 @@ class Web3Status extends PureComponent {
     }
 
     setNetwork() {
-        const netId = this.context.web3.networkId
+        const { networkId } = this.context.web3
 
-        switch (netId) {
+        switch (networkId) {
             case '1':
                 this.setState({ network: 'Main' })
                 break
@@ -45,7 +45,9 @@ class Web3Status extends PureComponent {
     }
 
     setAccount() {
-        this.setState({ activeAccount: this.context.web3.selectedAccount })
+        const { selectedAccount } = this.context.web3
+
+        this.setState({ selectedAccount })
     }
 
     togglePopover() {
@@ -55,13 +57,16 @@ class Web3Status extends PureComponent {
     }
 
     render() {
-        const { activeAccount, network, popoverOpen } = this.state
+        const { selectedAccount, network, popoverOpen } = this.state
+
         let indicatorClasses
 
-        if (activeAccount && network === 'Kovan') {
+        if (selectedAccount && network === 'Kovan') {
             indicatorClasses = styles.statusIndicatorActive
-        } else {
+        } else if (selectedAccount) {
             indicatorClasses = styles.statusIndicatorCloseEnough
+        } else {
+            indicatorClasses = styles.statusIndicator
         }
 
         return (
@@ -72,18 +77,7 @@ class Web3Status extends PureComponent {
             >
                 <div className={indicatorClasses} />
 
-                {popoverOpen && (
-                    <div className={styles.web3Popover}>
-                        <div className={styles.web3PopoverInfoline}>
-                            {
-                                network === 'Kovan'
-                                    ? network
-                                    : `${network} (Please connect to Kovan)`
-                            }
-                        </div>
-                        <div className={styles.web3PopoverInfoline}><Truncate>{activeAccount}</Truncate></div>
-                    </div>
-                )}
+                {popoverOpen && <Popover network={network} selectedAccount={selectedAccount} />}
             </div>
         )
     }
@@ -93,4 +87,22 @@ Web3Status.contextTypes = {
     web3: PropTypes.object
 }
 
-export default Web3Status
+const Popover = ({ network, selectedAccount }) => (
+    <div className={styles.web3Popover}>
+        <div className={styles.web3PopoverInfoline}>
+            {
+                network === 'Kovan'
+                    ? network
+                    : `${network} (Please connect to Kovan)`
+            }
+        </div>
+        <div className={styles.web3PopoverInfoline}>
+            {selectedAccount ? <Truncate>{selectedAccount}</Truncate> : 'No account selected'}
+        </div>
+    </div>
+)
+
+Popover.propTypes = {
+    network: PropTypes.string,
+    selectedAccount: PropTypes.string
+}
