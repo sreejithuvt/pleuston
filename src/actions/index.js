@@ -1,6 +1,10 @@
+/* eslint-disable no-console */
+
+import azure from 'azure-storage'
 import * as account from './account'
 import * as asset from './asset'
 import Logger from '../logger'
+import { cloudName, folderName, storageAccount, shareName, accessKey, sasToken } from '../../config/cloudStorage'
 
 export function setProviders() {
     return async (dispatch) => {
@@ -201,5 +205,59 @@ export function getOrders() {
             type: 'GET_ORDERS',
             orders
         })
+    }
+}
+
+export function getCloudFiles() {
+    /* Get list of files in cloud storage if cloud access is defined in the config file */
+    return async (dispatch) => {
+        if (cloudName === 'azure') {
+            const fileService = azure.createFileService(storageAccount, accessKey)
+            fileService.listFilesAndDirectoriesSegmented(shareName, folderName, null, null, (error, results, response) => {
+                if (!error) {
+                    let cloudFiles = []
+                    // Just process files,ignoring directories for now
+                    for (let file of results.entries.files) {
+                        // Deal with file object
+                        cloudFiles.push({ shareName, folderName, fileName: file.name })
+                    }
+
+                    console.log('files from azure storage: ', cloudFiles)
+                    dispatch({
+                        type: 'CLOUD_FILES',
+                        files: cloudFiles
+                    })
+                } else {
+                    console.error('error listing files in azure storage.', error)
+                }
+            })
+        }
+    }
+}
+
+export function pickFileFromStorage() {
+    function getUserPickedFileFromList(filesList) {
+        // TODO: prompt user to pick one of the files in the list
+        return filesList[0].fileName
+    }
+
+    return (dispatch, getState) => {
+        const state = getState()
+        console.log('get azure blob url', state.cloudStorage.files, storageAccount, accessKey, sasToken)
+        const fileService = azure.createFileService(storageAccount, accessKey)
+        console.log('time: ', (new Date().getTime()))
+        const timeout = (new Date().getTime()) + 3600 * 24 * 30 // 12 hours
+        const sharedAccessPolicy = {
+            AccessPolicy: {
+                Permissions: azure.FileUtilities.SharedAccessPermissions.READ,
+                Expiry: timeout
+            }
+        }
+
+        const fileName = getUserPickedFileFromList(state.cloudStorage.files)
+        const token = fileService.generateSharedAccessSignature(shareName, folderName, fileName, sharedAccessPolicy)
+        const sasUrl = fileService.getUrl(shareName, folderName, fileName, token)
+        console.log(shareName, folderName, fileName, token)
+        dispatch({ type: 'GET_URL', url: sasUrl })
     }
 }

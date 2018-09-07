@@ -1,21 +1,27 @@
+/* eslint-disable no-console */
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
-
 import AssetNewForm from '../components/asset/AssetNew'
 import {
     getActiveAccount,
-    putAsset
+    putAsset,
+    pickFileFromStorage
 } from '../actions/index'
 
 export default connect(
     state => ({
-        activeAccount: getActiveAccount(state)
+        initialValues: { links: state.newAsset.url },
+        activeAccount: getActiveAccount(state),
+        enableReinitialize: true
     }),
 
     dispatch => ({
-        onSubmit: values => {
+        handleSubmit: values => {
             dispatch(putAsset(values))
             dispatch(push('/datasets/'))
+        },
+        urlGetter: () => {
+            dispatch(pickFileFromStorage())
         }
     })
 )(AssetNewForm)
