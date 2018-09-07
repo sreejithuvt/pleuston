@@ -6,11 +6,12 @@ import FormInput from '../atoms/Form/FormInput'
 import FormHelp from '../atoms/Form/FormHelp'
 
 const AssetNew = ({
-    handleSubmit
+    handleSubmit,
+    urlGetter
 }) => (
     <form className="form" onSubmit={handleSubmit}>
         <div className="form__group">
-            <FormInput label="Title" name="name" required component="input" type="text" placeholder="" />
+            <FormInput label="Title" name="name" required component="input" type="text" placeholder="" value="samer" />
             <FormHelp>The title of your data set.</FormHelp>
         </div>
         <div className="form__group">
@@ -19,6 +20,7 @@ const AssetNew = ({
         </div>
         <div className="form__group">
             <FormInput label="Url" name="links" required component="input" type="url" placeholder="e.g. https://url.com/dataset.zip" />
+            <Button primary="false" type="button" onClick={urlGetter}>From Azure...</Button>
             <FormHelp>Add a URL pointing to your data set asset.</FormHelp>
         </div>
         <div className="form__group">
@@ -50,7 +52,8 @@ const AssetNew = ({
 )
 
 AssetNew.propTypes = {
-    handleSubmit: PropTypes.func.isRequired
+    handleSubmit: PropTypes.func.isRequired,
+    urlGetter: PropTypes.func.isRequired
 }
 
 const AssetNewForm = reduxForm({

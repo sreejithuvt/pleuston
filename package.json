@@ -19,6 +19,10 @@
   "dependencies": {
     "@oceanprotocol/art": "^1.0.2",
     "@oceanprotocol/keeper-js": "^0.0.3",
+    "azure": "^2.3.1-preview",
+    "azure-arm-documentdb": "^1.0.3-preview",
+    "azure-search": "0.0.21",
+    "azure-storage": "^2.10.1",
     "connected-react-router": "^4.4.1",
     "elliptic": "^6.4.1",
     "eth-crypto": "^1.2.3",

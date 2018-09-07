@@ -6,6 +6,8 @@ import asset from './asset'
 import contract from './contract'
 import provider from './provider'
 import order from './order'
+import newAsset from './newAsset'
+import cloudStorage from './cloudStorage'
 
 const appReducer = combineReducers({
     form: formReducer,
@@ -13,7 +15,9 @@ const appReducer = combineReducers({
     asset,
     contract,
     provider,
-    order
+    order,
+    newAsset,
+    cloudStorage
 })
 
 export default appReducer
