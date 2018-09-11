@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Truncate from 'react-truncate'
-
+import config from '../../../config/ocean.js'
 import styles from './Status.module.scss'
 
 export default class Web3Status extends PureComponent {
@@ -61,7 +61,7 @@ export default class Web3Status extends PureComponent {
 
         let indicatorClasses
 
-        if (selectedAccount && network === 'Kovan') {
+        if (selectedAccount && network === config.activeNetwork) {
             indicatorClasses = styles.statusIndicatorActive
         } else if (selectedAccount) {
             indicatorClasses = styles.statusIndicatorCloseEnough
@@ -91,9 +91,9 @@ const Popover = ({ network, selectedAccount }) => (
     <div className={styles.web3Popover}>
         <div className={styles.web3PopoverInfoline}>
             {
-                network === 'Kovan'
+                network === config.activeNetwork
                     ? network
-                    : `${network} (Please connect to Kovan)`
+                    : `${network} (Please connect to ${config.activeNetwork})`
             }
         </div>
         <div className={styles.web3PopoverInfoline}>

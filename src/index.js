@@ -43,7 +43,7 @@ const store = createStore(
 registerServiceWorker()
 
 function boot() {
-    Logger.log('booting up pleuston') // eslint-disable-line no-console
+    Logger.log('booting up pleuston')
     store.dispatch(setProviders()).then(() => {
         store.dispatch(getAssets())
         store.dispatch(getAccounts()).then(() => {

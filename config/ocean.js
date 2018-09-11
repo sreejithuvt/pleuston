@@ -1,4 +1,5 @@
 module.exports = {
+    activeNetwork: 'Kovan',
 
     // -----
     // Setup with local services
