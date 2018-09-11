@@ -4,16 +4,12 @@ import './Sidebar.scss'
 
 const menuItems = [
     {
-        name: 'Accounts',
+        name: 'Data Sets',
         route: '/'
     },
     {
-        name: 'Data Sets',
-        route: '/datasets'
-    },
-    {
         name: 'Publish',
-        route: '/datasets/new'
+        route: '/new'
     },
     {
         name: 'Orders',
