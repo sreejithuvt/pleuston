@@ -8,11 +8,12 @@
     > div {
         max-width: 35rem;
         padding: $spacer / 2;
+        text-align: center;
     }
 
     h1 {
-        margin-top: 0;
-        font-size: $font-size-h3;
+        margin-top: $spacer;
+        font-size: $font-size-h4;
     }
 
     p {

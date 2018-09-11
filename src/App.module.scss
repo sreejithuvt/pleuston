@@ -4,11 +4,6 @@
     color: $brand-grey;
     height: 100%;
     min-height: 100vh;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    -ms-word-break: break-all;
-    word-break: break-all;
-    word-break: break-word;
 
     @media screen and (min-width: $break-point--small) {
         display: flex;

@@ -28,7 +28,7 @@ const AssetList = ({
             </div>
         </Fragment>
     ) : (
-        <Empty title="No data sets found :-(" text="Have you checked your Keeper connection and selected an account?" />
+        <Empty title="No data sets yet" text="Why not add some of yours?" action="+ Add new data set" actionLink="/datasets/new" />
     )
 )
 
