@@ -71,8 +71,8 @@ export default class Web3Status extends PureComponent {
 
         return (
             <div className={styles.web3Status}
-                onMouseOver={() => this.togglePopover()}
-                onMouseOut={() => this.togglePopover()}
+                onMouseEnter={() => this.togglePopover()}
+                onMouseLeave={() => this.togglePopover()}
                 onTouchStart={() => this.togglePopover()}
             >
                 <div className={indicatorClasses} />
@@ -92,12 +92,12 @@ const Popover = ({ network, selectedAccount }) => (
         <div className={styles.web3PopoverInfoline}>
             {
                 network === config.activeNetwork
-                    ? network
+                    ? <strong>{network}</strong>
                     : `${network} (Please connect to ${config.activeNetwork})`
             }
         </div>
         <div className={styles.web3PopoverInfoline}>
-            {selectedAccount ? <Truncate>{selectedAccount}</Truncate> : 'No account selected'}
+            {selectedAccount ? <Truncate title={selectedAccount}>{selectedAccount}</Truncate> : 'No account selected'}
         </div>
     </div>
 )
