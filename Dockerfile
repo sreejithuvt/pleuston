@@ -22,7 +22,7 @@ RUN npm install
 RUN chmod +x /pleuston/scripts/docker-entrypoint.sh
 
 # Default ENV values
-# src/config.js
+# config/config.js
 ENV KEEPER_SCHEME='http'
 ENV KEEPER_HOST='localhost'
 ENV KEEPER_PORT='8545'
