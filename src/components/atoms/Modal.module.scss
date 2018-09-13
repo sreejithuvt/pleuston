@@ -1,0 +1,99 @@
+@import 'variables';
+
+.modal {
+    position: fixed;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    background: rgba($brand-black, .7);
+    backdrop-filter: blur(5px);
+    animation: fadein .3s;
+    padding: $spacer / 2;
+
+    @media (min-width: $break-point--small) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.modalContent {
+    outline: 0;
+    background: $brand-white;
+    position: relative;
+    border-radius: $border-radius;
+    border: 1px solid rgba($brand-pink, .4);
+    box-shadow: 0 5px 30px rgba($brand-black, .2);
+    padding: 0 $spacer / 2 $spacer / 2;
+    width: 100%;
+    max-width: 100%;
+
+    @media (min-width: $break-point--medium) {
+        max-width: $break-point--small;
+        padding: 0 $spacer $spacer;
+    }
+}
+
+.modalClose {
+    display: block;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+    line-height: 1;
+    font-size: $font-size-large;
+    padding: 3px;
+    position: absolute;
+    top: 0;
+    right: $spacer / 4;
+    color: $brand-grey;
+    font-weight: 500;
+}
+
+// Prevent background scrolling when modal is open
+.isModalOpen {
+    overflow: hidden;
+}
+
+.modalTitle {
+    font-size: $font-size-h4;
+    margin-top: $spacer / 2;
+    margin-bottom: $spacer / 2;
+    margin-left: -($spacer / 2);
+    margin-right: -($spacer / 2);
+    border-bottom: 1px solid rgba($brand-grey-light, .4);
+    padding: 0 $spacer;
+    padding-bottom: ($spacer/2);
+
+    @media (min-width: $break-point--medium) {
+        margin-left: -($spacer);
+        margin-right: -($spacer);
+    }
+}
+
+//
+// Overlay/content animations
+//
+@keyframes fadein {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
