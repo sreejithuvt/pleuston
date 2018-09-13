@@ -24,22 +24,29 @@ export async function publish(formValues, account, providers) {
 
         // OEP-08 Attributes
         // https://github.com/oceanprotocol/OEPs/tree/master/8
-        name: formValues.name,
-        description: formValues.description,
-        dateCreated: (new Date()).toString(),
-        // size: ,
-        // author: ,
-        license: formValues.license,
-        // copyrightHolder: ,
-        // encoding: ,
-        // compression: ,
-        // contentType: ,
-        // workExample: ,
-        contentUrls: [formValues.contentUrls],
-        // links: ,
-        // inLanguage: ,
-        tags: formValues.tags ? [formValues.tags] : [],
-        // price: ,
+        base: Object.assign(AssetModel.base, {
+            name: formValues.name,
+            description: formValues.description,
+            dateCreated: (new Date()).toString(),
+            // size: ,
+            // author: ,
+            license: formValues.license,
+            // copyrightHolder: ,
+            // encoding: ,
+            // compression: ,
+            // contentType: ,
+            // workExample: ,
+            contentUrls: [formValues.contentUrls],
+            // links: ,
+            // inLanguage: ,
+            tags: formValues.tags ? [formValues.tags] : []
+            // price: ,
+        }),
+        // curation: Object.assign(AssetModel.curation, {
+        //     rating: ,
+        //     numVotes: ,
+        //     schema:
+        // }),
         additionalInformation: Object.assign(AssetModel.additionalInformation, {
             updateFrequency: formValues.updateFrequency
         })

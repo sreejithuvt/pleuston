@@ -41,9 +41,15 @@ class AssetFull extends PureComponent {
             publisherId,
             handlePurchase,
             token,
-
             // OEP-08 Attributes
             // https://github.com/oceanprotocol/OEPs/tree/master/8
+            base,
+            // curation,
+            additionalInformation
+        } = this.props
+
+        // OEP-08 Base Attributes
+        const {
             name,
             description,
             dateCreated,
@@ -58,11 +64,9 @@ class AssetFull extends PureComponent {
             contentUrls,
             links,
             // inLanguage,
-            tags,
-            // price,
-            // curation,
-            additionalInformation
-        } = this.props
+            tags
+            // price
+        } = base
 
         return (
             <div className="assetfull">
@@ -150,31 +154,33 @@ AssetFull.propTypes = {
 
     // OEP-08 Attributes
     // https://github.com/oceanprotocol/OEPs/tree/master/8
-    name: PropTypes.string.isRequired,
-    description: PropTypes.string,
-    dateCreated: PropTypes.date,
-    // size: PropTypes.string.isRequired,
-    // author: PropTypes.string.isRequired,
-    license: PropTypes.string.isRequired,
-    // copyrightHolder: PropTypes.string,
-    // encoding: PropTypes.string,
-    // compression: PropTypes.string,
-    // contentType: PropTypes.string.isRequired,
-    // workExample: PropTypes.string,
-    contentUrls: PropTypes.array.isRequired,
-    links: PropTypes.array,
-    // inLanguage: PropTypes.string,
-    tags: PropTypes.array,
-    // price: PropTypes.number.isRequired,
-    // curation: {
+    base: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        description: PropTypes.string,
+        dateCreated: PropTypes.date,
+        // size: PropTypes.string.isRequired,
+        // author: PropTypes.string.isRequired,
+        license: PropTypes.string.isRequired,
+        // copyrightHolder: PropTypes.string,
+        // encoding: PropTypes.string,
+        // compression: PropTypes.string,
+        // contentType: PropTypes.string.isRequired,
+        // workExample: PropTypes.string,
+        contentUrls: PropTypes.array.isRequired,
+        links: PropTypes.array,
+        // inLanguage: PropTypes.string,
+        tags: PropTypes.array
+        // price: PropTypes.number.isRequired,
+    }),
+    // curation: PropTypes.shape({
     //     rating: PropTypes.number.isRequired,
     //     numVotes: PropTypes.number.isRequired,
     //     schema: PropTypes.string
-    // },
-    additionalInformation: {
+    // }),
+    additionalInformation: PropTypes.shape({
         updateFrequency: PropTypes.string
         // structuredMarkup: PropTypes.array
-    }
+    })
 }
 
 export default AssetFull
