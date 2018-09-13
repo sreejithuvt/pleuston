@@ -244,7 +244,7 @@ module.exports = {
                         use: getStyleLoaders(
                             {
                                 importLoaders: 2,
-                                includePaths: ['src/assets/stylesheets/']
+                                includePaths: ['src/styles/']
                             },
                             'sass-loader'
                         )
@@ -258,7 +258,7 @@ module.exports = {
                                 importLoaders: 2,
                                 modules: true,
                                 getLocalIdent: getCSSModuleLocalIdent,
-                                includePaths: ['src/assets/stylesheets/']
+                                includePaths: ['src/styles/']
                             },
                             'sass-loader'
                         )
