@@ -5,7 +5,7 @@ import { reduxForm } from 'redux-form'
 import Button from '../atoms/Button'
 import FormInput from '../atoms/Form/FormInput'
 import FormHelp from '../atoms/Form/FormHelp'
-import CloudStoragePicker from './CloudStoragePicker'
+import AssetNewModal from './AssetNewModal'
 import IconAzure from '../../svg/azure.svg'
 
 import styles from './AssetNew.module.scss'
@@ -87,7 +87,7 @@ class AssetNew extends Component {
                     </div>
                 </form>
 
-                <CloudStoragePicker
+                <AssetNewModal
                     isOpen={this.state.isModalOpen}
                     handleCloseModal={this.toggleModal}
                     urlGetter={urlGetter}

@@ -4,6 +4,8 @@ import ReactModal from 'react-modal'
 
 import styles from './Modal.module.scss'
 
+ReactModal.setAppElement(document.getElementById('root'))
+
 export default class Modal extends PureComponent {
     render() {
         if (!this.props.isOpen) {
