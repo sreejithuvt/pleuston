@@ -55,3 +55,26 @@
         background: $brand-gradient;
     }
 }
+
+.link {
+    border: 0;
+    outline: 0;
+    display: inline-block;
+    width: fit-content;
+    background: 0;
+    padding: 0;
+    color: $brand-pink;
+    font-size: $font-size-base;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.icon {
+    svg {
+        width: $font-size-large;
+        height: $font-size-large;
+        margin-right: $spacer / 8;
+        vertical-align: baseline;
+        fill: currentColor;
+    }
+}

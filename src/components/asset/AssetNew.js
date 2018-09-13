@@ -1,10 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
+import MultiSelectReact from 'multi-select-react'
+
 import Button from '../atoms/Button'
 import FormInput from '../atoms/Form/FormInput'
 import FormHelp from '../atoms/Form/FormHelp'
-import MultiSelectReact from 'multi-select-react'
+import IconAzure from '../../svg/azure.svg'
+
+import styles from './AssetNew.module.scss'
 
 const AssetNew = ({
     handleSubmit,
@@ -21,9 +25,13 @@ const AssetNew = ({
             <FormHelp>Describe your data set, explaining what the data represents and what it can be used for.</FormHelp>
         </div>
         <div className="form__group">
-            <FormInput label="Url" name="links" required component="input" type="url" placeholder="e.g. https://url.com/dataset.zip" />
+            <FormInput label="Asset URL" name="links" required component="input" type="url" placeholder="e.g. https://url.com/dataset.zip" />
             <MultiSelectReact name="selectBlobs" options={blobs} selectedBadgeClicked={urlGetter} isSingleSelect />
-            <FormHelp>Add a URL pointing to your data set asset.</FormHelp>
+            <FormHelp>Add a URL pointing to your data set asset or select it from cloud storage providers.</FormHelp>
+
+            <div className={styles.cloudstorage}>
+                <Button link="true" icon={IconAzure} onClick={urlGetter}>Azure</Button>
+            </div>
         </div>
         <div className="form__group">
             <FormInput label="Price" name="price" required type="number" component="input" placeholder="0" />
