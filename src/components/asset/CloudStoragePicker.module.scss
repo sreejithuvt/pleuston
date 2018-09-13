@@ -1,3 +1,53 @@
-.select {
+@import 'variables';
+
+.files {
     display: block;
+    // make 'em scrollable
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+    max-height: 300px;
+    min-height: 200px;
+    border-radius: $border-radius;
+    border: 1px solid $brand-pink;
+}
+
+.file {
+    display: block;
+    padding: $spacer / 3;
+    border-bottom: 1px solid $brand-grey-lighter;
+    transition: .2s ease-out;
+
+    &:last-child {
+        border: 0;
+    }
+
+    &:hover,
+    &:focus {
+        background: lighten($brand-grey-lighter, 5%);
+    }
+
+    &:active {
+        transition: none;
+    }
+}
+
+.selected {
+    composes: file;
+
+    &,
+    &:hover,
+    &:focus {
+        background: $brand-grey-light;
+        color: $brand-white;
+    }
+}
+
+.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-height: 300px;
+    min-height: 200px;
+    color: $brand-grey-light;
 }
