@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import fetchDownload from 'fetch-download'
 import AssetModel from '../models/asset'
 import PurchaseHandler from './purchase'

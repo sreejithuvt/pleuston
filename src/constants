@@ -1,0 +1,22 @@
+const newAssetTestingValues = {
+    name: 'data1001',
+    description: 'data1001',
+    tags: 'data1001',
+    price: 1,
+    license: 'public-domain',
+    updateFrequency: 'seldom'
+}
+
+const newAssetClearValues = {
+    name: '',
+    description: '',
+    tags: '',
+    price: null,
+    license: '',
+    updateFrequency: ''
+}
+
+export default {
+    newAssetTestingValues,
+    newAssetClearValues
+}

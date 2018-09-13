@@ -4,7 +4,7 @@ import azure from 'azure-storage'
 import * as account from './account'
 import * as asset from './asset'
 import Logger from '../logger'
-import { cloudName, folderName, storageAccount, shareName, accessKey, sasToken } from '../../config/cloudStorage'
+import { cloudName, storageAccount, accessKey, container } from '../../config/cloudStorage'
 
 export function setProviders() {
     return async (dispatch) => {
@@ -209,55 +209,59 @@ export function getOrders() {
 }
 
 export function getCloudFiles() {
-    /* Get list of files in cloud storage if cloud access is defined in the config file */
+    /* Get list of blobs in cloud storage if cloud access is defined in the config file */
     return async (dispatch) => {
         if (cloudName === 'azure') {
-            const fileService = azure.createFileService(storageAccount, accessKey)
-            fileService.listFilesAndDirectoriesSegmented(shareName, folderName, null, null, (error, results, response) => {
+            const blobService = azure.createBlobService(storageAccount, accessKey)
+            blobService.listBlobsSegmented(container, null, (error, results) => {
                 if (!error) {
-                    let cloudFiles = []
-                    // Just process files,ignoring directories for now
-                    for (let file of results.entries.files) {
-                        // Deal with file object
-                        cloudFiles.push({ shareName, folderName, fileName: file.name })
+                    let cloudBlobs = []
+                    console.log('blobs: ', results)
+                    // Just process blobs,ignoring directories for now
+                    for (let blob of results.entries) {
+                        // Deal with blob object
+                        cloudBlobs.push({ container, blobName: blob.name })
                     }
 
-                    console.log('files from azure storage: ', cloudFiles)
+                    console.log('blobs from azure storage: ', cloudBlobs)
                     dispatch({
-                        type: 'CLOUD_FILES',
-                        files: cloudFiles
+                        type: 'CLOUD_BLOBS',
+                        blobs: cloudBlobs
                     })
                 } else {
-                    console.error('error listing files in azure storage.', error)
+                    console.error('error listing blobs in azure storage.', error)
                 }
             })
         }
     }
 }
 
-export function pickFileFromStorage() {
-    function getUserPickedFileFromList(filesList) {
-        // TODO: prompt user to pick one of the files in the list
-        return filesList[0].fileName
-    }
-
+export function handleBlobChosen(blobsList) {
     return (dispatch, getState) => {
         const state = getState()
-        console.log('get azure blob url', state.cloudStorage.files, storageAccount, accessKey, sasToken)
-        const fileService = azure.createFileService(storageAccount, accessKey)
+        console.log('get azure blob url', state.cloudStorage.files, storageAccount, accessKey)
+        console.log('selected files: ', blobsList)
+        let selectedBlobs = []
+        for (let option of blobsList) {
+            if (option.value === true) {
+                selectedBlobs.push(option.label)
+            }
+        }
+
+        const blobService = azure.createBlobService(storageAccount, accessKey)
         console.log('time: ', (new Date().getTime()))
         const timeout = (new Date().getTime()) + 3600 * 24 * 30 // 12 hours
         const sharedAccessPolicy = {
             AccessPolicy: {
-                Permissions: azure.FileUtilities.SharedAccessPermissions.READ,
+                Permissions: azure.BlobUtilities.SharedAccessPermissions.READ,
                 Expiry: timeout
             }
         }
 
-        const fileName = getUserPickedFileFromList(state.cloudStorage.files)
-        const token = fileService.generateSharedAccessSignature(shareName, folderName, fileName, sharedAccessPolicy)
-        const sasUrl = fileService.getUrl(shareName, folderName, fileName, token)
-        console.log(shareName, folderName, fileName, token)
-        dispatch({ type: 'GET_URL', url: sasUrl })
+        const blobName = selectedBlobs[0]
+        const token = blobService.generateSharedAccessSignature(container, blobName, sharedAccessPolicy)
+        const sasUrl = blobService.getUrl(container, blobName, token)
+        console.log(container, blobName, token)
+        dispatch({ type: 'GET_LINKS', url: sasUrl })
     }
 }

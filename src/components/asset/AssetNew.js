@@ -4,10 +4,12 @@ import { reduxForm } from 'redux-form'
 import Button from '../atoms/Button'
 import FormInput from '../atoms/Form/FormInput'
 import FormHelp from '../atoms/Form/FormHelp'
+import MultiSelectReact from 'multi-select-react'
 
 const AssetNew = ({
     handleSubmit,
-    urlGetter
+    urlGetter,
+    blobs
 }) => (
     <form className="form" onSubmit={handleSubmit}>
         <div className="form__group">
@@ -20,7 +22,7 @@ const AssetNew = ({
         </div>
         <div className="form__group">
             <FormInput label="Url" name="links" required component="input" type="url" placeholder="e.g. https://url.com/dataset.zip" />
-            <Button primary="false" type="button" onClick={urlGetter}>From Azure...</Button>
+            <MultiSelectReact name="selectBlobs" options={blobs} selectedBadgeClicked={urlGetter} isSingleSelect />
             <FormHelp>Add a URL pointing to your data set asset.</FormHelp>
         </div>
         <div className="form__group">
@@ -53,7 +55,8 @@ const AssetNew = ({
 
 AssetNew.propTypes = {
     handleSubmit: PropTypes.func.isRequired,
-    urlGetter: PropTypes.func.isRequired
+    urlGetter: PropTypes.func.isRequired,
+    blobs: PropTypes.array.isRequired
 }
 
 const AssetNewForm = reduxForm({

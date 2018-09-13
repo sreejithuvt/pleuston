@@ -1,12 +1,12 @@
 const initialState = {
-    files: {}
+    blobs: {}
 }
 
 const cloudStorage = (state = initialState, action) => {
     switch (action.type) {
-        case 'CLOUD_FILES':
+        case 'CLOUD_BLOBS':
             return Object.assign({}, state, {
-                files: action.files
+                blobs: action.blobs
             })
         default:
             return state

@@ -1,12 +1,16 @@
+import newAssetTestingValues from '../constants'
+
 const initialState = {
-    url: ''
+    links: '',
+    blobs: []
 }
 
 const newAsset = (state = initialState, action) => {
     switch (action.type) {
-        case 'GET_URL':
+        case 'GET_LINKS':
             return Object.assign({}, state, {
-                url: action.url
+                links: action.url,
+                ...newAssetTestingValues
             })
         default:
             return state
