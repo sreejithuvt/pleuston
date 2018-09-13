@@ -7,16 +7,16 @@ import AssetMedia from './AssetMedia'
 import Button from '../atoms/Button'
 import './AssetFull.scss'
 
-const Editable = ({ name, value, onFieldChange, onValueChange }) => (
-    <input name={name} type="text" value={value} onChange={onValueChange} />
-)
+// const Editable = ({ name, value, onFieldChange, onValueChange }) => (
+//     <input name={name} type="text" value={value} onChange={onValueChange} />
+// )
 
-Editable.propTypes = {
-    name: PropTypes.string,
-    value: PropTypes.string,
-    onFieldChange: PropTypes.func,
-    onValueChange: PropTypes.func
-}
+// Editable.propTypes = {
+//     name: PropTypes.string,
+//     value: PropTypes.string,
+//     onFieldChange: PropTypes.func,
+//     onValueChange: PropTypes.func
+// }
 
 class AssetFull extends PureComponent {
     constructor(props) {
@@ -152,7 +152,7 @@ AssetFull.propTypes = {
     // https://github.com/oceanprotocol/OEPs/tree/master/8
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
-    dateCreated: PropTypes.date.isRequired,
+    dateCreated: PropTypes.date,
     // size: PropTypes.string.isRequired,
     // author: PropTypes.string.isRequired,
     license: PropTypes.string.isRequired,

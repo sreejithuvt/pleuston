@@ -20,16 +20,29 @@ export async function publish(formValues, account, providers) {
     // Now register in oceandb and publish the metadata
     const newAsset = {
         assetId,
-        metadata: Object.assign(AssetModel.metadata, {
-            date: (new Date()).toString(),
-            description: formValues.description,
-            labels: formValues.tags ? [formValues.tags] : [],
-            license: formValues.license,
-            links: formValues.links,
-            name: formValues.name,
+        publisherId: account.name,
+
+        // OEP-08 Attributes
+        // https://github.com/oceanprotocol/OEPs/tree/master/8
+        name: formValues.name,
+        description: formValues.description,
+        dateCreated: (new Date()).toString(),
+        // size: ,
+        // author: ,
+        license: formValues.license,
+        // copyrightHolder: ,
+        // encoding: ,
+        // compression: ,
+        // contentType: ,
+        // workExample: ,
+        contentUrls: [formValues.contentUrls],
+        // links: ,
+        // inLanguage: ,
+        tags: formValues.tags ? [formValues.tags] : [],
+        // price: ,
+        additionalInformation: Object.assign(AssetModel.additionalInformation, {
             updateFrequency: formValues.updateFrequency
-        }),
-        publisherId: account.name
+        })
     }
     const res = await oceanAgent.publishDataAsset(newAsset)
     Logger.debug('res: ', res)
