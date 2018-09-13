@@ -1,23 +1,13 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 
 import './Asset.scss'
 
 const AssetMedia = ({
-    url,
+    contentUrls,
     title
 }) => (
-    <Fragment>
-        {
-            url.match(/\.(jpeg|jpg|gif|png)$/) &&
-            <img alt={title} className="asset__img" src={url} />
-        }
-    </Fragment>
+    contentUrls[0].match(/\.(jpeg|jpg|gif|png)$/) &&
+    <img alt={title} className="asset__img" src={contentUrls[0]} />
 )
-
-AssetMedia.propTypes = {
-    url: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired
-}
 
 export default AssetMedia

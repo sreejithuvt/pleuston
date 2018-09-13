@@ -38,35 +38,39 @@ class AssetFull extends PureComponent {
 
         const {
             assetId,
+            publisherId,
             handlePurchase,
-            metadata: {
-                // category,
-                // classification,
-                date,
-                description,
-                // format,
-                // industry,
-                // keywords,
-                labels,
-                license,
-                // lifecycleStage,
-                links,
-                name,
-                // note,
-                // size,
-                token,
-                updateFrequency
-            },
-            publisherId
+            token,
+
+            // OEP-08 Attributes
+            // https://github.com/oceanprotocol/OEPs/tree/master/8
+            name,
+            description,
+            dateCreated,
+            // size,
+            // author,
+            license,
+            // copyrightHolder,
+            // encoding,
+            // compression,
+            // contentType,
+            // workExample,
+            contentUrls,
+            links,
+            // inLanguage,
+            tags,
+            // price,
+            // curation,
+            additionalInformation
         } = this.props
 
         return (
             <div className="assetfull">
                 <h1 className="assetfull__title">{name}</h1>
 
-                {links && links.length && (
+                {contentUrls && contentUrls.length && (
                     <p>
-                        <AssetMedia title={name} url={links} />
+                        <AssetMedia title={name} contentUrls={contentUrls} />
                     </p>
                 )}
 
@@ -75,8 +79,9 @@ class AssetFull extends PureComponent {
                 </p>
 
                 <p>
-                    <span className="assetfull__label">Published</span> { date }
+                    <span className="assetfull__label">Published</span> {dateCreated}
                 </p>
+
                 <p>
                     <span className="assetfull__label">ID</span> <Truncate>{assetId}</Truncate>
                 </p>
@@ -87,33 +92,45 @@ class AssetFull extends PureComponent {
                     </p>
                 )}
 
-                {links && links.length && (
+                {contentUrls && contentUrls.length && (
                     <p className="assetfull__url">
                         <span className="assetfull__label">Url</span>
-                        <a href={typeof links === 'string' ? links : links[0]}
-                            rel="noopener noreferrer" target="_blank">{ (typeof links === 'string' ? links : links[0]) || 'Please purchase' }</a>
+                        <a href={contentUrls[0]}>{contentUrls[0] || 'Please purchase' }</a>
+                    </p>
+                )}
+
+                {links && links.length && (
+                    <p className="assetfull__links">
+                        <span className="assetfull__label">Links</span>
+                        {
+                            links.map((link) => (
+                                Object.keys(link).forEach((key) => (
+                                    <a href={link[key]}>{key}</a>
+                                ))
+                            ))
+                        }
                     </p>
                 )}
 
                 <p className="assetfull__token">
-                    <span className="assetfull__label">Token</span> { token || 'Please purchase' }
+                    <span className="assetfull__label">Token</span> {token || 'Please purchase'}
                 </p>
 
-                {labels && (
+                {tags && (
                     <p className="assetfull__tags">
-                        <span className="assetfull__label">Labels</span> { labels.map(label => (label)) }
+                        <span className="assetfull__label">Tags</span> {tags.map(tag => (tag))}
                     </p>
                 )}
 
                 {license && (
                     <p className="assetfull__license">
-                        <span className="assetfull__label">License</span> { license }
+                        <span className="assetfull__label">License</span> {license}
                     </p>
                 )}
 
-                {updateFrequency && (
+                {additionalInformation.updateFrequency && (
                     <p className="assetfull__updateFrequency">
-                        <span className="assetfull__label">Update Frequency</span> { updateFrequency }
+                        <span className="assetfull__label">Update Frequency</span> {additionalInformation.updateFrequency}
                     </p>
                 )}
 
@@ -128,8 +145,36 @@ class AssetFull extends PureComponent {
 AssetFull.propTypes = {
     assetId: PropTypes.string,
     handlePurchase: PropTypes.func,
-    metadata: PropTypes.object,
-    publisherId: PropTypes.string
+    publisherId: PropTypes.string,
+    token: PropTypes.string,
+
+    // OEP-08 Attributes
+    // https://github.com/oceanprotocol/OEPs/tree/master/8
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    dateCreated: PropTypes.date.isRequired,
+    // size: PropTypes.string.isRequired,
+    // author: PropTypes.string.isRequired,
+    license: PropTypes.string.isRequired,
+    // copyrightHolder: PropTypes.string,
+    // encoding: PropTypes.string,
+    // compression: PropTypes.string,
+    // contentType: PropTypes.string.isRequired,
+    // workExample: PropTypes.string,
+    contentUrls: PropTypes.array.isRequired,
+    links: PropTypes.array,
+    // inLanguage: PropTypes.string,
+    tags: PropTypes.array,
+    // price: PropTypes.number.isRequired,
+    // curation: {
+    //     rating: PropTypes.number.isRequired,
+    //     numVotes: PropTypes.number.isRequired,
+    //     schema: PropTypes.string
+    // },
+    additionalInformation: {
+        updateFrequency: PropTypes.string
+        // structuredMarkup: PropTypes.array
+    }
 }
 
 export default AssetFull
