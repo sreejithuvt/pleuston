@@ -19,7 +19,6 @@ WORKDIR /pleuston
 
 RUN npm install -g npm serve
 RUN npm install
-RUN chmod +x /pleuston/scripts/docker-entrypoint.sh
 
 # Default ENV values
 # config/config.js
