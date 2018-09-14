@@ -1,9 +1,7 @@
 node_modules
-.git
 .editorconfig
 .eslintignore
-.eslintrc
+.git
 .gitignore
 .stylelintrc
 .travis.yml
-

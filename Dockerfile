@@ -1,25 +1,25 @@
-FROM node:8-alpine
+FROM node:8-jessie
 LABEL maintainer="Ocean Protocol <devops@oceanprotocol.com>"
 
-RUN apk add --no-cache --update\
-    bash\
+RUN apt-get -y update &&\
+    apt-get install -y\
+    build-essential\
     g++\
-    gcc\
-    gettext\
     git\
-    krb5-dev\
-    krb5-libs\
-    krb5\
-    make\
-    cairo-dev\
-    python
+    libcairo2-dev\
+    libgif-dev\
+    libjpeg-dev\
+    libpango1.0-dev\
+    xsel &&\
+    apt-get -y clean
 
 COPY . /pleuston
 WORKDIR /pleuston
 
+RUN npm update
 RUN npm install -g npm serve
 RUN npm install
-RUN chmod +x /pleuston/scripts/docker-entrypoint.sh
+RUN npm run build
 
 # Default ENV values
 # config/config.js
