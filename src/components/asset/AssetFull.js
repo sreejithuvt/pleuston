@@ -54,9 +54,9 @@ class AssetFull extends PureComponent {
             description,
             dateCreated,
             // size,
-            // author,
+            author,
             license,
-            // copyrightHolder,
+            copyrightHolder,
             // encoding,
             // compression,
             // contentType,
@@ -80,6 +80,14 @@ class AssetFull extends PureComponent {
 
                 <p>
                     <span className="assetfull__label">Publisher</span> <Truncate>{publisherId}</Truncate>
+                </p>
+
+                <p>
+                    <span className="assetfull__label">Author</span> {author}
+                </p>
+
+                <p>
+                    <span className="assetfull__label">Copyright holder</span> {copyrightHolder}
                 </p>
 
                 <p>
@@ -163,9 +171,9 @@ AssetFull.propTypes = {
         description: PropTypes.string,
         dateCreated: PropTypes.date,
         // size: PropTypes.string.isRequired,
-        // author: PropTypes.string.isRequired,
+        author: PropTypes.string.isRequired,
         license: PropTypes.string.isRequired,
-        // copyrightHolder: PropTypes.string,
+        copyrightHolder: PropTypes.string,
         // encoding: PropTypes.string,
         // compression: PropTypes.string,
         // contentType: PropTypes.string.isRequired,
