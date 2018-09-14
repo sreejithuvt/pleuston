@@ -64,8 +64,8 @@ class AssetFull extends PureComponent {
             contentUrls,
             links,
             // inLanguage,
-            tags
-            // price
+            tags,
+            price
         } = base
 
         return (
@@ -116,11 +116,15 @@ class AssetFull extends PureComponent {
                     </p>
                 )}
 
+                <p className="assetfull__price">
+                    <span className="assetfull__label">Price</span> {`${price} Ọ`}
+                </p>
+
                 <p className="assetfull__token">
                     <span className="assetfull__label">Token</span> {token || 'Please purchase'}
                 </p>
 
-                {tags && (
+                {tags && tags.length && (
                     <p className="assetfull__tags">
                         <span className="assetfull__label">Tags</span> {tags.map(tag => (tag))}
                     </p>
@@ -169,8 +173,8 @@ AssetFull.propTypes = {
         contentUrls: PropTypes.array.isRequired,
         links: PropTypes.array,
         // inLanguage: PropTypes.string,
-        tags: PropTypes.array
-        // price: PropTypes.number.isRequired,
+        tags: PropTypes.array,
+        price: PropTypes.number.isRequired
     }),
     // curation: PropTypes.shape({
     //     rating: PropTypes.number.isRequired,

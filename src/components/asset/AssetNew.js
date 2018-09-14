@@ -18,7 +18,7 @@ const AssetNew = ({
             <FormHelp>Describe your data set, explaining what the data represents and what it can be used for.</FormHelp>
         </div>
         <div className="form__group">
-            <FormInput label="Url" name="links" required component="input" type="url" placeholder="e.g. https://url.com/dataset.zip" />
+            <FormInput label="Url" name="contentUrls" required component="input" type="url" placeholder="e.g. https://url.com/dataset.zip" />
             <FormHelp>Add a URL pointing to your data set asset.</FormHelp>
         </div>
         <div className="form__group">
@@ -28,7 +28,7 @@ const AssetNew = ({
 
         <div className="form__group">
             <FormInput label="Tags" name="tags" component="input" placeholder="e.g. climate, ocean, atmosphere, temperature, earth-science, public" />
-            <FormHelp>Categorize your data set by one or more tags.</FormHelp>
+            <FormHelp>Categorize your data set by one or more tags, separated by comma.</FormHelp>
         </div>
         <div className="form__group">
             <FormInput label="License" name="license" required component="input" placeholder="e.g. proprietary" />

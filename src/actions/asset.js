@@ -7,40 +7,54 @@ const MINIMUM_REQUIRED_TOKENS = 10
 
 export async function publish(formValues, account, providers) {
     const { oceanKeeper, oceanAgent } = providers
+    const publisherId = account.name
+
     // check account balance and request tokens if necessary
-    const tokensBalance = await oceanKeeper.getBalance(account.name)
+    const tokensBalance = await oceanKeeper.getBalance(publisherId)
     if (tokensBalance < MINIMUM_REQUIRED_TOKENS) {
-        oceanKeeper.requestTokens(account.name, MINIMUM_REQUIRED_TOKENS)
+        oceanKeeper.requestTokens(publisherId, MINIMUM_REQUIRED_TOKENS)
     }
+
+    // Get user entered form values
+    const {
+        name,
+        description,
+        license,
+        contentUrls,
+        tags,
+        price,
+        updateFrequency
+    } = formValues
+
     // Register on the keeper (on-chain) first, then on the OceanDB
     const assetId = await oceanKeeper.registerDataAsset(
-        formValues.name, formValues.description, formValues.price, account.name
+        name, description, price, publisherId
     )
 
     // Now register in oceandb and publish the metadata
     const newAsset = {
         assetId,
-        publisherId: account.name,
+        publisherId,
 
         // OEP-08 Attributes
         // https://github.com/oceanprotocol/OEPs/tree/master/8
         base: Object.assign(AssetModel.base, {
-            name: formValues.name,
-            description: formValues.description,
+            name,
+            description,
             dateCreated: (new Date()).toString(),
             // size: ,
             // author: ,
-            license: formValues.license,
+            license,
             // copyrightHolder: ,
             // encoding: ,
             // compression: ,
             // contentType: ,
             // workExample: ,
-            contentUrls: [formValues.contentUrls],
+            contentUrls: [contentUrls],
             // links: ,
             // inLanguage: ,
-            tags: formValues.tags ? [formValues.tags] : []
-            // price: ,
+            tags: tags ? [tags.split(',')] : [],
+            price
         }),
         // curation: Object.assign(AssetModel.curation, {
         //     rating: ,
@@ -48,7 +62,7 @@ export async function publish(formValues, account, providers) {
         //     schema:
         // }),
         additionalInformation: Object.assign(AssetModel.additionalInformation, {
-            updateFrequency: formValues.updateFrequency
+            updateFrequency
         })
     }
     const res = await oceanAgent.publishDataAsset(newAsset)

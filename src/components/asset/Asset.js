@@ -24,11 +24,9 @@ const Asset = ({
 
         <div className="asset__meta">
             <div className="asset__price">{asset.base.price} Ọ</div>
-            <div className="asset__date">{new Date(asset.base.dateCreated).toLocaleDateString('en-US')}</div>
-            <div className="asset__publisher">
-                {/* <Truncate>By: {asset.publisherId}</Truncate> */}
+            <div className="asset__date">
+                {new Date(asset.base.dateCreated).toLocaleDateString('en-US')}
             </div>
-
         </div>
     </div>
 )
