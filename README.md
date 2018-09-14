@@ -139,6 +139,15 @@ All required components to get `pleuston` running are pre-configured and started
 
 If you want to change and run `pleuston` against your own deployed components, head over to the [`config/ocean.js`](./config/ocean.js) file and modify the respective values.
 
+To run your application over SSL, set the scheme values in [`config/ocean.js`](./config/ocean.js) to `https`:
+
+```js
+module.exports = {
+    keeperScheme: 'https',
+    oceanScheme: 'https'
+}
+```
+
 ### Keeper
 [`keeper-contracts`](https://github.com/oceanprotocol/keeper-contracts)
 
