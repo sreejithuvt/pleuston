@@ -1,15 +1,13 @@
 const initialState = {
-    web3: null,
-    oceanKeeper: null,
-    oceanAgent: ''
+    ocean: null,
+    oceanAgent: null
 }
 
 const provider = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_PROVIDERS':
             return Object.assign({}, state, {
-                web3: action.web3,
-                oceanKeeper: action.oceanKeeper,
+                ocean: action.ocean,
                 oceanAgent: action.oceanAgent
             })
         default:

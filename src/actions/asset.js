@@ -1,19 +1,19 @@
 import fetchDownload from 'fetch-download'
 import AssetModel from '../models/asset'
 import PurchaseHandler from './purchase'
-import Logger from '../logger'
+import Logger from '@oceanprotocol/squid'
 
 const MINIMUM_REQUIRED_TOKENS = 10
 
 export async function publish(formValues, account, providers) {
-    const { oceanKeeper, oceanAgent } = providers
+    const { ocean, oceanAgent } = providers
     // check account balance and request tokens if necessary
-    const tokensBalance = await oceanKeeper.getBalance(account.name)
+    const tokensBalance = await ocean.getBalance(account.name)
     if (tokensBalance < MINIMUM_REQUIRED_TOKENS) {
-        oceanKeeper.requestTokens(account.name, MINIMUM_REQUIRED_TOKENS)
+        ocean.market.requestTokens(account.name, MINIMUM_REQUIRED_TOKENS)
     }
     // Register on the keeper (on-chain) first, then on the OceanDB
-    const assetId = await oceanKeeper.registerDataAsset(
+    const assetId = await ocean.market.registerDataAsset(
         formValues.name, formValues.description, formValues.price, account.name
     )
 
@@ -37,22 +37,22 @@ export async function publish(formValues, account, providers) {
 }
 
 export async function list(contract, account, providers) {
-    const { oceanKeeper, oceanAgent } = providers
+    const { ocean, oceanAgent } = providers
     let dbAssets = await oceanAgent.getAssetsMetadata()
     Logger.log('assets: ', dbAssets)
 
-    dbAssets = Object.values(dbAssets).filter(async (asset) => { return oceanKeeper.checkAsset(asset.assetId) })
+    dbAssets = Object.values(dbAssets).filter(async (asset) => { return ocean.market.checkAsset(asset.assetId) })
     Logger.log('assets (published on-chain): ', dbAssets)
 
     return dbAssets
 }
 
 export async function purchase(asset, account, providers) {
-    const { oceanKeeper } = providers
+    const { ocean } = providers
 
     Logger.log('Purchasing asset by consumer:  ', account.name, ' assetid: ', asset.assetId)
 
-    let purchaseHandler = new PurchaseHandler(asset, account, oceanKeeper)
+    let purchaseHandler = new PurchaseHandler(asset, account, ocean)
     let order = await purchaseHandler.doPurchase()
     if (order.accessUrl) {
         Logger.log('begin downloading asset data.')
