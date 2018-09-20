@@ -7,11 +7,11 @@ import EthCrypto from 'eth-crypto'
 import EthjsUtil from 'ethereumjs-util'
 
 export default class PurchaseHandler {
-    constructor(asset, account, oceanKeeper) {
+    constructor(asset, account, ocean) {
         this.asset = asset
         this.order = {}
         this.account = account
-        this.oceanKeeper = oceanKeeper
+        this.ocean = ocean
         // this.web3 = web3
         this.key = EthCrypto.createIdentity()
 
@@ -22,10 +22,10 @@ export default class PurchaseHandler {
     }
 
     async doPurchase() {
-        const { asset, oceanKeeper, account, key } = this
+        const { asset, ocean, account, key } = this
         // Verify asset.assetId is valid on-chain
-        const isValid = await oceanKeeper.checkAsset(asset.assetId)
-        const assetPrice = await oceanKeeper.getAssetPrice(asset.assetId)
+        const isValid = await ocean.market.checkAsset(asset.assetId)
+        const assetPrice = await ocean.market.getAssetPrice(asset.assetId)
         console.log('is asset valid: ', asset.assetId, isValid, ', asset price:', assetPrice)
         // AUDIT: not sure why this is false, the asset is clearly valid on-chain
         // if (!isValid) {
@@ -39,7 +39,7 @@ export default class PurchaseHandler {
         // generate temp key pair
         const { privateKey } = key
         const publicKey = EthjsUtil.privateToPublic(privateKey).toString('hex')
-        oceanKeeper.orchestrateResourcePurchase(
+        ocean.purchaseAsset(
             asset.assetId, asset.publisherId, assetPrice, privateKey, publicKey, timeout, account.name,
             this.handleAccessRequestEvent.bind(this), this.handleAccessCommittedEvent.bind(this), this.finalizePurchase.bind(this))
 
@@ -86,7 +86,7 @@ export default class PurchaseHandler {
         if (error) {
             this.handleError(error)
         }
-        const { asset, oceanKeeper, account } = this
+        const { asset, ocean, account } = this
         console.log('keeper AccessRequestCommitted event received: ', order.id, eventResult.args)
         // id, expire, discovery, permissions, accessAgreementRef
         // Once the purchase agreement is fetched, display to the user to get confirmation to proceed with purchase
@@ -98,9 +98,9 @@ export default class PurchaseHandler {
         if (continuePurchase) {
             // send payment
             console.log('sending payment:  ', eventResult.args._id, asset.publisherId, asset.price, order.timeout)
-            oceanKeeper.sendPayment(asset.assetId, order, asset.publisherId, account.name)
+            ocean.payAsset(asset.assetId, order, asset.publisherId, account.name)
         } else {
-            oceanKeeper.cancelAccessRequest(eventResult.args._id, account.name)
+            ocean.auth.cancelAccessRequest(eventResult.args._id, account.name)
             this.reject('user cancelled purchase.')
         }
     }
@@ -109,11 +109,11 @@ export default class PurchaseHandler {
         if (error) {
             this.handleError(error)
         }
-        const { oceanKeeper, account, key } = this
+        const { ocean, account, key } = this
         // console.log('keeper EncryptedTokenPublished event received: ', order.id, eventResult.args)
         const privateKey = key.privateKey.slice(2)
 
-        const encryptedAccessToken = await oceanKeeper.getEncryptedAccessToken(eventResult.args._id, account.name)
+        const encryptedAccessToken = await ocean.auth.getEncryptedAccessToken(eventResult.args._id, account.name)
 
         // grab the access token from acl contract
         let tokenNo0x = encryptedAccessToken.slice(2)
@@ -125,8 +125,8 @@ export default class PurchaseHandler {
         // sign it
         let hexEncrToken = `0x${encryptedTokenBuffer.toString('hex')}`
 
-        let signature = oceanKeeper.sign(account.name, hexEncrToken)
-        const fixedMsgSha = oceanKeeper.getMessageHash(encryptedAccessToken)
+        let signature = ocean.helper.sign(account.name, hexEncrToken)
+        const fixedMsgSha = ocean.getMessageHash(encryptedAccessToken)
 
         // Download the data set from the provider using the url in the access token
         // decode the access token, grab the service_endpoint, request_id,
