@@ -1,22 +1,24 @@
-import * as account from './account'
+import * as ocean from './ocean'
 import * as asset from './asset'
-import Logger from '../logger'
+import { Logger } from '@oceanprotocol/squid'
 
 export function setProviders() {
     return async (dispatch) => {
         dispatch({
             type: 'SET_PROVIDERS',
-            ...(await account.createProviders())
+            ...(await ocean.provideOcean())
         })
     }
 }
 
 export function getAccounts() {
     return async (dispatch, getState) => {
-        const { provider } = getState()
+        const state = getState()
+        const { ocean } = state.provider
+
         dispatch({
             type: 'GET_ACCOUNTS',
-            accounts: await account.list(provider)
+            accounts: await ocean.getAccounts()
         })
     }
 }
@@ -41,11 +43,11 @@ export function getActiveAccount(state) {
 export function makeItRain(amount) {
     return async (dispatch, getState) => {
         const state = getState()
-
+        const { ocean } = state.provider
         try {
-            await state.contract.market.requestTokens(
+            await ocean.market.requestTokens(
                 amount,
-                { from: getActiveAccount(state).name }
+                getActiveAccount(state).name
             )
             dispatch(getAccounts())
         } catch (e) {
@@ -76,7 +78,6 @@ export function getAssets() {
 
         const assets = (await asset
             .list(
-                state.contract.market,
                 getActiveAccount(state),
                 state.provider
             ))
@@ -173,8 +174,8 @@ export function getOrders() {
             return []
         }
 
-        let { oceanKeeper } = state.provider
-        let orders = await oceanKeeper.getConsumerOrders(account.name)
+        const { ocean } = state.provider
+        let orders = await ocean.getOrdersByConsumer(account.name)
         Logger.log('ORDERS: ', orders, Object.values(state.asset.assets))
         let assets = null
         if (Object.values(state.asset.assets).length !== 0) {
