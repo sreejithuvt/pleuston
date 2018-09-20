@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Logger from './logger'
+import { Logger } from '@oceanprotocol/squid'
 
 import thunk from 'redux-thunk'
 
