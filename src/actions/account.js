@@ -20,7 +20,7 @@ export async function createProviders() {
         web3Provider: global.web3 ? global.web3.currentProvider : null,
         uri,
         network: keeperNetwork
-    }).getInstance()
+    })
 
     const providerURL = `${oceanScheme}://${oceanHost}:${oceanPort}/api/v1/provider`
     const oceanAgent = new OceanAgent(providerURL)

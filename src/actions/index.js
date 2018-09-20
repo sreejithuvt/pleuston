@@ -41,11 +41,11 @@ export function getActiveAccount(state) {
 export function makeItRain(amount) {
     return async (dispatch, getState) => {
         const state = getState()
-
+        const { ocean } = state.provider
         try {
-            await state.provider.ocean.market.requestTokens(
-                getActiveAccount(state).name,
-                amount
+            await ocean.market.requestTokens(
+                amount,
+                getActiveAccount(state).name
             )
             dispatch(getAccounts())
         } catch (e) {
