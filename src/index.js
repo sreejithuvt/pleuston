@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Logger from './logger'
+import { Logger } from '@oceanprotocol/squid'
 
 import thunk from 'redux-thunk'
 
@@ -39,7 +39,7 @@ const store = createStore(
 registerServiceWorker()
 
 function boot() {
-    Logger.log('booting up pleuston') // eslint-disable-line no-console
+    Logger.log('booting up pleuston')
     store.dispatch(setProviders()).then(() => {
         store.dispatch(getAssets())
         store.dispatch(getAccounts()).then(() => {

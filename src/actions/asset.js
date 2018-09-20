@@ -1,18 +1,17 @@
 import fetchDownload from 'fetch-download'
 import AssetModel from '../models/asset'
 import PurchaseHandler from './purchase'
-import Logger from '../logger'
+import Logger from '@oceanprotocol/squid'
 
 const MINIMUM_REQUIRED_TOKENS = 10
 
 export async function publish(formValues, account, providers) {
-    const { oceanKeeper, oceanAgent } = providers
+    const { ocean } = providers
     const publisherId = account.name
-
     // check account balance and request tokens if necessary
-    const tokensBalance = await oceanKeeper.getBalance(publisherId)
+    const tokensBalance = await ocean.token.getTokenBalance(publisherId)
     if (tokensBalance < MINIMUM_REQUIRED_TOKENS) {
-        oceanKeeper.requestTokens(publisherId, MINIMUM_REQUIRED_TOKENS)
+        await ocean.market.requestTokens(MINIMUM_REQUIRED_TOKENS, publisherId)
     }
 
     // Get user entered form values
@@ -29,7 +28,7 @@ export async function publish(formValues, account, providers) {
     } = formValues
 
     // Register on the keeper (on-chain) first, then on the OceanDB
-    const assetId = await oceanKeeper.registerDataAsset(
+    const assetId = await ocean.market.registerAsset(
         name, description, price, publisherId
     )
 
@@ -67,28 +66,28 @@ export async function publish(formValues, account, providers) {
             updateFrequency
         })
     }
-    const res = await oceanAgent.publishDataAsset(newAsset)
+    const res = await ocean.metadata.publishDataAsset(newAsset)
     Logger.debug('res: ', res)
     return newAsset
 }
 
-export async function list(contract, account, providers) {
-    const { oceanKeeper, oceanAgent } = providers
-    let dbAssets = await oceanAgent.getAssetsMetadata()
+export async function list(account, providers) {
+    const { ocean } = providers
+    let dbAssets = await ocean.metadata.getAssetsMetadata()
     Logger.log('assets: ', dbAssets)
 
-    dbAssets = Object.values(dbAssets).filter(async (asset) => { return oceanKeeper.checkAsset(asset.assetId) })
+    dbAssets = Object.values(dbAssets).filter(async (asset) => { return ocean.market.checkAsset(asset.assetId) })
     Logger.log('assets (published on-chain): ', dbAssets)
 
     return dbAssets
 }
 
 export async function purchase(asset, account, providers) {
-    const { oceanKeeper } = providers
+    const { ocean } = providers
 
     Logger.log('Purchasing asset by consumer:  ', account.name, ' assetid: ', asset.assetId)
 
-    let purchaseHandler = new PurchaseHandler(asset, account, oceanKeeper)
+    let purchaseHandler = new PurchaseHandler(asset, account, ocean)
     let order = await purchaseHandler.doPurchase()
     if (order.accessUrl) {
         Logger.log('begin downloading asset data.')
