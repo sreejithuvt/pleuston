@@ -51,7 +51,11 @@ _Pleuston_ is a single page React app, initially bootstrapped with [`create-reac
 - npm
 - Ocean Protocol components
 
-To start development with _Pleuston_ you first have to get all the other Ocean Protocol components up and running. The simplest way is to use our main `docker-compose` file from the [🐳 docker-images](https://github.com/oceanprotocol/docker-images) repository:
+To start development with _Pleuston_ you first have to get all the other Ocean Protocol components up and running.
+
+![ocean-components](https://user-images.githubusercontent.com/90316/45811608-d6a11a80-bccd-11e8-875e-f62c86b4b218.png)
+
+The simplest way is to use our main `docker-compose` file from the [🐳 docker-images](https://github.com/oceanprotocol/docker-images) repository:
 
 ```bash
 git clone git@github.com:oceanprotocol/docker-images.git
