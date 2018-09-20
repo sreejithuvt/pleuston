@@ -6,7 +6,7 @@ import Logger from '@oceanprotocol/squid'
 const MINIMUM_REQUIRED_TOKENS = 10
 
 export async function publish(formValues, account, providers) {
-    const { ocean, oceanAgent } = providers
+    const { ocean } = providers
     // check account balance and request tokens if necessary
     const tokensBalance = await ocean.token.getTokenBalance(account.name)
     if (tokensBalance < MINIMUM_REQUIRED_TOKENS) {
@@ -31,14 +31,14 @@ export async function publish(formValues, account, providers) {
         }),
         publisherId: account.name
     }
-    const res = await oceanAgent.publishDataAsset(newAsset)
+    const res = await ocean.metadata.publishDataAsset(newAsset)
     Logger.debug('res: ', res)
     return newAsset
 }
 
 export async function list(account, providers) {
-    const { ocean, oceanAgent } = providers
-    let dbAssets = await oceanAgent.getAssetsMetadata()
+    const { ocean } = providers
+    let dbAssets = await ocean.metadata.getAssetsMetadata()
     Logger.log('assets: ', dbAssets)
 
     dbAssets = Object.values(dbAssets).filter(async (asset) => { return ocean.market.checkAsset(asset.assetId) })

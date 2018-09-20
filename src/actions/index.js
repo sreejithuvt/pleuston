@@ -1,4 +1,4 @@
-import * as account from './account'
+import * as ocean from './ocean'
 import * as asset from './asset'
 import { Logger } from '@oceanprotocol/squid'
 
@@ -6,17 +6,19 @@ export function setProviders() {
     return async (dispatch) => {
         dispatch({
             type: 'SET_PROVIDERS',
-            ...(await account.createProviders())
+            ...(await ocean.provideOcean())
         })
     }
 }
 
 export function getAccounts() {
     return async (dispatch, getState) => {
-        const { provider } = getState()
+        const state = getState()
+        const { ocean } = state.provider
+
         dispatch({
             type: 'GET_ACCOUNTS',
-            accounts: await account.list(provider)
+            accounts: await ocean.getAccounts()
         })
     }
 }
@@ -172,7 +174,7 @@ export function getOrders() {
             return []
         }
 
-        let { ocean } = state.provider
+        const { ocean } = state.provider
         let orders = await ocean.getOrdersByConsumer(account.name)
         Logger.log('ORDERS: ', orders, Object.values(state.asset.assets))
         let assets = null
