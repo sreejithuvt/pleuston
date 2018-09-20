@@ -8,12 +8,12 @@ const MINIMUM_REQUIRED_TOKENS = 10
 export async function publish(formValues, account, providers) {
     const { ocean, oceanAgent } = providers
     // check account balance and request tokens if necessary
-    const tokensBalance = await ocean.getBalance(account.name)
+    const tokensBalance = await ocean.token.getTokenBalance(account.name)
     if (tokensBalance < MINIMUM_REQUIRED_TOKENS) {
         ocean.market.requestTokens(account.name, MINIMUM_REQUIRED_TOKENS)
     }
     // Register on the keeper (on-chain) first, then on the OceanDB
-    const assetId = await ocean.market.registerDataAsset(
+    const assetId = await ocean.market.registerAsset(
         formValues.name, formValues.description, formValues.price, account.name
     )
 
@@ -36,7 +36,7 @@ export async function publish(formValues, account, providers) {
     return newAsset
 }
 
-export async function list(contract, account, providers) {
+export async function list(account, providers) {
     const { ocean, oceanAgent } = providers
     let dbAssets = await oceanAgent.getAssetsMetadata()
     Logger.log('assets: ', dbAssets)

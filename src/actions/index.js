@@ -1,6 +1,6 @@
 import * as account from './account'
 import * as asset from './asset'
-import Logger from '@oceanprotocol/squid'
+import { Logger } from '@oceanprotocol/squid'
 
 export function setProviders() {
     return async (dispatch) => {
@@ -43,9 +43,9 @@ export function makeItRain(amount) {
         const state = getState()
 
         try {
-            await state.contract.market.requestTokens(
-                amount,
-                { from: getActiveAccount(state).name }
+            await state.provider.ocean.market.requestTokens(
+                getActiveAccount(state).name,
+                amount
             )
             dispatch(getAccounts())
         } catch (e) {
@@ -76,7 +76,6 @@ export function getAssets() {
 
         const assets = (await asset
             .list(
-                state.contract.market,
                 getActiveAccount(state),
                 state.provider
             ))
