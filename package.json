@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@oceanprotocol/art": "^1.0.2",
-    "@oceanprotocol/squid": "^0.0.4",
+    "@oceanprotocol/squid": "^0.0.6",
     "azure": "^2.3.1-preview",
     "azure-arm-documentdb": "^1.0.3-preview",
     "azure-search": "0.0.21",
