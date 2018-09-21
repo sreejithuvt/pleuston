@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import Truncate from 'react-truncate'
 
 import AssetMedia from './AssetMedia'
+import AssetFullMeta from './AssetFullMeta'
 
 import Button from '../atoms/Button'
 import styles from './AssetFull.module.scss'
@@ -68,6 +68,12 @@ class AssetFull extends PureComponent {
             price
         } = base
 
+        const Links = links.map((link) => (
+            Object.keys(link).forEach((key) => (
+                <a href={link[key]}>{key}</a>
+            ))
+        ))
+
         return (
             <div className={styles.assetFull}>
                 <h1 className={styles.assetFullTitle}>{name}</h1>
@@ -78,76 +84,37 @@ class AssetFull extends PureComponent {
                     </p>
                 )}
 
-                <p>
-                    <span className={styles.assetFullLabel}>Publisher</span> <Truncate>{publisherId}</Truncate>
-                </p>
+                <AssetFullMeta label="Publisher" item={publisherId} truncate />
 
-                <p>
-                    <span className={styles.assetFullLabel}>Author</span> {author}
-                </p>
+                <AssetFullMeta label="Author" item={author} />
 
-                <p>
-                    <span className={styles.assetFullLabel}>Copyright holder</span> {copyrightHolder}
-                </p>
+                {copyrightHolder && <AssetFullMeta label="Copyright holder" item={copyrightHolder} />}
 
-                <p>
-                    <span className={styles.assetFullLabel}>Published</span> {dateCreated}
-                </p>
+                <AssetFullMeta label="Published" item={dateCreated} />
 
-                <p>
-                    <span className={styles.assetFullLabel}>ID</span> <Truncate>{assetId}</Truncate>
-                </p>
+                <AssetFullMeta label="ID" item={assetId} truncate />
 
-                {description && (
-                    <p>
-                        <span className={styles.assetFullLabel}>Description</span> {description}
-                    </p>
-                )}
+                {description && <AssetFullMeta label="Description" item={description} />}
 
                 {contentUrls && contentUrls.length && (
-                    <p>
-                        <span className={styles.assetFullLabel}>Url</span>
-                        <a href={contentUrls[0]}>{contentUrls[0] || 'Please purchase' }</a>
-                    </p>
+                    <AssetFullMeta label="URL" item={contentUrls[0] || 'Please purchase'} link={contentUrls[0]} />
                 )}
 
                 {links.length > 0 && (
-                    <p>
-                        <span className={styles.assetFullLabel}>Links</span>
-                        {
-                            links.map((link) => (
-                                Object.keys(link).forEach((key) => (
-                                    <a href={link[key]}>{key}</a>
-                                ))
-                            ))
-                        }
-                    </p>
+                    <AssetFullMeta label="Links" item={Links} />
                 )}
 
-                <p>
-                    <span className={styles.assetFullLabel}>Price</span> {`${price} Ọ`}
-                </p>
-
-                <p>
-                    <span className={styles.assetFullLabel}>Token</span> {token || 'Please purchase'}
-                </p>
+                <AssetFullMeta label="Price" item={`${price} Ọ`} />
+                <AssetFullMeta label="Token" item={token || 'Please purchase'} />
 
                 {tags.length > 0 && (
-                    <p>
-                        <span className={styles.assetFullLabel}>Tags</span> {tags.map(tag => (tag))}
-                    </p>
+                    <AssetFullMeta label="Tags" item={tags.map(tag => (tag))} />
                 )}
 
-                {license && (
-                    <p>
-                        <span className={styles.assetFullLabel}>License</span> {license}
-                    </p>
-                )}
+                <AssetFullMeta label="License" item={license} />
 
                 {additionalInformation.updateFrequency && (
-                    <p>
-                        <span className={styles.assetFullLabel}>Update Frequency</span> {additionalInformation.updateFrequency}
-                    </p>
+                    <AssetFullMeta label="Update Frequency" item={additionalInformation.updateFrequency} />
                 )}
 
                 <div className={styles.assetFullActions}>
@@ -184,11 +151,11 @@ AssetFull.propTypes = {
         tags: PropTypes.array,
         price: PropTypes.number.isRequired
     }),
-    // curation: PropTypes.shape({
-    //     rating: PropTypes.number.isRequired,
-    //     numVotes: PropTypes.number.isRequired,
-    //     schema: PropTypes.string
-    // }),
+    curation: PropTypes.shape({
+        rating: PropTypes.number.isRequired,
+        numVotes: PropTypes.number.isRequired,
+        schema: PropTypes.string
+    }),
     additionalInformation: PropTypes.shape({
         updateFrequency: PropTypes.string
         // structuredMarkup: PropTypes.array

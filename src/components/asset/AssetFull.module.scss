@@ -12,14 +12,7 @@
 
 .assetFullTitle {
     font-size: $font-size-h3;
-}
-
-.assetFullLabel {
-    display: block;
-    font-family: $font-family-button;
-    text-transform: uppercase;
-    color: $brand-grey-light;
-    margin-top: $spacer;
+    margin-bottom: $spacer;
 }
 
 .assetFullActions {
