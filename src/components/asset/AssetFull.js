@@ -5,7 +5,7 @@ import Truncate from 'react-truncate'
 import AssetMedia from './AssetMedia'
 
 import Button from '../atoms/Button'
-import './AssetFull.scss'
+import styles from './AssetFull.module.scss'
 
 // const Editable = ({ name, value, onFieldChange, onValueChange }) => (
 //     <input name={name} type="text" value={value} onChange={onValueChange} />
@@ -69,8 +69,8 @@ class AssetFull extends PureComponent {
         } = base
 
         return (
-            <div className="assetfull">
-                <h1 className="assetfull__title">{name}</h1>
+            <div className={styles.assetFull}>
+                <h1 className={styles.assetFullTitle}>{name}</h1>
 
                 {contentUrls && contentUrls.length && (
                     <p>
@@ -79,41 +79,41 @@ class AssetFull extends PureComponent {
                 )}
 
                 <p>
-                    <span className="assetfull__label">Publisher</span> <Truncate>{publisherId}</Truncate>
+                    <span className={styles.assetFullLabel}>Publisher</span> <Truncate>{publisherId}</Truncate>
                 </p>
 
                 <p>
-                    <span className="assetfull__label">Author</span> {author}
+                    <span className={styles.assetFullLabel}>Author</span> {author}
                 </p>
 
                 <p>
-                    <span className="assetfull__label">Copyright holder</span> {copyrightHolder}
+                    <span className={styles.assetFullLabel}>Copyright holder</span> {copyrightHolder}
                 </p>
 
                 <p>
-                    <span className="assetfull__label">Published</span> {dateCreated}
+                    <span className={styles.assetFullLabel}>Published</span> {dateCreated}
                 </p>
 
                 <p>
-                    <span className="assetfull__label">ID</span> <Truncate>{assetId}</Truncate>
+                    <span className={styles.assetFullLabel}>ID</span> <Truncate>{assetId}</Truncate>
                 </p>
 
                 {description && (
-                    <p className="assetfull__description">
-                        <span className="assetfull__label">Description</span> {description}
+                    <p>
+                        <span className={styles.assetFullLabel}>Description</span> {description}
                     </p>
                 )}
 
                 {contentUrls && contentUrls.length && (
-                    <p className="assetfull__url">
-                        <span className="assetfull__label">Url</span>
+                    <p>
+                        <span className={styles.assetFullLabel}>Url</span>
                         <a href={contentUrls[0]}>{contentUrls[0] || 'Please purchase' }</a>
                     </p>
                 )}
 
-                {links && links.length && (
-                    <p className="assetfull__links">
-                        <span className="assetfull__label">Links</span>
+                {links.length > 0 && (
+                    <p>
+                        <span className={styles.assetFullLabel}>Links</span>
                         {
                             links.map((link) => (
                                 Object.keys(link).forEach((key) => (
@@ -124,33 +124,33 @@ class AssetFull extends PureComponent {
                     </p>
                 )}
 
-                <p className="assetfull__price">
-                    <span className="assetfull__label">Price</span> {`${price} Ọ`}
+                <p>
+                    <span className={styles.assetFullLabel}>Price</span> {`${price} Ọ`}
                 </p>
 
-                <p className="assetfull__token">
-                    <span className="assetfull__label">Token</span> {token || 'Please purchase'}
+                <p>
+                    <span className={styles.assetFullLabel}>Token</span> {token || 'Please purchase'}
                 </p>
 
-                {tags && tags.length && (
-                    <p className="assetfull__tags">
-                        <span className="assetfull__label">Tags</span> {tags.map(tag => (tag))}
+                {tags.length > 0 && (
+                    <p>
+                        <span className={styles.assetFullLabel}>Tags</span> {tags.map(tag => (tag))}
                     </p>
                 )}
 
                 {license && (
-                    <p className="assetfull__license">
-                        <span className="assetfull__label">License</span> {license}
+                    <p>
+                        <span className={styles.assetFullLabel}>License</span> {license}
                     </p>
                 )}
 
                 {additionalInformation.updateFrequency && (
-                    <p className="assetfull__updateFrequency">
-                        <span className="assetfull__label">Update Frequency</span> {additionalInformation.updateFrequency}
+                    <p>
+                        <span className={styles.assetFullLabel}>Update Frequency</span> {additionalInformation.updateFrequency}
                     </p>
                 )}
 
-                <div className="assetfull__actions">
+                <div className={styles.assetFullActions}>
                     <Button primary="true" onClick={() => handlePurchase(assetId)}>Purchase</Button>
                 </div>
             </div>

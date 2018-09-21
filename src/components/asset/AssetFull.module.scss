@@ -1,7 +1,8 @@
 @import 'variables';
 
-.assetfull {
+.assetFull {
     margin: auto;
+    margin-bottom: $spacer * 2;
     max-width: $break-point--small;
 
     .asset__img {
@@ -9,14 +10,18 @@
     }
 }
 
-.assetfull__title {
+.assetFullTitle {
     font-size: $font-size-h3;
 }
 
-.assetfull__label {
+.assetFullLabel {
     display: block;
     font-family: $font-family-button;
     text-transform: uppercase;
     color: $brand-grey-light;
+    margin-top: $spacer;
+}
+
+.assetFullActions {
     margin-top: $spacer;
 }
