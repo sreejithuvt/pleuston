@@ -55,7 +55,7 @@ export async function publish(formValues, account, providers) {
             // links: ,
             // inLanguage: ,
             tags: tags ? [tags.split(',')] : [],
-            price
+            price: parseFloat(price)
         }),
         curation: Object.assign(AssetModel.curation, {
             rating: 0,
