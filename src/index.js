@@ -59,6 +59,7 @@ function boot() {
 ReactDOM.render(
     <Provider store={store}>
         <Web3Provider
+            onChangeAccount={() => store.dispatch(getAccounts())}
             web3UnavailableScreen={() => <Web3Unavailable />}
             accountUnavailableScreen={() => <Web3AccountUnavailable />}
             // onChangeAccount={null}

@@ -1,29 +1,23 @@
+import { Logger } from '@oceanprotocol/squid'
+
 const initialState = {
+    networkName: 'unknown',
     accounts: [],
     activeAccount: 0
 }
 
 const account = (state = initialState, action) => {
     switch (action.type) {
-        case 'GET_ACCOUNTS':
-            return Object.assign({}, state, {
+        case 'SET_ACCOUNTS':
+            Logger.log('accounts', action.accounts)
+            return {
+                ...state,
                 accounts: action.accounts
-            })
-        case 'SET_ACTIVE_ACCOUNT':
-            return Object.assign({}, state, {
-                activeAccount: action.activeAccount
-            })
-
-        // https://github.com/coopermaruyama/react-web3#redux-support
-        case 'web3/RECEIVE_ACCOUNT':
-            return {
-                ...state,
-                ethAddress: action.address
             }
-        case 'web3/CHANGE_ACCOUNT':
+        case 'SET_NETWORKNAME':
             return {
                 ...state,
-                ethAddress: action.address
+                networkName: action.networkName
             }
         default:
             return state
