@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@oceanprotocol/art": "^1.0.2",
-    "@oceanprotocol/squid": "^0.0.7",
+    "@oceanprotocol/squid": "^0.0.10",
     "connected-react-router": "^4.4.1",
     "elliptic": "^6.4.1",
     "eth-crypto": "^1.2.3",
