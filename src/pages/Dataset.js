@@ -6,7 +6,7 @@ import Layout from '../components/Layout'
 import AssetFullLoader from '../containers/AssetFullLoader'
 
 const Dataset = ({ caption, name }) => (
-    <Layout>
+    <Layout narrow>
         <AssetFullLoader />
     </Layout>
 )

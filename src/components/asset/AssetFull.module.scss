@@ -1,10 +1,6 @@
 @import 'variables';
 
 .assetFull {
-    margin: auto;
-    margin-bottom: $spacer * 2;
-    max-width: $break-point--small;
-
     .asset__img {
         max-height: none;
     }
@@ -12,6 +8,7 @@
 
 .assetFullTitle {
     font-size: $font-size-h3;
+    margin-top: $spacer;
     margin-bottom: $spacer;
 }
 
