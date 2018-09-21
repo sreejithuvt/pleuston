@@ -16,8 +16,8 @@ import {
 } from 'connected-react-router'
 
 import { Web3Provider } from 'react-web3'
-import Web3Unavailable from './components/Web3/Unavailable'
-import Web3AccountUnavailable from './components/Web3/AccountUnavailable'
+import Web3Unavailable from './components/metamask/Unavailable'
+import Web3AccountUnavailable from './components/metamask/AccountUnavailable'
 
 import appReducer from './reducers'
 import {
@@ -44,27 +44,29 @@ registerServiceWorker()
 
 function boot() {
     Logger.log('booting up pleuston')
-    store.dispatch(setProviders()).then(() => {
-        store.dispatch(getAssets())
-        store.dispatch(getAccounts()).then(() => {
-            store.dispatch(getOrders())
+    store.dispatch(setProviders())
+        .then(() => {
+            store.dispatch(getAssets())
+            store.dispatch(getAccounts())
+                .then(() => {
+                    store.dispatch(getOrders())
+                })
         })
-    })
 }
 
 /* Das */boot()
 
 ReactDOM.render(
-    <Web3Provider
-        web3UnavailableScreen={() => <Web3Unavailable />}
-        accountUnavailableScreen={() => <Web3AccountUnavailable />}
-        // onChangeAccount={null}
-    >
-        <Provider store={store}>
+    <Provider store={store}>
+        <Web3Provider
+            web3UnavailableScreen={() => <Web3Unavailable />}
+            accountUnavailableScreen={() => <Web3AccountUnavailable />}
+            // onChangeAccount={null}
+        >
             <Router history={history}>
                 <App />
             </Router>
-        </Provider>
-    </Web3Provider>,
+        </Web3Provider>
+    </Provider>,
     document.getElementById('root')
 )

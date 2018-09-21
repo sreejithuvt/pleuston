@@ -20,8 +20,8 @@ import { Web3Provider } from 'react-web3'
 
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
-import Web3Unavailable from './components/Web3/Unavailable'
-import Web3AccountUnavailable from './components/Web3/AccountUnavailable'
+import Web3Unavailable from './components/metamask/Unavailable'
+import Web3AccountUnavailable from './components/metamask/AccountUnavailable'
 
 const history = createBrowserHistory()
 

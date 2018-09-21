@@ -2,7 +2,7 @@
 
 $popoverWidth: 18rem;
 
-.web3Status {
+.metamaskStatus {
     color: $brand-grey-light;
     font-size: $font-size-small;
     position: relative;
@@ -35,7 +35,7 @@ $popoverWidth: 18rem;
     background: $green;
 }
 
-.web3Popover {
+.metamaskPopover {
     position: absolute;
     top: 90%;
     left: 10%;
@@ -63,7 +63,7 @@ $popoverWidth: 18rem;
     }
 }
 
-.web3PopoverInfoline {
+.metamaskPopoverInfoline {
     border-bottom: .05rem solid $brand-grey;
     padding: $spacer / 4 0;
 

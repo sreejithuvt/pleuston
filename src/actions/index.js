@@ -40,6 +40,12 @@ export function getActiveAccount(state) {
     return accounts[activeAccount]
 }
 
+export function getNetworkName(state) {
+    const { ocean } = state.provider
+
+    return ocean ? ocean.helper.getNetworkName() : 'unknown'
+}
+
 export function makeItRain(amount) {
     return async (dispatch, getState) => {
         const state = getState()
@@ -123,7 +129,7 @@ export function purchaseAsset(assetId) {
     return async (dispatch, getState) => {
         const state = getState()
         const activeAsset = getActiveAsset(state)
-        const token = await asset.purchase(
+        const token = await activeAsset.purchase(
             activeAsset,
             getActiveAccount(state),
             state.provider

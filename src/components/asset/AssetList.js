@@ -6,10 +6,7 @@ import AssetFilterLoader from '../../containers/AssetFilterLoader'
 import Asset from './Asset'
 import './AssetList.scss'
 
-const AssetList = ({
-    assets,
-    handleClick
-}) => (
+const AssetList = ({ assets, handleClick }) => (
     assets.length ? (
         <Fragment>
             <AssetFilterLoader />
