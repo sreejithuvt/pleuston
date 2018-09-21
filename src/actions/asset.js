@@ -57,11 +57,11 @@ export async function publish(formValues, account, providers) {
             tags: tags ? [tags.split(',')] : [],
             price
         }),
-        // curation: Object.assign(AssetModel.curation, {
-        //     rating: ,
-        //     numVotes: ,
-        //     schema:
-        // }),
+        curation: Object.assign(AssetModel.curation, {
+            rating: 0,
+            numVotes: 0,
+            schema: 'Binary Voting'
+        }),
         additionalInformation: Object.assign(AssetModel.additionalInformation, {
             updateFrequency
         })
