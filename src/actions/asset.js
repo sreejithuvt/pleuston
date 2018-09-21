@@ -1,7 +1,7 @@
 import fetchDownload from 'fetch-download'
 import AssetModel from '../models/asset'
 import PurchaseHandler from './purchase'
-import Logger from '@oceanprotocol/squid'
+import { Logger } from '@oceanprotocol/squid'
 
 const MINIMUM_REQUIRED_TOKENS = 10
 
