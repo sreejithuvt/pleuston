@@ -132,7 +132,7 @@ export function purchaseAsset(assetId) {
     return async (dispatch, getState) => {
         const state = getState()
         const activeAsset = getActiveAsset(state)
-        const token = await activeAsset.purchase(
+        const token = await asset.purchase(
             activeAsset,
             getActiveAccount(state),
             state.provider
