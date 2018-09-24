@@ -19,7 +19,7 @@ export default connect(
         },
         handleClickLogo: () => {
             dispatch(makeItRain(1))
-            dispatch(push('/datasets/'))
+            dispatch(push('/'))
         }
     })
 )(Header)
