@@ -1,6 +1,7 @@
 @import 'variables';
 
 .screenHeader {
+    margin-top: $spacer;
     margin-bottom: $spacer;
 
     @media (min-width: $break-point--small) {
