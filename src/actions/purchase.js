@@ -39,9 +39,18 @@ export default class PurchaseHandler {
         // generate temp key pair
         const { privateKey } = key
         const publicKey = EthjsUtil.privateToPublic(privateKey).toString('hex')
-        ocean.purchaseAsset(
-            asset.assetId, asset.publisherId, assetPrice, privateKey, publicKey, timeout, account.name,
-            this.handleAccessRequestEvent.bind(this), this.handleAccessCommittedEvent.bind(this), this.finalizePurchase.bind(this))
+        await ocean.purchaseAsset(
+            asset.assetId,
+            asset.publisherId,
+            assetPrice,
+            privateKey,
+            publicKey,
+            timeout,
+            account.name,
+            this.handleAccessRequestEvent.bind(this),
+            this.handleAccessCommittedEvent.bind(this),
+            this.finalizePurchase.bind(this)
+        )
 
         return this.orderPromise
     }
