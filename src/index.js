@@ -62,7 +62,6 @@ ReactDOM.render(
             onChangeAccount={() => store.dispatch(getAccounts())}
             web3UnavailableScreen={() => <Web3Unavailable />}
             accountUnavailableScreen={() => <Web3AccountUnavailable />}
-            // onChangeAccount={null}
         >
             <Router history={history}>
                 <App />
