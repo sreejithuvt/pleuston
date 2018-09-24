@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-
+import MetamaskStatusLoader from '../containers/MetamaskStatusLoader'
 import logo from '@oceanprotocol/art/logo/logo-white.svg'
-import AccountBalance from './account/AccountBalance'
+// import AccountBalance from './account/AccountBalance'
 import styles from './Header.module.scss'
 
 const Header = ({
@@ -16,7 +16,8 @@ const Header = ({
                 <img alt="logo" className={styles.headerLogoImage} src={logo} />
                 <h1 className={styles.headerTitle}>Data Sets</h1>
             </div>
-            <nav className={styles.headerMenu} onClick={handleClickAccount}>
+            <MetamaskStatusLoader />
+            {/* <nav className={styles.headerMenu} onClick={handleClickAccount}>
                 {
                     activeAccount ? (
                         <Fragment>
@@ -29,7 +30,7 @@ const Header = ({
                         'No account selected'
                     )
                 }
-            </nav>
+            </nav> */}
         </div>
     </header>
 )

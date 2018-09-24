@@ -15,7 +15,7 @@ export default connect(
     dispatch => ({
         onSubmit: values => {
             dispatch(putAsset(values))
-            dispatch(push('/datasets/'))
+            dispatch(push('/'))
         }
     })
 )(AssetNewForm)

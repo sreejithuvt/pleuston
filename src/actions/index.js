@@ -8,6 +8,8 @@ export function setProviders() {
             type: 'SET_PROVIDERS',
             ...(await ocean.provideOcean())
         })
+
+        dispatch(setNetworkName())
     }
 }
 
@@ -17,17 +19,8 @@ export function getAccounts() {
         const { ocean } = state.provider
 
         dispatch({
-            type: 'GET_ACCOUNTS',
+            type: 'SET_ACCOUNTS',
             accounts: await ocean.getAccounts()
-        })
-    }
-}
-
-export function setActiveAccount(accountId) {
-    return (dispatch) => {
-        dispatch({
-            type: 'SET_ACTIVE_ACCOUNT',
-            activeAccount: accountId
         })
     }
 }
@@ -38,6 +31,22 @@ export function getActiveAccount(state) {
         return null
     }
     return accounts[activeAccount]
+}
+
+function setNetworkName() {
+    return async (dispatch, getState) => {
+        const { ocean } = getState().provider
+
+        dispatch({
+            type: 'SET_NETWORKNAME',
+            networkName: await ocean.helper.getNetworkName()
+        })
+    }
+}
+
+export function getNetworkName(state) {
+    let { networkName } = state.account
+    return networkName
 }
 
 export function makeItRain(amount) {
@@ -123,7 +132,7 @@ export function purchaseAsset(assetId) {
     return async (dispatch, getState) => {
         const state = getState()
         const activeAsset = getActiveAsset(state)
-        const token = await asset.purchase(
+        const token = await activeAsset.purchase(
             activeAsset,
             getActiveAccount(state),
             state.provider
@@ -192,14 +201,14 @@ export function getOrders() {
             }
         }
         // map orders by order id
-        orders = orders.reduce((map, obj) => {
+        orders = await orders.reduce((map, obj) => {
             map[obj._id] = obj
             return map
         }, {})
         Logger.log('ORDERS mapped: ', orders)
 
         dispatch({
-            type: 'GET_ORDERS',
+            type: 'SET_ORDERS',
             orders
         })
     }

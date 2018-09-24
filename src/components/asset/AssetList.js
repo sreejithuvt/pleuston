@@ -6,10 +6,7 @@ import AssetFilterLoader from '../../containers/AssetFilterLoader'
 import Asset from './Asset'
 import './AssetList.scss'
 
-const AssetList = ({
-    assets,
-    handleClick
-}) => (
+const AssetList = ({ assets, handleClick }) => (
     assets.length ? (
         <Fragment>
             <AssetFilterLoader />
@@ -28,7 +25,7 @@ const AssetList = ({
             </div>
         </Fragment>
     ) : (
-        <Empty title="No data sets found :-(" text="Have you checked your Keeper connection and selected an account?" />
+        <Empty title="No data sets yet" text="Why not add some of yours?" action="+ Add new data set" actionLink="/new" />
     )
 )
 
