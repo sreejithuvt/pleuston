@@ -10,6 +10,7 @@ const AssetModel = {
         'dateCreated': null,
         'size': null,
         'author': null,
+        'type': '',
         'license': null,
         'copyrightHolder': null,
         'encoding': null,
