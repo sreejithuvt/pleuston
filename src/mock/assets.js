@@ -8,6 +8,7 @@ const mockAssets = [
             'size': '3.1gb',
             'dateCreated': '2012-02-01T10:55:11+00:00',
             'author': 'Met Office',
+            'type': 'dataset',
             'license': 'CC-BY',
             'copyrightHolder': 'Met Office',
             'encoding': 'UTF-8',

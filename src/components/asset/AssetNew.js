@@ -11,24 +11,35 @@ const AssetNew = ({
     <form className="form" onSubmit={handleSubmit}>
         <div className="form__group">
             <FormInput label="Title" name="name" required component="input" type="text" placeholder="" />
-            <FormHelp>The title of your data set.</FormHelp>
+            <FormHelp>The title of your asset.</FormHelp>
         </div>
         <div className="form__group">
             <FormInput label="Description" name="description" required component="textarea" rows="5" placeholder="" />
-            <FormHelp>Describe your data set, explaining what the data represents and what it can be used for.</FormHelp>
+            <FormHelp>Describe your asset, explaining what the data represents and what it can be used for.</FormHelp>
         </div>
         <div className="form__group">
             <FormInput label="Url" name="contentUrls" required component="input" type="url" placeholder="e.g. https://url.com/dataset.zip" />
-            <FormHelp>Add a URL pointing to your data set asset.</FormHelp>
+            <FormHelp>Add a URL pointing to your asset.</FormHelp>
         </div>
         <div className="form__group">
             <FormInput label="Price" name="price" required type="number" component="input" placeholder="0" />
-            <FormHelp>Price of your data set asset in Ocean Tokens.</FormHelp>
+            <FormHelp>Price of your asset in Ocean Tokens.</FormHelp>
         </div>
 
         <div className="form__group">
             <FormInput label="Author" name="author" required component="input" type="text" placeholder="e.g. Tfl, Disney Corp." />
             <FormHelp>The name of the entity generating this data.</FormHelp>
+        </div>
+        <div className="form__group">
+            <FormInput label="Type" required name="type" component="select">
+                <option />
+                <option value="dataset">Data set</option>
+                <option value="algorithm">Algorithm</option>
+                <option value="container">Container</option>
+                <option value="workflow">Workflow</option>
+                <option value="other">Other</option>
+            </FormInput>
+            <FormHelp>The type of your asset.</FormHelp>
         </div>
         <div className="form__group">
             <FormInput label="License" required name="license" component="select">
@@ -49,7 +60,7 @@ const AssetNew = ({
 
         <div className="form__group">
             <FormInput label="Tags" name="tags" component="input" placeholder="e.g. climate, ocean, atmosphere, temperature, earth-science, public" />
-            <FormHelp>Categorize your data set by one or more tags, separated by comma.</FormHelp>
+            <FormHelp>Categorize your asset by one or more tags, separated by comma.</FormHelp>
         </div>
         <div className="form__group">
             <FormInput label="Update Frequency" name="updateFrequency" component="select">

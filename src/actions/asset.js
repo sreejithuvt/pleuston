@@ -24,6 +24,7 @@ export async function publish(formValues, account, providers) {
         copyrightHolder,
         tags,
         price,
+        type,
         updateFrequency
     } = formValues
 
@@ -55,7 +56,8 @@ export async function publish(formValues, account, providers) {
             // links: ,
             // inLanguage: ,
             tags: tags ? [tags.split(',')] : [],
-            price: parseFloat(price)
+            price: parseFloat(price),
+            type
         }),
         curation: Object.assign(AssetModel.curation, {
             rating: 0,
