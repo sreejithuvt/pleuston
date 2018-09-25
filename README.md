@@ -64,6 +64,7 @@ The simplest way is to use our main `docker-compose` file from the [🐳 docker-
 git clone git@github.com:oceanprotocol/docker-images.git
 cd docker-images/
 
+export ARTIFACTS_FOLDER=~/.ocean/artifacts
 docker-compose --project-name=ocean up
 ```
 
@@ -81,6 +82,11 @@ docker ps
 You now have a locally running _Provider_ backend application exposed under `http://localhost:5000`.
 
 ### [💧 keeper-contracts](https://github.com/oceanprotocol/keeper-contracts)
+
+You now have a locally running RPC client with all the contracts from _keeper-contracts_ deployed to it, exposed under `http://localhost:8545`.
+
+<details>
+    <summary><strong>(optional) Manual contracts compiling and deployment</strong></summary>
 
 Because of changing addresses during migration, you need to make sure the deployed contracts within the Docker containers from [💧 keeper-contracts](https://github.com/oceanprotocol/keeper-contracts) match the ones used in your local _Pleuston_ development version.
 
@@ -100,6 +106,7 @@ npm link
 ```
 
 After following these instructions, you have a running RPC client under `http://localhost:8545` where all smart contracts required by _Pleuston_ have been deployed to.
+</details>
 
 ## Development
 
@@ -110,15 +117,8 @@ git clone git@github.com:oceanprotocol/pleuston.git
 cd pleuston/
 
 npm i
-
-# link up keeper-contracts to the link created in previous instructions
-npm link @oceanprotocol/keeper-contracts
-
-# start it up
 npm start
 ```
-
-Note that you have to redo the keeper-contracts `npm link` every time you do a `npm install` in pleuston.
 
 This should output a message as follows:
 
@@ -132,7 +132,12 @@ You can now view @oceanprotocol/pleuston in the browser.
 
 ### MetaMask
 
-Be sure to login into your MetaMask account and either select the `Kovan` test network, or `Localhost 8545`. The latter will connect you to the RPC client running inside Docker.
+Be sure to login into your MetaMask account and either select:
+
+- the `Kovan` test network, or
+- `Localhost 8545`
+
+The latter will connect you to the RPC client running inside Docker.
 
 ### Production build
 

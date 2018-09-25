@@ -4,11 +4,12 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
+    "start": "node scripts/start.js",
+    "build": "node scripts/build.js",
     "lint:js": "eslint ./src/",
     "lint:css": "stylelint ./src/**/*.scss",
     "lint": "npm run lint:js && npm run lint:css",
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "copy:contracts": "",
     "test": "npm run lint && node scripts/test.js --env=jsdom --coverage && cat ./coverage/lcov.info | codacy-coverage",
     "requirements-check": "./scripts/check-node-version.sh",
     "preinstall": "npm run requirements-check"
@@ -20,6 +21,7 @@
     "@oceanprotocol/art": "^1.0.2",
     "@oceanprotocol/squid": "^0.0.12",
     "connected-react-router": "^4.5.0",
+    "copy": "^0.3.2",
     "elliptic": "^6.4.1",
     "eth-crypto": "^1.2.4",
     "ethereumjs-util": "^5.2.0",

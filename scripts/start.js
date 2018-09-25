@@ -13,6 +13,7 @@ process.on('unhandledRejection', err => {
 require('../config/env')
 
 const fs = require('fs')
+const copy = require('copy')
 const chalk = require('chalk')
 const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
@@ -35,6 +36,16 @@ const isInteractive = process.stdout.isTTY
 // Warn and crash if required files are missing
 if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
     process.exit(1)
+}
+
+// Copy contracts
+if (fs.existsSync(paths.contractsPath.src)) {
+    copy(`${paths.contractsPath.src}/*.json`, paths.contractsPath.dest, (err, file) => {
+        if (err) {
+            return console.log(chalk.red(`Failed copying keeper-contracts: ${err}`))
+        }
+        console.log(chalk.green(`Copied keeper-contracts file: ${file}`))
+    })
 }
 
 // Tools like Cloud9 rely on this.

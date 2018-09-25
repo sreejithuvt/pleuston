@@ -51,5 +51,9 @@ module.exports = {
     testsSetup: resolveApp('src/setupTests.js'),
     appNodeModules: resolveApp('node_modules'),
     publicUrl: getPublicUrl(resolveApp('package.json')),
-    servedPath: getServedPath(resolveApp('package.json'))
+    servedPath: getServedPath(resolveApp('package.json')),
+    contractsPath: {
+        src: resolveApp('~/.ocean/artifacts'),
+        dest: resolveApp('node_modules/@oceanprotocol/keeper-contracts/artifacts')
+    }
 }
