@@ -55,6 +55,7 @@ class AssetFull extends PureComponent {
             dateCreated,
             // size,
             author,
+            type,
             license,
             copyrightHolder,
             // encoding,
@@ -111,6 +112,8 @@ class AssetFull extends PureComponent {
                     <AssetFullMeta label="Tags" item={tags.map(tag => (tag))} />
                 )}
 
+                <AssetFullMeta label="Type" item={type} />
+
                 <AssetFullMeta label="License" item={license} />
 
                 {additionalInformation.updateFrequency && (
@@ -139,6 +142,7 @@ AssetFull.propTypes = {
         dateCreated: PropTypes.date,
         // size: PropTypes.string.isRequired,
         author: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
         license: PropTypes.string.isRequired,
         copyrightHolder: PropTypes.string,
         // encoding: PropTypes.string,

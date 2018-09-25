@@ -6,7 +6,7 @@ import AssetNewLoader from '../containers/AssetNewLoader'
 
 const NewDataset = () => (
     <Layout narrow>
-        <ScreenHeader title="Publish" subtitle="Publish a new data set" />
+        <ScreenHeader title="Publish" subtitle="Publish a new asset" />
         <AssetNewLoader />
     </Layout>
 )
