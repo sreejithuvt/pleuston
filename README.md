@@ -23,15 +23,17 @@ Main issues right now:
 
 ## Table of Contents
 
-  - [Features](#features)
-  - [Prerequisites](#prerequisites)
-     - [🐋 provider](#provider)
-     - [💧 keeper-contracts](#keeper-contracts)
-  - [Quick Start](#quick-start)
-  - [Configuration](#configuration)
-  - [Code style](#code-style)
-  - [Testing](#testing)
-  - [License](#license)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+    - [🐋 provider](#provider)
+    - [💧 keeper-contracts](#keeper-contracts)
+- [Development](#development)
+    - [MetaMask](#metamask)
+    - [Production build](#production-build)
+- [Configuration](#configuration)
+- [Code style](#code-style)
+- [Testing](#testing)
+- [License](#license)
 
 ---
 
@@ -50,6 +52,7 @@ _Pleuston_ is a single page React app, initially bootstrapped with [`create-reac
 - Node.js >=8 <v10 (`ursa` won't compile on `npm install` with newer versions, see https://github.com/JoshKaufman/ursa/issues/175)
 - npm
 - Ocean Protocol components
+- [MetaMask](https://metamask.io)
 
 To start development with _Pleuston_ you first have to get all the other Ocean Protocol components up and running.
 
@@ -98,7 +101,7 @@ npm link
 
 After following these instructions, you have a running RPC client under `http://localhost:8545` where all smart contracts required by _Pleuston_ have been deployed to.
 
-## Quick Start
+## Development
 
 After the _Pleuston_ Docker container from the above `docker-compose` step is shut down, you can start your local development version of _Pleuston_:
 
@@ -107,7 +110,11 @@ git clone git@github.com:oceanprotocol/pleuston.git
 cd pleuston/
 
 npm i
+
+# link up keeper-contracts to the link created in previous instructions
 npm link @oceanprotocol/keeper-contracts
+
+# start it up
 npm start
 ```
 
@@ -123,7 +130,13 @@ You can now view @oceanprotocol/pleuston in the browser.
   Local:            http://localhost:3000/
 ```
 
-You can inspect a full production build by creating it first, and then run a local web server on top of the build output, e.g. [`serve`](https://github.com/zeit/serve).
+### MetaMask
+
+Be sure to login into your MetaMask account and either select the `Kovan` test network, or `Localhost 8545`. The latter will connect you to the RPC client running inside Docker.
+
+### Production build
+
+You can inspect a full production build by creating it first, and then run a local web server on top of the build output, e.g. [`serve`](https://github.com/zeit/serve):
 
 ```bash
 # create production build
