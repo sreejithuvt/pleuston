@@ -35,12 +35,16 @@ class Layout extends PureComponent {
             <Fragment>
                 <HeaderLoader />
 
-                <main className={styles.layout} {...this.props}>
+                <main className={styles.layout}>
                     <nav className={styles.layoutSidebar}>
                         <SidebarLoader />
                     </nav>
-                    {loading ? <Spinner />
-                        : this.props.narrow ? <div className={styles.narrow}>{this.props.children}</div> : this.props.children
+                    {
+                        loading
+                            ? <Spinner />
+                            : this.props.narrow
+                                ? <div className={styles.narrow}>{this.props.children}</div>
+                                : this.props.children
                     }
                 </main>
             </Fragment>
@@ -49,7 +53,8 @@ class Layout extends PureComponent {
 }
 
 Layout.propTypes = {
-    children: PropTypes.any.isRequired
+    children: PropTypes.any.isRequired,
+    narrow: PropTypes.bool
 }
 
 export default Layout
