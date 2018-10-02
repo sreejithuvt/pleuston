@@ -58,24 +58,16 @@ To start development with _Pleuston_ you first have to get all the other Ocean P
 
 ![ocean-components](https://user-images.githubusercontent.com/90316/45811608-d6a11a80-bccd-11e8-875e-f62c86b4b218.png)
 
-The simplest way is to use our main `docker-compose` file from the [🐳 docker-images](https://github.com/oceanprotocol/docker-images) repository:
+The simplest way is to use our main script utilizing `docker-compose` from the [🐳 docker-images](https://github.com/oceanprotocol/docker-images) repository, and pass the option to skip the _Pleuston_ image in there:
 
 ```bash
 git clone git@github.com:oceanprotocol/docker-images.git
 cd docker-images/
 
-export ARTIFACTS_FOLDER=~/.ocean/artifacts
-docker-compose --project-name=ocean up
+./start_ocean.sh --no-pleuston
 ```
 
-This will start up all required components, but also an instance of _Pleuston_. **To use your local _Pleuston_ version in the Quick Start step, you have to stop the _Pleuston_ Docker container from another Terminal window**:
-
-```bash
-docker stop ocean_pleuston_1
-
-# or find the right container name
-docker ps
-```
+This will start up all required components:
 
 ### [🐋 provider](https://github.com/oceanprotocol/provider)
 
@@ -85,32 +77,9 @@ You now have a locally running _Provider_ backend application exposed under `htt
 
 You now have a locally running RPC client with all the contracts from _keeper-contracts_ deployed to it, exposed under `http://localhost:8545`.
 
-<details>
-    <summary><strong>(optional) Manual contracts compiling and deployment</strong></summary>
-
-Because of changing addresses during migration, you need to make sure the deployed contracts within the Docker containers from [💧 keeper-contracts](https://github.com/oceanprotocol/keeper-contracts) match the ones used in your local _Pleuston_ development version.
-
-```bash
-git clone git@github.com:oceanprotocol/keeper-contracts.git
-cd keeper-contracts/
-
-npm i
-truffle compile
-truffle migrate --reset
-```
-
-Then link them up with npm so _Pleuston_ will grab this local version instead of the package from npm.js:
-
-```bash
-npm link
-```
-
-After following these instructions, you have a running RPC client under `http://localhost:8545` where all smart contracts required by _Pleuston_ have been deployed to.
-</details>
-
 ## Development
 
-After the _Pleuston_ Docker container from the above `docker-compose` step is shut down, you can start your local development version of _Pleuston_:
+After the Docker containers from the above step are up, you can start your local development version of _Pleuston_:
 
 ```bash
 git clone git@github.com:oceanprotocol/pleuston.git
