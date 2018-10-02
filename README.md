@@ -64,7 +64,7 @@ The simplest way is to use our main script utilizing `docker-compose` from the [
 git clone git@github.com:oceanprotocol/docker-images.git
 cd docker-images/
 
-./start_ocean.sh --no-pleuston
+./start_ocean.sh --no-pleuston --latest
 ```
 
 This will start up all required components:
