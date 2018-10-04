@@ -115,7 +115,7 @@ export function getActiveAsset(state) {
     const { activeAsset, assets } = state.asset
 
     if (!activeAsset && state.router.location.pathname) {
-        const rgxAssetId = /\/datasets\/(.*?)/g
+        const rgxAssetId = /\/(.*?)/g
         const { pathname } = state.router.location
         if (rgxAssetId.exec(pathname)) {
             const assetIdFromUrl = pathname.replace(/^.*[\\\/]/, '') // eslint-disable-line
@@ -184,7 +184,7 @@ export function getOrders() {
         }
 
         const { ocean } = state.provider
-        let orders = await ocean.getOrdersByConsumer(account.name)
+        let orders = await Promise.all(await ocean.getOrdersByConsumer(account.name))
         Logger.log('ORDERS: ', orders, Object.values(state.asset.assets))
         let assets = null
         if (Object.values(state.asset.assets).length !== 0) {
