@@ -1,0 +1,17 @@
+@import 'variables';
+
+.assetFull {
+    .asset__img {
+        max-height: none;
+    }
+}
+
+.assetFullTitle {
+    font-size: $font-size-h3;
+    margin-top: $spacer;
+    margin-bottom: $spacer;
+}
+
+.assetFullActions {
+    margin-top: $spacer;
+}

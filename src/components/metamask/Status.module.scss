@@ -1,0 +1,78 @@
+@import 'variables';
+
+$popoverWidth: 18rem;
+
+.metamaskStatus {
+    color: $brand-grey-light;
+    font-size: $font-size-small;
+    position: relative;
+    padding: $spacer / 1.5 $spacer * 2;
+}
+
+// default: red square
+.statusIndicator {
+    width: $font-size-small;
+    height: $font-size-small;
+    display: block;
+    background: $red;
+}
+
+// yellow triangle
+.statusIndicatorCloseEnough {
+    composes: statusIndicator;
+    background: none;
+    width: 0;
+    height: 0;
+    border-left: $font-size-small / 1.7 solid transparent;
+    border-right: $font-size-small / 1.7 solid transparent;
+    border-bottom: $font-size-small solid $yellow;
+}
+
+// green circle
+.statusIndicatorActive {
+    composes: statusIndicator;
+    border-radius: 50%;
+    background: $green;
+}
+
+.metamaskPopover {
+    position: absolute;
+    top: 90%;
+    left: 10%;
+    margin-left: -($popoverWidth / 2);
+    width: $popoverWidth;
+    padding: $spacer / 2;
+    background: $brand-black;
+    border-radius: .1rem;
+    border: .1rem solid $brand-grey-light;
+    box-shadow: 0 6px 16px 0 rgba($brand-black, .3);
+
+    &:after {
+        bottom: 100%;
+        left: 70%;
+        border: solid transparent;
+        content: '';
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-color: transparent;
+        border-bottom-color: $brand-grey-light;
+        border-width: 10px;
+        margin-left: -10px;
+    }
+}
+
+.metamaskPopoverInfoline {
+    border-bottom: .05rem solid $brand-grey;
+    padding: $spacer / 4 0;
+
+    &:first-child {
+        padding-top: 0;
+    }
+
+    &:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+}

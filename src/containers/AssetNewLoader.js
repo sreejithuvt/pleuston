@@ -28,7 +28,7 @@ export default connect(
         onSubmit: values => {
             console.log('form values: ', values)
             dispatch(putAsset(values))
-            dispatch(push('/datasets/'))
+            dispatch(push('/'))
             dispatch({ type: 'GET_LINKS', links: '', ...newAssetClearValues })
         },
         urlGetter: (blobsList) => {

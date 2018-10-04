@@ -15,6 +15,10 @@ import {
     routerMiddleware
 } from 'connected-react-router'
 
+import { Web3Provider } from 'react-web3'
+import Web3Unavailable from './components/metamask/Unavailable'
+import Web3AccountUnavailable from './components/metamask/AccountUnavailable'
+
 import appReducer from './reducers'
 import {
     getAccounts,
@@ -41,22 +45,30 @@ registerServiceWorker()
 
 function boot() {
     Logger.log('booting up pleuston')
-    store.dispatch(setProviders()).then(() => {
-        store.dispatch(getAssets())
-        store.dispatch(getAccounts()).then(() => {
-            store.dispatch(getOrders())
-            store.dispatch(getCloudFiles())
+    store.dispatch(setProviders())
+        .then(() => {
+            store.dispatch(getAssets())
+            store.dispatch(getAccounts())
+                .then(() => {
+                    store.dispatch(getOrders())
+                    store.dispatch(getCloudFiles())
+                })
         })
-    })
 }
 
 /* Das */boot()
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={history}>
-            <App />
-        </Router>
+        <Web3Provider
+            onChangeAccount={() => store.dispatch(getAccounts())}
+            web3UnavailableScreen={() => <Web3Unavailable />}
+            accountUnavailableScreen={() => <Web3AccountUnavailable />}
+        >
+            <Router history={history}>
+                <App />
+            </Router>
+        </Web3Provider>
     </Provider>,
     document.getElementById('root')
 )

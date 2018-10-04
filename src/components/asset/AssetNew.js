@@ -37,15 +37,15 @@ class AssetNew extends Component {
             <Fragment>
                 <form className="form" onSubmit={handleSubmit}>
                     <div className="form__group">
-                        <FormInput label="Title" name="name" required component="input" type="text" placeholder="" value="samer" />
-                        <FormHelp>The title of your data set.</FormHelp>
+                        <FormInput label="Title" name="name" required component="input" type="text" placeholder="" />
+                        <FormHelp>The title of your asset.</FormHelp>
                     </div>
                     <div className="form__group">
                         <FormInput label="Description" name="description" required component="textarea" rows="5" placeholder="" />
-                        <FormHelp>Describe your data set, explaining what the data represents and what it can be used for.</FormHelp>
+                        <FormHelp>Describe your asset, explaining what the data represents and what it can be used for.</FormHelp>
                     </div>
                     <div className="form__group">
-                        <FormInput label="Asset URL" name="links" required component="input" type="url" placeholder="e.g. https://url.com/dataset.zip" />
+                        <FormInput label="Url" name="contentUrls" required component="input" type="url" placeholder="e.g. https://url.com/dataset.zip" />
 
                         <FormHelp>Add a URL pointing to your data set asset or select it from cloud storage providers.</FormHelp>
 
@@ -62,25 +62,54 @@ class AssetNew extends Component {
                     </div>
                     <div className="form__group">
                         <FormInput label="Price" name="price" required type="number" component="input" placeholder="0" />
-                        <FormHelp>Price of your data set asset in Ocean Tokens.</FormHelp>
+                        <FormHelp>Price of your asset in Ocean Tokens.</FormHelp>
+                    </div>
+
+                    <div className="form__group">
+                        <FormInput label="Author" name="author" required component="input" type="text" placeholder="e.g. Tfl, Disney Corp." />
+                        <FormHelp>The name of the entity generating this data.</FormHelp>
+                    </div>
+                    <div className="form__group">
+                        <FormInput label="Type" required name="type" component="select">
+                            <option />
+                            <option value="dataset">Data set</option>
+                            <option value="algorithm">Algorithm</option>
+                            <option value="container">Container</option>
+                            <option value="workflow">Workflow</option>
+                            <option value="other">Other</option>
+                        </FormInput>
+                        <FormHelp>The type of your asset.</FormHelp>
+                    </div>
+                    <div className="form__group">
+                        <FormInput label="License" required name="license" component="select">
+                            <option value="none">No License Specified</option>
+                            <option value="Public Domain">Public Domain</option>
+                            <option value="CC BY">CC BY: Attribution</option>
+                            <option value="CC BY-SA">CC BY-SA: Attribution ShareAlike</option>
+                            <option value="CC BY-ND">CC BY-ND: Attribution-NoDerivs</option>
+                            <option value="CC BY-NC">CC BY-NC: Attribution-NonCommercial</option>
+                            <option value="CC BY-NC-SA">CC BY-NC-SA: Attribution-NonCommercial-ShareAlike</option>
+                            <option value="CC BY-NC-ND">CC BY-NC-ND: Attribution-NonCommercial-NoDerivs</option>
+                        </FormInput>
+                    </div>
+                    <div className="form__group">
+                        <FormInput label="Copyright holder" name="copyrightHolder" component="input" type="text" placeholder="" />
+                        <FormHelp>The party holding the legal copyright.</FormHelp>
                     </div>
 
                     <div className="form__group">
                         <FormInput label="Tags" name="tags" component="input" placeholder="e.g. climate, ocean, atmosphere, temperature, earth-science, public" />
-                        <FormHelp>Categorize your data set by one or more tags.</FormHelp>
-                    </div>
-                    <div className="form__group">
-                        <FormInput label="License" name="license" required component="input" placeholder="e.g. proprietary" />
+                        <FormHelp>Categorize your asset by one or more tags, separated by comma.</FormHelp>
                     </div>
                     <div className="form__group">
                         <FormInput label="Update Frequency" name="updateFrequency" component="select">
                             <option />
-                            <option value="seldom">seldom</option>
-                            <option value="annually">annually</option>
-                            <option value="quarterly">quarterly</option>
-                            <option value="never">never expected to get updated</option>
+                            <option value="seldom">Seldom</option>
+                            <option value="annually">Annually</option>
+                            <option value="quarterly">Quarterly</option>
+                            <option value="never">Never expected to get updated</option>
                         </FormInput>
-                        <FormHelp>How often are updates expected (seldom, annually, quarterly, etc.), or is the resource static (never expected to get updated).</FormHelp>
+                        <FormHelp>How often are updates expected, or is the resource static?</FormHelp>
                     </div>
                     <div className="form__group">
                         <Button primary="true" type="submit">Publish</Button>
@@ -96,7 +125,7 @@ class AssetNew extends Component {
             </Fragment>
         )
     }
-}
+)
 
 AssetNew.propTypes = {
     handleSubmit: PropTypes.func.isRequired,

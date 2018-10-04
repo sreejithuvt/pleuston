@@ -6,7 +6,7 @@ const initialState = {
 
 const order = (state = initialState, action) => {
     switch (action.type) {
-        case 'GET_ORDERS':
+        case 'SET_ORDERS':
             return Object.assign({}, state, {
                 orders: action.orders
             })

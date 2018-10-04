@@ -5,8 +5,8 @@ import ScreenHeader from '../components/ScreenHeader'
 import AssetNewLoader from '../containers/AssetNewLoader'
 
 const NewDataset = () => (
-    <Layout>
-        <ScreenHeader title="Publish" subtitle="Publish a new data set" />
+    <Layout narrow>
+        <ScreenHeader title="Publish" subtitle="Publish a new asset" />
         <AssetNewLoader />
     </Layout>
 )

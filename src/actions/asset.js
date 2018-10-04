@@ -2,35 +2,72 @@
 import fetchDownload from 'fetch-download'
 import AssetModel from '../models/asset'
 import PurchaseHandler from './purchase'
-import Logger from '@oceanprotocol/squid'
+import { Logger } from '@oceanprotocol/squid'
 
 const MINIMUM_REQUIRED_TOKENS = 10
 
 export async function publish(formValues, account, providers) {
     const { ocean } = providers
+    const publisherId = account.name
     // check account balance and request tokens if necessary
-    const tokensBalance = await ocean.token.getTokenBalance(account.name)
+    const tokensBalance = await ocean.token.getTokenBalance(publisherId)
     if (tokensBalance < MINIMUM_REQUIRED_TOKENS) {
-        await ocean.market.requestTokens(MINIMUM_REQUIRED_TOKENS, account.name)
+        await ocean.market.requestTokens(MINIMUM_REQUIRED_TOKENS, publisherId)
     }
+
+    // Get user entered form values
+    const {
+        name,
+        description,
+        license,
+        contentUrls,
+        author,
+        copyrightHolder,
+        tags,
+        price,
+        type,
+        updateFrequency
+    } = formValues
+
     // Register on the keeper (on-chain) first, then on the OceanDB
     const assetId = await ocean.market.registerAsset(
-        formValues.name, formValues.description, formValues.price, account.name
+        name, description, price, publisherId
     )
 
     // Now register in oceandb and publish the metadata
     const newAsset = {
         assetId,
-        metadata: Object.assign(AssetModel.metadata, {
-            date: (new Date()).toString(),
-            description: formValues.description,
-            labels: formValues.tags ? [formValues.tags] : [],
-            license: formValues.license,
-            links: formValues.links,
-            name: formValues.name,
-            updateFrequency: formValues.updateFrequency
+        publisherId,
+
+        // OEP-08 Attributes
+        // https://github.com/oceanprotocol/OEPs/tree/master/8
+        base: Object.assign(AssetModel.base, {
+            name,
+            description,
+            dateCreated: (new Date()).toString(),
+            // size: ,
+            author,
+            license,
+            copyrightHolder,
+            // encoding: ,
+            // compression: ,
+            // contentType: ,
+            // workExample: ,
+            contentUrls: [contentUrls],
+            // links: ,
+            // inLanguage: ,
+            tags: tags ? [tags.split(',')] : [],
+            price: parseFloat(price),
+            type
         }),
-        publisherId: account.name
+        curation: Object.assign(AssetModel.curation, {
+            rating: 0,
+            numVotes: 0,
+            schema: 'Binary Voting'
+        }),
+        additionalInformation: Object.assign(AssetModel.additionalInformation, {
+            updateFrequency
+        })
     }
     const res = await ocean.metadata.publishDataAsset(newAsset)
     Logger.debug('res: ', res)
