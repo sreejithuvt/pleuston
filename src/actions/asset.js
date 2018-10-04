@@ -1,6 +1,5 @@
 import fetchDownload from 'fetch-download'
 import AssetModel from '../models/asset'
-import PurchaseHandler from './purchase'
 import { Logger } from '@oceanprotocol/squid'
 
 const MINIMUM_REQUIRED_TOKENS = 10
@@ -9,9 +8,9 @@ export async function publish(formValues, account, providers) {
     const { ocean } = providers
     const publisherId = account.name
     // check account balance and request tokens if necessary
-    const tokensBalance = await ocean.token.getTokenBalance(publisherId)
+    const tokensBalance = await ocean.getTokenBalance(publisherId)
     if (tokensBalance < MINIMUM_REQUIRED_TOKENS) {
-        await ocean.market.requestTokens(MINIMUM_REQUIRED_TOKENS, publisherId)
+        await ocean.requestTokens(MINIMUM_REQUIRED_TOKENS, publisherId)
     }
 
     // Get user entered form values
@@ -29,7 +28,7 @@ export async function publish(formValues, account, providers) {
     } = formValues
 
     // Register on the keeper (on-chain) first, then on the OceanDB
-    const assetId = await ocean.market.registerAsset(
+    const assetId = await ocean.asset.registerAsset(
         name, description, price, publisherId
     )
 
@@ -78,7 +77,7 @@ export async function list(account, providers) {
     let dbAssets = await ocean.metadata.getAssetsMetadata()
     Logger.log('assets: ', dbAssets)
 
-    dbAssets = Object.values(dbAssets).filter(async (asset) => { return ocean.market.checkAsset(asset.assetId) })
+    dbAssets = Object.values(dbAssets).filter(async (asset) => { return ocean.asset.isAssetActive(asset.assetId) })
     Logger.log('assets (published on-chain): ', dbAssets)
 
     return dbAssets
@@ -89,8 +88,10 @@ export async function purchase(asset, account, providers) {
 
     Logger.log('Purchasing asset by consumer:  ', account.name, ' assetid: ', asset.assetId)
 
-    let purchaseHandler = new PurchaseHandler(asset, account, ocean)
-    let order = await purchaseHandler.doPurchase()
+    // TODO: allow user to set timeout through the UI.
+    const timeout = (new Date().getTime() / 1000) + 3600 * 12 // 12 hours
+    const order = await ocean.order.purchaseAsset(asset, timeout, account.name)
+    Logger.log('order', order)
     if (order.accessUrl) {
         Logger.log('begin downloading asset data.')
         const res = await fetchDownload(order.accessUrl)

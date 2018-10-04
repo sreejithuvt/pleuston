@@ -54,7 +54,7 @@ export function makeItRain(amount) {
         const state = getState()
         const { ocean } = state.provider
         try {
-            await ocean.market.requestTokens(
+            await ocean.requestTokens(
                 amount,
                 getActiveAccount(state).name
             )
@@ -182,21 +182,23 @@ export function getOrders() {
             Logger.log('active account is not set.')
             return []
         }
-
         const { ocean } = state.provider
-        let orders = await ocean.getOrdersByConsumer(account.name)
-        Logger.log('ORDERS: ', orders, Object.values(state.asset.assets))
+        let orders = await ocean.order.getOrdersByConsumer(account.name)
         let assets = null
+        // do we have assets in the state?ß
         if (Object.values(state.asset.assets).length !== 0) {
+            // yep, map them to assets
             assets = Object.values(state.asset.assets).reduce((map, obj) => {
                 map[obj.assetId] = obj
                 return map
             })
         }
+        // do we have mapped assets?
         if (assets !== null && Object.values(assets).length !== 0) {
+            // yep, so map the names of the assets to the order
             for (let order of orders) {
-                if (order._resourceId && assets[order._resourceId]) {
-                    order.assetName = assets[order._resourceId].metadata.name
+                if (order._resourceId && assets[order._resourceId] && assets[order._resourceId].base) {
+                    order.assetName = assets[order._resourceId].base.name
                 }
             }
         }
@@ -205,7 +207,7 @@ export function getOrders() {
             map[obj._id] = obj
             return map
         }, {})
-        Logger.log('ORDERS mapped: ', orders)
+        Logger.log('Mapped orders: ', orders)
 
         dispatch({
             type: 'SET_ORDERS',

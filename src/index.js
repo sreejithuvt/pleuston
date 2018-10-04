@@ -42,7 +42,7 @@ const store = createStore(
 
 registerServiceWorker()
 
-function boot() {
+window.addEventListener('load', () => {
     Logger.log('booting up pleuston')
     store.dispatch(setProviders())
         .then(() => {
@@ -52,9 +52,7 @@ function boot() {
                     store.dispatch(getOrders())
                 })
         })
-}
-
-/* Das */boot()
+})
 
 ReactDOM.render(
     <Provider store={store}>

@@ -1,5 +1,6 @@
 import {
-    Ocean
+    Ocean,
+    Logger
 } from '@oceanprotocol/squid'
 
 import {
@@ -14,6 +15,8 @@ import {
 export async function provideOcean() {
     const nodeUri = `${keeperScheme}://${keeperHost}:${keeperPort}`
     const providerUri = `${providerScheme}://${providerHost}:${providerPort}/api/v1/provider`
+
+    Logger.log('this has to go second')
 
     const config = {
         // todo: change this when the new interface of metmask is released
