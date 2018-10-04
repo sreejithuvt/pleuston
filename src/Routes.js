@@ -11,9 +11,9 @@ const Routes = () => (
     <Switch>
         <Route exact component={Datasets} path="/" />
         <Route exact component={NewDataset} path="/new" />
-        <Route exact component={DatasetLoader} path="/:id" />
         <Route exact component={Orders} path="/orders" />
         <Route exact component={OrderLoader} path="/orders/:id" />
+        <Route exact component={DatasetLoader} path="/:id" />
 
         <Route component={NotFound} />
     </Switch>
