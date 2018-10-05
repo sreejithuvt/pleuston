@@ -125,7 +125,7 @@ class AssetNew extends Component {
             </Fragment>
         )
     }
-)
+}
 
 AssetNew.propTypes = {
     handleSubmit: PropTypes.func.isRequired,
